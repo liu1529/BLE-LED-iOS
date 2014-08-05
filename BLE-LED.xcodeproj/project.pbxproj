@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260AA1990D165005FA983 /* CellBackGroud.m */; };
+		1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260AC1990D165005FA983 /* ImageCollectionCell.m */; };
+		1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260B01990D165005FA983 /* LEDEditViewController.m */; };
+		1F1260B91990D165005FA983 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F1260B41990D165005FA983 /* Main.storyboard */; };
+		1F1260BC1990D317005FA983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260BB1990D317005FA983 /* main.m */; };
+		1F1260C71990D3BF005FA983 /* SceneCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */; };
+		1F1260CB1990D477005FA983 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260C91990D477005FA983 /* AppDelegate.m */; };
+		1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260CE1990D6A5005FA983 /* LEDItem.m */; };
+		1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */; };
+		1F1260DB1990DACB005FA983 /* LEDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260DA1990DACB005FA983 /* LEDViewController.m */; };
+		1F1260E11990DD32005FA983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F1260E01990DD32005FA983 /* Images.xcassets */; };
 		1F98B84E1986435000C77187 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84D1986435000C77187 /* Foundation.framework */; };
 		1F98B8501986435000C77187 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84F1986435000C77187 /* CoreGraphics.framework */; };
 		1F98B8521986435000C77187 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B8511986435000C77187 /* UIKit.framework */; };
-		1F98B8581986435000C77187 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B8561986435000C77187 /* InfoPlist.strings */; };
-		1F98B85A1986435100C77187 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8591986435100C77187 /* main.m */; };
-		1F98B85E1986435100C77187 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B85D1986435100C77187 /* AppDelegate.m */; };
-		1F98B8611986435100C77187 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B85F1986435100C77187 /* Main.storyboard */; };
-		1F98B8641986435100C77187 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8631986435100C77187 /* ViewController.m */; };
-		1F98B8661986435100C77187 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B8651986435100C77187 /* Images.xcassets */; };
 		1F98B86D1986435100C77187 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B86C1986435100C77187 /* XCTest.framework */; };
 		1F98B86E1986435100C77187 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84D1986435000C77187 /* Foundation.framework */; };
 		1F98B86F1986435100C77187 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B8511986435000C77187 /* UIKit.framework */; };
@@ -34,20 +39,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F1260AA1990D165005FA983 /* CellBackGroud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellBackGroud.m; path = "BLE-LED/CellBackGroud.m"; sourceTree = "<group>"; };
+		1F1260AB1990D165005FA983 /* ImageCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionCell.h; path = "BLE-LED/ImageCollectionCell.h"; sourceTree = "<group>"; };
+		1F1260AC1990D165005FA983 /* ImageCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionCell.m; path = "BLE-LED/ImageCollectionCell.m"; sourceTree = "<group>"; };
+		1F1260AF1990D165005FA983 /* LEDEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditViewController.h; path = "BLE-LED/LEDEditViewController.h"; sourceTree = "<group>"; };
+		1F1260B01990D165005FA983 /* LEDEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditViewController.m; path = "BLE-LED/LEDEditViewController.m"; sourceTree = "<group>"; };
+		1F1260B11990D165005FA983 /* LEDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDItem.h; path = "BLE-LED/LEDItem.h"; sourceTree = "<group>"; };
+		1F1260B41990D165005FA983 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "BLE-LED/Main.storyboard"; sourceTree = "<group>"; };
+		1F1260BB1990D317005FA983 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "BLE-LED/main.m"; sourceTree = "<group>"; };
+		1F1260BF1990D388005FA983 /* BLE-LED-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BLE-LED-Prefix.pch"; path = "BLE-LED/BLE-LED-Prefix.pch"; sourceTree = "<group>"; };
+		1F1260C31990D3BF005FA983 /* SceneCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneCollectionCell.h; path = "BLE-LED/SceneCollectionCell.h"; sourceTree = "<group>"; };
+		1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneCollectionCell.m; path = "BLE-LED/SceneCollectionCell.m"; sourceTree = "<group>"; };
+		1F1260C81990D477005FA983 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "BLE-LED/AppDelegate.h"; sourceTree = "<group>"; };
+		1F1260C91990D477005FA983 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = "BLE-LED/AppDelegate.m"; sourceTree = "<group>"; };
+		1F1260CA1990D477005FA983 /* CellBackGroud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CellBackGroud.h; path = "BLE-LED/CellBackGroud.h"; sourceTree = "<group>"; };
+		1F1260CE1990D6A5005FA983 /* LEDItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDItem.m; path = "BLE-LED/LEDItem.m"; sourceTree = "<group>"; };
+		1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDCollectionCell.m; path = "BLE-LED/LEDCollectionCell.m"; sourceTree = "<group>"; };
+		1F1260D41990D7B4005FA983 /* LEDCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDCollectionCell.h; path = "BLE-LED/LEDCollectionCell.h"; sourceTree = "<group>"; };
+		1F1260D91990DACB005FA983 /* LEDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDViewController.h; path = "BLE-LED/LEDViewController.h"; sourceTree = "<group>"; };
+		1F1260DA1990DACB005FA983 /* LEDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDViewController.m; path = "BLE-LED/LEDViewController.m"; sourceTree = "<group>"; };
+		1F1260E01990DD32005FA983 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "BLE-LED/Images.xcassets"; sourceTree = "<group>"; };
 		1F98B84A1986435000C77187 /* BLE-LED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-LED.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F98B84D1986435000C77187 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F98B84F1986435000C77187 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1F98B8511986435000C77187 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		1F98B8551986435000C77187 /* BLE-LED-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BLE-LED-Info.plist"; sourceTree = "<group>"; };
-		1F98B8571986435000C77187 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1F98B8591986435100C77187 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1F98B85B1986435100C77187 /* BLE-LED-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BLE-LED-Prefix.pch"; sourceTree = "<group>"; };
-		1F98B85C1986435100C77187 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1F98B85D1986435100C77187 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1F98B8601986435100C77187 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		1F98B8621986435100C77187 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1F98B8631986435100C77187 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		1F98B8651986435100C77187 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1F98B86B1986435100C77187 /* BLE-LEDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BLE-LEDTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F98B86C1986435100C77187 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		1F98B8741986435100C77187 /* BLE-LEDTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BLE-LEDTests-Info.plist"; sourceTree = "<group>"; };
@@ -79,10 +94,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F1260A91990D127005FA983 /* BLE-LED */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260E01990DD32005FA983 /* Images.xcassets */,
+				1F1260D91990DACB005FA983 /* LEDViewController.h */,
+				1F1260DA1990DACB005FA983 /* LEDViewController.m */,
+				1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */,
+				1F1260D41990D7B4005FA983 /* LEDCollectionCell.h */,
+				1F1260C81990D477005FA983 /* AppDelegate.h */,
+				1F1260C91990D477005FA983 /* AppDelegate.m */,
+				1F1260CA1990D477005FA983 /* CellBackGroud.h */,
+				1F1260AA1990D165005FA983 /* CellBackGroud.m */,
+				1F1260AB1990D165005FA983 /* ImageCollectionCell.h */,
+				1F1260AC1990D165005FA983 /* ImageCollectionCell.m */,
+				1F1260AF1990D165005FA983 /* LEDEditViewController.h */,
+				1F1260B01990D165005FA983 /* LEDEditViewController.m */,
+				1F1260B11990D165005FA983 /* LEDItem.h */,
+				1F1260CE1990D6A5005FA983 /* LEDItem.m */,
+				1F1260B41990D165005FA983 /* Main.storyboard */,
+				1F1260C31990D3BF005FA983 /* SceneCollectionCell.h */,
+				1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */,
+				1F1260BA1990D1D8005FA983 /* Supporting Files */,
+			);
+			name = "BLE-LED";
+			sourceTree = "<group>";
+		};
+		1F1260BA1990D1D8005FA983 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260BF1990D388005FA983 /* BLE-LED-Prefix.pch */,
+				1F1260BB1990D317005FA983 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1F98B8411986435000C77187 = {
 			isa = PBXGroup;
 			children = (
-				1F98B8531986435000C77187 /* BLE-LED */,
+				1F1260A91990D127005FA983 /* BLE-LED */,
 				1F98B8721986435100C77187 /* BLE-LEDTests */,
 				1F98B84C1986435000C77187 /* Frameworks */,
 				1F98B84B1986435000C77187 /* Products */,
@@ -107,31 +157,6 @@
 				1F98B86C1986435100C77187 /* XCTest.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		1F98B8531986435000C77187 /* BLE-LED */ = {
-			isa = PBXGroup;
-			children = (
-				1F98B85C1986435100C77187 /* AppDelegate.h */,
-				1F98B85D1986435100C77187 /* AppDelegate.m */,
-				1F98B85F1986435100C77187 /* Main.storyboard */,
-				1F98B8621986435100C77187 /* ViewController.h */,
-				1F98B8631986435100C77187 /* ViewController.m */,
-				1F98B8651986435100C77187 /* Images.xcassets */,
-				1F98B8541986435000C77187 /* Supporting Files */,
-			);
-			path = "BLE-LED";
-			sourceTree = "<group>";
-		};
-		1F98B8541986435000C77187 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1F98B8551986435000C77187 /* BLE-LED-Info.plist */,
-				1F98B8561986435000C77187 /* InfoPlist.strings */,
-				1F98B8591986435100C77187 /* main.m */,
-				1F98B85B1986435100C77187 /* BLE-LED-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1F98B8721986435100C77187 /* BLE-LEDTests */ = {
@@ -228,9 +253,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F98B8661986435100C77187 /* Images.xcassets in Resources */,
-				1F98B8581986435000C77187 /* InfoPlist.strings in Resources */,
-				1F98B8611986435100C77187 /* Main.storyboard in Resources */,
+				1F1260E11990DD32005FA983 /* Images.xcassets in Resources */,
+				1F1260B91990D165005FA983 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,9 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F98B8641986435100C77187 /* ViewController.m in Sources */,
-				1F98B85E1986435100C77187 /* AppDelegate.m in Sources */,
-				1F98B85A1986435100C77187 /* main.m in Sources */,
+				1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */,
+				1F1260BC1990D317005FA983 /* main.m in Sources */,
+				1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */,
+				1F1260CB1990D477005FA983 /* AppDelegate.m in Sources */,
+				1F1260C71990D3BF005FA983 /* SceneCollectionCell.m in Sources */,
+				1F1260DB1990DACB005FA983 /* LEDViewController.m in Sources */,
+				1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */,
+				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
+				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,22 +304,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1F98B8561986435000C77187 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F98B8571986435000C77187 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		1F98B85F1986435100C77187 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1F98B8601986435100C77187 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1F98B8751986435100C77187 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -456,6 +470,7 @@
 				1F98B87E1986435100C77187 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1F98B87F1986435100C77187 /* Build configuration list for PBXNativeTarget "BLE-LEDTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +479,7 @@
 				1F98B8811986435100C77187 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
