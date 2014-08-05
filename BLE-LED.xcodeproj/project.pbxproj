@@ -97,24 +97,12 @@
 		1F1260A91990D127005FA983 /* BLE-LED */ = {
 			isa = PBXGroup;
 			children = (
+				1F1260E31990DF65005FA983 /* SceneTab */,
+				1F1260E21990DF4F005FA983 /* LEDTab */,
 				1F1260E01990DD32005FA983 /* Images.xcassets */,
-				1F1260D91990DACB005FA983 /* LEDViewController.h */,
-				1F1260DA1990DACB005FA983 /* LEDViewController.m */,
-				1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */,
-				1F1260D41990D7B4005FA983 /* LEDCollectionCell.h */,
 				1F1260C81990D477005FA983 /* AppDelegate.h */,
 				1F1260C91990D477005FA983 /* AppDelegate.m */,
-				1F1260CA1990D477005FA983 /* CellBackGroud.h */,
-				1F1260AA1990D165005FA983 /* CellBackGroud.m */,
-				1F1260AB1990D165005FA983 /* ImageCollectionCell.h */,
-				1F1260AC1990D165005FA983 /* ImageCollectionCell.m */,
-				1F1260AF1990D165005FA983 /* LEDEditViewController.h */,
-				1F1260B01990D165005FA983 /* LEDEditViewController.m */,
-				1F1260B11990D165005FA983 /* LEDItem.h */,
-				1F1260CE1990D6A5005FA983 /* LEDItem.m */,
 				1F1260B41990D165005FA983 /* Main.storyboard */,
-				1F1260C31990D3BF005FA983 /* SceneCollectionCell.h */,
-				1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */,
 				1F1260BA1990D1D8005FA983 /* Supporting Files */,
 			);
 			name = "BLE-LED";
@@ -127,6 +115,58 @@
 				1F1260BB1990D317005FA983 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1F1260E21990DF4F005FA983 /* LEDTab */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260E61990DFDA005FA983 /* Add */,
+				1F1260E51990DFD0005FA983 /* Edit */,
+				1F1260E41990DFC8005FA983 /* LIst */,
+				1F1260B11990D165005FA983 /* LEDItem.h */,
+				1F1260CE1990D6A5005FA983 /* LEDItem.m */,
+			);
+			name = LEDTab;
+			sourceTree = "<group>";
+		};
+		1F1260E31990DF65005FA983 /* SceneTab */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260C31990D3BF005FA983 /* SceneCollectionCell.h */,
+				1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */,
+			);
+			name = SceneTab;
+			sourceTree = "<group>";
+		};
+		1F1260E41990DFC8005FA983 /* LIst */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260CA1990D477005FA983 /* CellBackGroud.h */,
+				1F1260AA1990D165005FA983 /* CellBackGroud.m */,
+				1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */,
+				1F1260D41990D7B4005FA983 /* LEDCollectionCell.h */,
+				1F1260D91990DACB005FA983 /* LEDViewController.h */,
+				1F1260DA1990DACB005FA983 /* LEDViewController.m */,
+			);
+			name = LIst;
+			sourceTree = "<group>";
+		};
+		1F1260E51990DFD0005FA983 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				1F1260AB1990D165005FA983 /* ImageCollectionCell.h */,
+				1F1260AC1990D165005FA983 /* ImageCollectionCell.m */,
+				1F1260AF1990D165005FA983 /* LEDEditViewController.h */,
+				1F1260B01990D165005FA983 /* LEDEditViewController.m */,
+			);
+			name = Edit;
+			sourceTree = "<group>";
+		};
+		1F1260E61990DFDA005FA983 /* Add */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Add;
 			sourceTree = "<group>";
 		};
 		1F98B8411986435000C77187 = {
