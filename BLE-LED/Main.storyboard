@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller - LED List-->
+        <!--LEDList-->
         <scene sceneID="OdE-1T-MEq">
             <objects>
-                <viewController title="LED List" id="NTL-X2-VaZ" customClass="LEDViewController" sceneMemberID="viewController">
+                <viewController title="LEDList" id="NTL-X2-VaZ" userLabel="LEDList" customClass="LEDViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="32M-re-h7U"/>
                         <viewControllerLayoutGuide type="bottom" id="HOW-w2-vEE"/>
@@ -101,7 +101,7 @@
                     <navigationItem key="navigationItem" title="LED List" id="MRm-cg-JPX">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="HHk-fb-VIv">
                             <connections>
-                                <segue destination="lyN-WV-99M" kind="push" identifier="toLEDAdd" id="7Ns-HT-diZ"/>
+                                <segue destination="25C-aQ-crM" kind="modal" id="IrC-FJ-vm4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -117,10 +117,10 @@
             </objects>
             <point key="canvasLocation" x="1153" y="-72"/>
         </scene>
-        <!--View Controller - LED Add-->
+        <!--LEDAdd-->
         <scene sceneID="4qg-mk-cIb">
             <objects>
-                <viewController title="LED Add" id="lyN-WV-99M" sceneMemberID="viewController">
+                <viewController title="LEDAdd" id="lyN-WV-99M" userLabel="LEDAdd" customClass="LEDAddViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hJ4-ZX-wrJ"/>
                         <viewControllerLayoutGuide type="bottom" id="knp-rL-Psu"/>
@@ -129,25 +129,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="二维码扫描" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZLq-ml-JcP">
-                                <rect key="frame" x="118" y="278" width="85" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmR-rb-suY">
+                                <rect key="frame" x="137" y="229" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="扫描成功">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Gdq-Xe-p1P" kind="modal" id="kQn-Mx-zlw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpZ-1L-xov">
+                                <rect key="frame" x="137" y="277" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="扫描失败">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToLEDList:" destination="lyN-WV-99M" eventType="touchUpInside" id="I3o-nF-BKv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dyu-4X-Mrk"/>
+                    <navigationItem key="navigationItem" id="dyu-4X-Mrk">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cAb-fU-TbC">
+                            <connections>
+                                <action selector="backToLEDList:" destination="lyN-WV-99M" id="NMA-08-q4s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uww-o1-puo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1705" y="-794"/>
+            <point key="canvasLocation" x="2230" y="-835"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Init-->
         <scene sceneID="0v5-zM-AJc">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="Fu3-rF-dUV" sceneMemberID="viewController">
+                <tabBarController title="Init" definesPresentationContext="YES" id="Fu3-rF-dUV" userLabel="Init" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="mGl-kr-5Cz">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -163,10 +183,10 @@
             </objects>
             <point key="canvasLocation" x="-368" y="302"/>
         </scene>
-        <!--Navigation Controller - LED-->
+        <!--LEDListNavi-->
         <scene sceneID="Ui5-D3-kHf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="89d-ot-Cus" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="89d-ot-Cus" userLabel="LEDListNavi" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="LED" id="za4-vj-Gwd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z3P-Tn-TdS">
@@ -180,12 +200,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wzn-xG-MeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="612" y="-54"/>
+            <point key="canvasLocation" x="608" y="-72"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--SceneList-->
         <scene sceneID="7eX-aZ-pFh">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="KXh-8d-70t" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="KXh-8d-70t" userLabel="SceneList" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="CvA-kK-4Fn">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,7 +257,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hsV-pI-94O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1146" y="676"/>
+            <point key="canvasLocation" x="1153" y="664"/>
         </scene>
         <!--Edit View Controller - LED Edit-->
         <scene sceneID="bv1-YR-aYV">
@@ -307,7 +327,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VIJ-4j-OfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2209" y="-59"/>
+            <point key="canvasLocation" x="3085" y="-54"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="oek-gC-dGh">
@@ -326,12 +346,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikc-Gx-3dy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1561" y="682"/>
+            <point key="canvasLocation" x="1573" y="664"/>
         </scene>
-        <!--Navigation Controller - Scene-->
+        <!--SceneListNavi-->
         <scene sceneID="mwo-J5-GTe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="X72-tf-eWu" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="X72-tf-eWu" userLabel="SceneListNavi" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Scene" id="8hg-Zv-slr"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jdD-Vj-prC">
@@ -345,13 +365,15 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BgE-SP-o0M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="622" y="676"/>
+            <point key="canvasLocation" x="608" y="656"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TCG-q2-KGs">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="muK-oF-QJ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Gdq-Xe-p1P" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="mmG-Bl-sCD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6CU-8S-CwY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -361,9 +383,26 @@
                         <segue destination="EEl-rM-1Mh" kind="relationship" relationship="rootViewController" id="il5-Mg-gFo"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="muK-oF-QJ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1683" y="-59"/>
+            <point key="canvasLocation" x="2625" y="-54"/>
+        </scene>
+        <!--LEDAddNavi-->
+        <scene sceneID="y4H-q0-wmS">
+            <objects>
+                <navigationController title="LEDAddNavi" automaticallyAdjustsScrollViewInsets="NO" id="25C-aQ-crM" userLabel="LEDAddNavi" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="miL-Av-70Q">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="lyN-WV-99M" kind="relationship" relationship="rootViewController" id="fq2-Bv-57B"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QKY-kl-Hle" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1754" y="-835"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -371,4 +410,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="kQn-Mx-zlw"/>
+    </inferredMetricsTieBreakers>
 </document>

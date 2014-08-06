@@ -18,6 +18,7 @@
 		1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260D31990D7B4005FA983 /* LEDCollectionCell.m */; };
 		1F1260DB1990DACB005FA983 /* LEDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260DA1990DACB005FA983 /* LEDViewController.m */; };
 		1F1260E11990DD32005FA983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F1260E01990DD32005FA983 /* Images.xcassets */; };
+		1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260E81990E0C7005FA983 /* LEDAddViewController.m */; };
 		1F98B84E1986435000C77187 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84D1986435000C77187 /* Foundation.framework */; };
 		1F98B8501986435000C77187 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84F1986435000C77187 /* CoreGraphics.framework */; };
 		1F98B8521986435000C77187 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B8511986435000C77187 /* UIKit.framework */; };
@@ -59,6 +60,8 @@
 		1F1260D91990DACB005FA983 /* LEDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDViewController.h; path = "BLE-LED/LEDViewController.h"; sourceTree = "<group>"; };
 		1F1260DA1990DACB005FA983 /* LEDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDViewController.m; path = "BLE-LED/LEDViewController.m"; sourceTree = "<group>"; };
 		1F1260E01990DD32005FA983 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "BLE-LED/Images.xcassets"; sourceTree = "<group>"; };
+		1F1260E71990E0C7005FA983 /* LEDAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDAddViewController.h; path = "BLE-LED/LEDAddViewController.h"; sourceTree = "<group>"; };
+		1F1260E81990E0C7005FA983 /* LEDAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDAddViewController.m; path = "BLE-LED/LEDAddViewController.m"; sourceTree = "<group>"; };
 		1F98B84A1986435000C77187 /* BLE-LED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-LED.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F98B84D1986435000C77187 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1F98B84F1986435000C77187 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -165,6 +168,8 @@
 		1F1260E61990DFDA005FA983 /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				1F1260E71990E0C7005FA983 /* LEDAddViewController.h */,
+				1F1260E81990E0C7005FA983 /* LEDAddViewController.m */,
 			);
 			name = Add;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 				1F1260DB1990DACB005FA983 /* LEDViewController.m in Sources */,
 				1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */,
 				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
+				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

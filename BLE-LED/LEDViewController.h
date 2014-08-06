@@ -12,8 +12,10 @@
 @interface LEDViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (weak, nonatomic) LEDItem *editLED;
+@property (strong,nonatomic) LEDItem *addLED;
 
-- (IBAction)unWindToHere:(id)sender;
+
+- (IBAction)unWindToList:(id)sender;
 
 
 @end

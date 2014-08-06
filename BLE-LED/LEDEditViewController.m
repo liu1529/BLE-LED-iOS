@@ -9,6 +9,7 @@
 #import "LEDEditViewController.h"
 #import "ImageCollectionCell.h"
 #import "LEDItem.h"
+#import "LEDAddViewController.h"
 
 
 @interface LEDEditViewController ()
@@ -19,6 +20,7 @@
 
 
 @property (weak,nonatomic) LEDViewController *listViewController;
+@property (weak,nonatomic) LEDAddViewController *addViewController;
 @property (strong,nonatomic) NSMutableArray *allImages;
 
 
@@ -40,6 +42,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+  
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     //set collectionview delegate
     self.imageCollectionView.dataSource = self;
     self.imageCollectionView.delegate = self;
@@ -48,39 +56,57 @@
     self.allImages = [NSMutableArray new];
     for (int i = 0; i < 3; i++) {
         [self.allImages
-            addObject:[UIImage imageNamed:
-                       [NSString stringWithFormat:@"LED%d.png",i]]];
+         addObject:[UIImage imageNamed:
+                    [NSString stringWithFormat:@"LED%d.png",i]]];
     }
-   
-    //set listVIewCotroller
-    UITabBarController *tabBarController = (UITabBarController *)self.presentingViewController;
-    UINavigationController *navi = (UINavigationController *)tabBarController.selectedViewController;
-    self.listViewController = (LEDViewController *)navi.topViewController;
-   
-    //set the led's image and name
-    self.LEDImageView.image = self.listViewController.editLED.image;
-    self.LEDNameLabel.text = self.listViewController.editLED.name;
     
     //navi
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                    initWithBarButtonSystemItem:
-                                    UIBarButtonSystemItemDone
+                                   UIBarButtonSystemItemDone
                                    target:self
                                    action:@selector(doneAction:)];
     UIBarButtonItem *trashButton = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:
+                                    initWithBarButtonSystemItem:
                                     UIBarButtonSystemItemTrash
                                     target:self action:@selector(trashAction:)];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:
-                                   UIBarButtonSystemItemCancel
-                                   target:self
+                                     initWithBarButtonSystemItem:
+                                     UIBarButtonSystemItemCancel
+                                     target:self
                                      action:@selector(cancelAction:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
-    self.navigationItem.rightBarButtonItems = @[doneButton,trashButton];
     
     
+ 
+    //from list view
+    if ([self.presentingViewController isKindOfClass:[UITabBarController class]])
+    {
+        //set listVIewCotroller
+        UITabBarController *tabBarController = (UITabBarController *)self.presentingViewController;
+        UINavigationController *naviController = (UINavigationController *)tabBarController.selectedViewController;
+        self.listViewController = (LEDViewController *)naviController.topViewController;
+        
+        //set the led's image and name
+        self.LEDImageView.image = self.listViewController.editLED.image;
+        self.LEDNameLabel.text = self.listViewController.editLED.name;
+        
+        self.navigationItem.rightBarButtonItems = @[doneButton,trashButton];
+        
+       
+        
+    }
+    //from add view
+    else if([self.presentingViewController isKindOfClass:[UINavigationController class]])
+    {
+         UINavigationController *naviController = (UINavigationController *)self.presentingViewController;
+        self.addViewController = (LEDAddViewController *)naviController.topViewController;
+        
+        self.LEDImageView.image = self.allImages[0];
+        
+        self.navigationItem.rightBarButtonItem = doneButton;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,24 +153,34 @@
 
 - (void) trashAction:(UIBarButtonItem *)sender
 {
-    self.listViewController.editLED.image = nil;
-    self.listViewController.editLED.name = nil;
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.listViewController unWindToHere:sender];
+    [self dismissViewControllerAnimated:YES completion:^(void)
+        {
+            self.listViewController.editLED.image = nil;
+            self.listViewController.editLED.name = nil;
+            [self.listViewController unWindToList:sender];
+        }];
 }
 
 - (void)cancelAction:(UIBarButtonItem *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self.listViewController unWindToHere:sender];
 }
 
 - (void)doneAction:(UIBarButtonItem *)sender
 {
-    self.listViewController.editLED.image = self.LEDImageView.image;
-    self.listViewController.editLED.name = self.LEDNameLabel.text;
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.listViewController unWindToHere:sender];
+    [self dismissViewControllerAnimated:YES completion:^(void)
+        {
+            self.listViewController.editLED.image = self.LEDImageView.image;
+            self.listViewController.editLED.name = self.LEDNameLabel.text;
+            [self.listViewController unWindToList:sender];
+            
+            self.addViewController.addLED.image = self.LEDImageView.image;
+            self.addViewController.addLED.name = self.LEDNameLabel.text;
+            [self.addViewController unWindToAdd:sender];
+
+        }];
+    
+    
 
 }
 - (IBAction)hideKeyboard:(id)sender {

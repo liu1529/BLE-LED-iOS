@@ -47,7 +47,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     // Do any additional setup after loading the view.
     self.allLEDs = [[NSMutableArray alloc] init];
     self.selectLEDs = [[NSMutableArray alloc] init];
-    [self loadInit];
+//    [self loadInit];
 
     self.LEDCollectionView.dataSource = self;
     self.LEDCollectionView.delegate = self;
@@ -135,6 +135,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
+
+
+
 - (void) loadInit
 {
     
@@ -170,23 +173,26 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"toLEDEdit"]) {
-        NSLog(@"sender %@",sender);
-        NSLog(@"dst %@", ((UINavigationController *)segue.destinationViewController).topViewController);
-    }
-    else if ([segue.identifier isEqualToString:@"toLEDAdd"])
-    {
-    
-    }
+//    if ([segue.identifier isEqualToString:@"toLEDEdit"]) {
+//       
+//    }
+//    else if ([segue.identifier isEqualToString:@"toLEDAdd"])
+//    {
+//    
+//    }
    
    
     
 }
 
-- (void)unWindToHere:(id)sender
+- (IBAction)unWindToList:(id)sender
 {
-    if (!self.editLED.image) {;
+    if(self.editLED.image == nil) {
         [self.allLEDs removeObject:self.editLED];
+    }
+    if (self.addLED.image) {
+        [self.allLEDs addObject:self.addLED];
+        self.addLED = nil;
     }
     [self.LEDCollectionView reloadData];
 }
