@@ -11,7 +11,6 @@
 
 @interface LEDAddViewController : UIViewController
 
-@property (weak,nonatomic) LEDItem *addLED;
 
 - (IBAction)unWindToAdd:(id)sender;
 

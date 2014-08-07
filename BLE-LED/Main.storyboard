@@ -49,7 +49,7 @@
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-mH-IoL">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-mH-IoL">
                                 <rect key="frame" x="-2" y="65" width="325" height="378"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -101,7 +101,7 @@
                     <navigationItem key="navigationItem" title="LED List" id="MRm-cg-JPX">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="HHk-fb-VIv">
                             <connections>
-                                <segue destination="25C-aQ-crM" kind="modal" id="IrC-FJ-vm4"/>
+                                <segue destination="lyN-WV-99M" kind="push" identifier="toLEDAdd" id="XGd-e9-GkJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -110,7 +110,7 @@
                         <outlet property="LEDControlView" destination="Vzy-iC-nWR" id="4kV-0F-Msm"/>
                         <outlet property="lightLabel" destination="moO-Ul-Zem" id="f3D-nn-vG5"/>
                         <outlet property="tempLabel" destination="l1O-pt-Lbb" id="OoV-Fh-hVw"/>
-                        <segue destination="Gdq-Xe-p1P" kind="modal" identifier="toLEDEdit" id="BYZ-S2-Mr4"/>
+                        <segue destination="EEl-rM-1Mh" kind="push" identifier="toLEDEdit" id="EtV-f5-RFA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vMT-t8-O1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -120,7 +120,7 @@
         <!--LEDAdd-->
         <scene sceneID="4qg-mk-cIb">
             <objects>
-                <viewController title="LEDAdd" id="lyN-WV-99M" userLabel="LEDAdd" customClass="LEDAddViewController" sceneMemberID="viewController">
+                <viewController title="LEDAdd" hidesBottomBarWhenPushed="YES" id="lyN-WV-99M" userLabel="LEDAdd" customClass="LEDAddViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hJ4-ZX-wrJ"/>
                         <viewControllerLayoutGuide type="bottom" id="knp-rL-Psu"/>
@@ -136,33 +136,17 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Gdq-Xe-p1P" kind="modal" id="kQn-Mx-zlw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DpZ-1L-xov">
-                                <rect key="frame" x="137" y="277" width="60" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="扫描失败">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="backToLEDList:" destination="lyN-WV-99M" eventType="touchUpInside" id="I3o-nF-BKv"/>
+                                    <segue destination="EEl-rM-1Mh" kind="push" id="DlX-ID-AtF"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dyu-4X-Mrk">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="cAb-fU-TbC">
-                            <connections>
-                                <action selector="backToLEDList:" destination="lyN-WV-99M" id="NMA-08-q4s"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="dyu-4X-Mrk"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uww-o1-puo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2230" y="-835"/>
+            <point key="canvasLocation" x="1676" y="-673"/>
         </scene>
         <!--Init-->
         <scene sceneID="0v5-zM-AJc">
@@ -262,7 +246,7 @@
         <!--Edit View Controller - LED Edit-->
         <scene sceneID="bv1-YR-aYV">
             <objects>
-                <viewController title="LED Edit" id="EEl-rM-1Mh" customClass="LEDEditViewController" sceneMemberID="viewController">
+                <viewController title="LED Edit" hidesBottomBarWhenPushed="YES" id="EEl-rM-1Mh" customClass="LEDEditViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vf8-2K-JxF"/>
                         <viewControllerLayoutGuide type="bottom" id="mwg-qY-OhC"/>
@@ -318,7 +302,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="2vq-df-Uc1"/>
+                    <navigationItem key="navigationItem" id="2vq-df-Uc1">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="T9M-Zj-w3H">
+                            <connections>
+                                <action selector="doneEdit:" destination="EEl-rM-1Mh" id="Wjz-sx-P0G"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="LEDImageView" destination="1jZ-Bv-931" id="jFz-9K-uGJ"/>
                         <outlet property="LEDNameLabel" destination="OBT-kR-lcD" id="7gA-C0-Dyt"/>
@@ -327,12 +317,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VIJ-4j-OfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3085" y="-54"/>
+            <point key="canvasLocation" x="2141" y="-63"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="oek-gC-dGh">
             <objects>
-                <viewController id="iqm-H6-KeO" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="iqm-H6-KeO" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xQP-bi-vsy"/>
                         <viewControllerLayoutGuide type="bottom" id="VeO-rZ-6WG"/>
@@ -367,43 +357,6 @@
             </objects>
             <point key="canvasLocation" x="608" y="656"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="TCG-q2-KGs">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="muK-oF-QJ5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Gdq-Xe-p1P" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="mmG-Bl-sCD"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6CU-8S-CwY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="EEl-rM-1Mh" kind="relationship" relationship="rootViewController" id="il5-Mg-gFo"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="2625" y="-54"/>
-        </scene>
-        <!--LEDAddNavi-->
-        <scene sceneID="y4H-q0-wmS">
-            <objects>
-                <navigationController title="LEDAddNavi" automaticallyAdjustsScrollViewInsets="NO" id="25C-aQ-crM" userLabel="LEDAddNavi" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="miL-Av-70Q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="lyN-WV-99M" kind="relationship" relationship="rootViewController" id="fq2-Bv-57B"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QKY-kl-Hle" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1754" y="-835"/>
-        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -411,6 +364,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="kQn-Mx-zlw"/>
+        <segue reference="EtV-f5-RFA"/>
     </inferredMetricsTieBreakers>
 </document>

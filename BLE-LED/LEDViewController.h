@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LEDItem.h"
 
-@interface LEDViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface LEDViewController : UIViewController <UICollectionViewDataSource,
+                                                UICollectionViewDelegate,
+                                                UIActionSheetDelegate>
 
 @property (weak, nonatomic) LEDItem *editLED;
 @property (strong,nonatomic) LEDItem *addLED;

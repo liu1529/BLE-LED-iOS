@@ -11,9 +11,6 @@
 
 @interface LEDAddViewController ()
 
-@property LEDViewController *listViewController;
-
-- (IBAction)backToLEDList:(id)sender;
 
 @end
 
@@ -32,15 +29,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    UITabBarController *tabBarController = (UITabBarController *)self.presentingViewController;
-    UINavigationController *naviController = (UINavigationController *)tabBarController.selectedViewController;
-    self.listViewController = (LEDViewController *)naviController.topViewController;
-    
-    if (self.listViewController.addLED == nil) {
-         self.listViewController.addLED = [[LEDItem alloc] init];
-    }
-    self.addLED = self.listViewController.addLED;
     
 }
 
@@ -62,17 +50,8 @@
 
 - (IBAction)unWindToAdd:(id)sender
 {
-    if (self.addLED.image) {
-        [self.listViewController unWindToList:sender];
-        [self dismissViewControllerAnimated:YES completion:^(void)
-         {
-             
-         }];
-    }
+    
 }
 
-- (IBAction)backToLEDList:(id)sender {
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
-}
+
 @end

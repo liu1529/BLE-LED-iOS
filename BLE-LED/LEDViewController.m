@@ -15,7 +15,7 @@
 
 @property (nonatomic,strong) NSMutableArray *allLEDs;
 @property (nonatomic,strong) NSMutableArray *selectLEDs;
-@property (nonatomic) CGRect LEDCollectionViewFrame;
+
 
 @property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *LEDControlView;
@@ -54,20 +54,45 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     self.LEDCollectionView.allowsSelection = YES;
     self.LEDCollectionView.allowsMultipleSelection = YES;
     
-   
+    
 
 }
 
 - (void) doLongPress:(UILongPressGestureRecognizer *)sender
 {
-    [self performSegueWithIdentifier:@"toLEDEdit" sender:self];
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                      initWithTitle:@"Del or edit it?"
+                                      delegate:self
+                                      cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Del It"
+                                      otherButtonTitles:@"Edit It", nil];
+        [actionSheet showInView:self.view];
+        
+        
+        
+        NSIndexPath *index = [self.LEDCollectionView
+                              indexPathForItemAtPoint:
+                              [sender locationInView:self.LEDCollectionView]];
+        
+        self.editLED = self.allLEDs[index.row];
+    }
     
-    
-    NSIndexPath *index = [self.LEDCollectionView
-                           indexPathForItemAtPoint:
-                            [sender locationInView:self.LEDCollectionView]];
-    
-    self.editLED = self.allLEDs[index.row];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            [self.allLEDs removeObject:self.editLED];
+            [self.LEDCollectionView reloadData];
+            break;
+        case 1:
+            [self performSegueWithIdentifier:@"toLEDEdit" sender:self];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,6 +126,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         [[UILongPressGestureRecognizer alloc]
          initWithTarget:self
          action:@selector(doLongPress:)];
+    longPressGr.numberOfTapsRequired = 0;
     
     [cell addGestureRecognizer:longPressGr];
     
@@ -173,13 +199,13 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-//    if ([segue.identifier isEqualToString:@"toLEDEdit"]) {
-//       
-//    }
-//    else if ([segue.identifier isEqualToString:@"toLEDAdd"])
-//    {
-//    
-//    }
+    if ([segue.identifier isEqualToString:@"toLEDEdit"]) {
+       
+    }
+    else if ([segue.identifier isEqualToString:@"toLEDAdd"])
+    {
+        
+    }
    
    
     
