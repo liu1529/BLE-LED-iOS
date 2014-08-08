@@ -8,7 +8,7 @@
 
 #import "LEDEditViewController.h"
 #import "ImageCollectionCell.h"
-#import "LEDItem.h"
+#import "TabBarViewController.h"
 #import "LEDAddViewController.h"
 
 
@@ -56,8 +56,10 @@
                     [NSString stringWithFormat:@"LED%d.png",i]]];
     }
   
+   
     
     UIViewController *backVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
+    
     if ([backVC isKindOfClass:[LEDViewController class]]) {
         self.listViewController = (LEDViewController *)backVC;
         //set the led's image and name
@@ -138,13 +140,12 @@
     [self.navigationController popToViewController:self.listViewController animated:YES];
     if (self.addViewController)
     {
-        if (self.listViewController.addLED == nil)
-        {
-            self.listViewController.addLED = [LEDItem new];
-    
-        }
-        self.listViewController.addLED.image = self.LEDImageView.image;
-        self.listViewController.addLED.name = self.LEDNameLabel.text;
+        LEDItem *newLED = [LEDItem new];
+       
+        newLED.image = self.LEDImageView.image;
+        newLED.name = self.LEDNameLabel.text;
+        [((TabBarViewController *)(self.tabBarController)).allLEDs addObject:newLED];
+        
     }
     else
     {

@@ -14,7 +14,7 @@
                                                 UIActionSheetDelegate>
 
 @property (weak, nonatomic) LEDItem *editLED;
-@property (strong,nonatomic) LEDItem *addLED;
+
 
 
 - (IBAction)unWindToList:(id)sender;

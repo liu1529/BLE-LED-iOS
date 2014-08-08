@@ -13,5 +13,7 @@
 @property (nonatomic) UIImage *image;
 @property (nonatomic) NSString *name;
 @property (nonatomic) UIImage *selectedImage;
+@property (nonatomic) NSInteger currentLight;
+@property (nonatomic) NSInteger currentTemp;
 
 @end

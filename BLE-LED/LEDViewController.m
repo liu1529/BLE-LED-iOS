@@ -7,13 +7,13 @@
 //
 
 #import "LEDViewController.h"
-#import "LEDItem.h"
+#import "TabBarViewController.h"
 #import "LEDCollectionCell.h"
 #import "LEDEditViewController.h"
 
 @interface LEDViewController ()
 
-@property (nonatomic,strong) NSMutableArray *allLEDs;
+
 @property (nonatomic,strong) NSMutableArray *selectLEDs;
 
 
@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIView *LEDControlView;
 @property (weak, nonatomic) IBOutlet UILabel *lightLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tempLabel;
+@property (weak, nonatomic) IBOutlet UISlider *lightSlider;
+@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
 
 - (IBAction)lightChange:(id)sender;
@@ -45,16 +47,17 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.allLEDs = [[NSMutableArray alloc] init];
     self.selectLEDs = [[NSMutableArray alloc] init];
-//    [self loadInit];
+    [self loadInit];
 
     self.LEDCollectionView.dataSource = self;
     self.LEDCollectionView.delegate = self;
     self.LEDCollectionView.allowsSelection = YES;
     self.LEDCollectionView.allowsMultipleSelection = YES;
     
-    
+   
+    self.lightSlider.enabled = NO;
+    self.tempSlider.enabled = NO;
 
 }
 
@@ -75,7 +78,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                               indexPathForItemAtPoint:
                               [sender locationInView:self.LEDCollectionView]];
         
-        self.editLED = self.allLEDs[index.row];
+        self.editLED = ((TabBarViewController *)(self.tabBarController)).allLEDs[index.row];
     }
     
 }
@@ -84,7 +87,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     switch (buttonIndex) {
         case 0:
-            [self.allLEDs removeObject:self.editLED];
+            [((TabBarViewController *)(self.tabBarController)).allLEDs removeObject:self.editLED];
             [self.LEDCollectionView reloadData];
             break;
         case 1:
@@ -110,14 +113,14 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.allLEDs.count;
+    return ((TabBarViewController *)(self.tabBarController)).allLEDs.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LEDCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellID forIndexPath:indexPath];
     
-    LEDItem *aLED = self.allLEDs[indexPath.row];
+    LEDItem *aLED = ((TabBarViewController *)(self.tabBarController)).allLEDs[indexPath.row];
     cell.imageView.image = aLED.image;
     cell.nameLabel.text = aLED.name;
     cell.selectedImageView.image = aLED.selectedImage;
@@ -140,21 +143,35 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    LEDItem *aLED = self.allLEDs[indexPath.row];
+    LEDItem *aLED = ((TabBarViewController *)(self.tabBarController)).allLEDs[indexPath.row];
     
     
     if([self.selectLEDs containsObject:aLED])
     {
-        aLED.selectedImage = [UIImage imageNamed:@"LED1.png"];
+        aLED.selectedImage = nil;
         [self.selectLEDs removeObject:aLED];
         
         
     }
     else
     {
-        aLED.selectedImage = nil;
+        aLED.selectedImage = [UIImage imageNamed:@"LED1.png"];
         [self.selectLEDs addObject:aLED];
-       
+        
+        [self.lightSlider setValue:aLED.currentLight animated:YES];
+        [self.tempSlider setValue:aLED.currentTemp animated:YES];
+        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentLight];
+        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentTemp];
+    }
+    
+    if (self.selectLEDs.count > 0) {
+        self.lightSlider.enabled = YES;
+        self.tempSlider.enabled = YES;
+    }
+    else
+    {
+        self.lightSlider.enabled = NO;
+        self.tempSlider.enabled = NO;
     }
     
     [collectionView reloadItemsAtIndexPaths:@[indexPath]];
@@ -174,7 +191,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         aLED.name = [NSString stringWithFormat:@"LED %d", i];
         
         
-        [self.allLEDs addObject:aLED];
+        [((TabBarViewController *)(self.tabBarController)).allLEDs addObject:aLED];
     }
    
 }
@@ -184,11 +201,19 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (IBAction)lightChange:(id)sender {
     UISlider *slider = sender;
     self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+ 
+    for (LEDItem *aLED in self.selectLEDs) {
+        aLED.currentLight = (int)slider.value;
+    }
 }
 
 - (IBAction)tempChange:(id)sender {
     UISlider *slider = sender;
-    self.tempLabel.text = [NSString stringWithFormat:@"%dK",(int)slider.value];
+    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+    
+    for (LEDItem *aLED in self.selectLEDs) {
+        aLED.currentTemp = (int)slider.value;
+    }
 }
 
 #pragma mark - Navigation
@@ -213,13 +238,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (IBAction)unWindToList:(id)sender
 {
-    if(self.editLED.image == nil) {
-        [self.allLEDs removeObject:self.editLED];
-    }
-    if (self.addLED.image) {
-        [self.allLEDs addObject:self.addLED];
-        self.addLED = nil;
-    }
     [self.LEDCollectionView reloadData];
 }
 
