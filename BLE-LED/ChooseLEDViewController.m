@@ -22,6 +22,7 @@
 @property (weak, nonatomic) LEDItem *selectedLED;
 @property (weak, nonatomic) SceneAddViewController *addVC;
 @property (weak, nonatomic) SceneListViewController *listVC;
+@property (weak, nonatomic) SceneItem *currentScene;
 
 
 
@@ -52,17 +53,26 @@
     
     self.addVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
     self.listVC = (SceneListViewController *)(self.navigationController.viewControllers[0]);
+    self.currentScene = (self.listVC.addScene) ? (self.listVC.addScene) : (self.listVC.editScene);
     
-    
-    self.LEDs = [NSMutableArray arrayWithArray:((TabBarViewController *)self.tabBarController).allLEDs];
-   
-    for (id LED in self.listVC.addScene.LEDs) {
-        [self.LEDs removeObject:LED];
+    NSMutableArray *LEDs = [[NSMutableArray alloc ]initWithArray:((TabBarViewController *)self.tabBarController).allLEDs];
+    for (LEDItem *LED in self.currentScene.LEDs)
+    {
+        [LEDs removeObject:LED];
     }
     
+    if (self.addVC.editIndexPath)
+    {
+        [LEDs insertObject:self.currentScene.LEDs[self.addVC.editIndexPath.row] atIndex:0];
+    }
    
     
-    if (self.LEDs.count > 0) {
+    self.LEDs = LEDs;
+    
+    
+    
+    if (self.LEDs.count > 0)
+    {
         self.selectedLED = self.LEDs[0];
         
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
@@ -181,7 +191,18 @@
     [self.navigationController popViewControllerAnimated:YES];
     
     if (self.selectedLED) {
-        [self.listVC.addScene.LEDs addObject:self.selectedLED];
+        if (self.addVC.editIndexPath) {
+            [self.currentScene.LEDs replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:self.selectedLED];
+            [self.currentScene.lights replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentLight]];
+            [self.currentScene.temps replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentTemp]];
+        }
+        else
+        {
+            [self.currentScene.LEDs addObject:self.selectedLED];
+            [self.currentScene.lights addObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentLight]];
+            [self.currentScene.temps addObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentTemp]];
+        }
+       
         [self.addVC unWindToHere:sender];
 
     }

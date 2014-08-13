@@ -13,7 +13,7 @@
 
 @interface SceneListViewController ()
 
-- (IBAction)doNewScene:(id)sender;
+
 
 @end
 
@@ -41,6 +41,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - GestureRecognizer
+
 - (void) doLongPress:(UILongPressGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan) {
@@ -58,12 +60,27 @@
                               indexPathForItemAtPoint:
                               [sender locationInView:self.collectionView]];
         
-        self.editScene = ((TabBarViewController *)(self.tabBarController)).allLEDs[index.row];
+        self.editScene = ((TabBarViewController *)(self.tabBarController)).allScenes[index.row];
     }
     
 }
 
-#pragma mark collectionview
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            [((TabBarViewController *)(self.tabBarController)).allScenes removeObject:self.editScene];
+            [self.collectionView reloadData];
+            break;
+        case 1:
+            [self performSegueWithIdentifier:@"toSceneDetail" sender:actionSheet];
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark - Collectionview
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -91,20 +108,7 @@
     return cell;
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-            [((TabBarViewController *)(self.tabBarController)).allScenes removeObject:self.editScene];
-            [self.collectionView reloadData];
-            break;
-        case 1:
-            [self performSegueWithIdentifier:@"toSceneDetail" sender:self];
-            break;
-        default:
-            break;
-    }
-}
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -119,12 +123,24 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:@"toSceneDetail"]) {
-        if (self.addScene == nil) {
+   
+    if ([sender isKindOfClass:[UIBarButtonItem class]])
+    {
+        if (self.addScene == nil)
+        {
             self.addScene = [SceneItem new];
             self.addScene.image = [UIImage imageNamed:@"scene4.png"];
             self.addScene.LEDs = [NSMutableArray new];
+            self.addScene.lights = [NSMutableArray new];
+            self.addScene.temps = [NSMutableArray new];
         }
+        
+
+    }
+    else if ([sender isKindOfClass:[UIActionSheet class]])
+    {
+       
+        
     }
     
 }
@@ -134,12 +150,11 @@
 {
     if (self.addScene.LEDs.count > 0) {
         [((TabBarViewController *)self.tabBarController).allScenes addObject:self.addScene];
-        self.addScene = nil;
         [self.collectionView reloadData];
     }
+    self.addScene = nil;
+    self.editScene = nil;
 }
 
-- (IBAction)doNewScene:(id)sender {
-    
-}
+
 @end

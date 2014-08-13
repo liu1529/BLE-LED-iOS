@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LEDItem : NSObject
+@interface LEDItem : NSObject <NSCopying>
 
 @property (nonatomic) UIImage *image;
 @property (nonatomic) NSString *name;
 @property (nonatomic) UIImage *selectedImage;
-@property (nonatomic) NSInteger currentLight;
-@property (nonatomic) NSInteger currentTemp;
+@property (nonatomic) unsigned char currentLight;
+@property (nonatomic) unsigned char currentTemp;
 
 @end

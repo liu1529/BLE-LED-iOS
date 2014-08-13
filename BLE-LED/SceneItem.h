@@ -13,5 +13,7 @@
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSMutableArray *LEDs;
+@property (strong, nonatomic) NSMutableArray *lights;
+@property (strong, nonatomic) NSMutableArray *temps;
 
 @end

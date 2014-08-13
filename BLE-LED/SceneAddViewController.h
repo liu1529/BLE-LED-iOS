@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SceneItem.h"
+#import "LEDItem.h"
 
-@interface SceneAddViewController : UIViewController <UITableViewDataSource>
+@interface SceneAddViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 
+@property (strong, nonatomic) NSIndexPath *editIndexPath;
 
 - (IBAction)unWindToHere:(id)sender;
 

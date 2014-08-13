@@ -10,4 +10,20 @@
 
 @implementation LEDItem
 
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    LEDItem *LED = [[self class] allocWithZone:zone];
+    LED.image = self.image;
+    LED.name = self.name;
+    LED.currentLight = self.currentLight;
+    LED.currentTemp = self.currentTemp;
+    
+    return LED;
+}
+
 @end
+
+
+
+

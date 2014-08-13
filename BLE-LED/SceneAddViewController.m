@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) NSMutableArray *scenes;
+@property (weak, nonatomic) SceneItem *currentScene;
 @property (weak, nonatomic) SceneListViewController *listVC;
 
 
@@ -41,11 +42,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     
     self.scenes = ((TabBarViewController *)self.tabBarController).allScenes;
     self.listVC = (SceneListViewController *)(self.navigationController.viewControllers[0]);
     
-    self.imageView.image = self.listVC.addScene.image;
+    self.currentScene = (self.listVC.addScene) ? (self.listVC.addScene) : (self.listVC.editScene);
+    self.imageView.image = self.currentScene.image;
+    self.nameLabel.text = self.currentScene.name;
     
 }
 
@@ -55,9 +59,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Tableview
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.listVC.addScene.LEDs.count;
+    return self.currentScene.LEDs.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -68,14 +74,25 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SceneTabbleCell" forIndexPath:indexPath];
-    LEDItem *aLED = self.listVC.addScene.LEDs[indexPath.row];
+    LEDItem *aLED = self.currentScene.LEDs[indexPath.row];
+   
+    
+    NSInteger light = ((NSNumber *)(self.currentScene.lights[indexPath.row])).unsignedCharValue;
+    NSInteger temp = ((NSNumber *)(self.currentScene.temps[indexPath.row])).unsignedCharValue;
     
     cell.imageView.image = aLED.image;
     cell.textLabel.text = aLED.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"L:%d%% T:%d%%",aLED.currentLight,aLED.currentTemp];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"L:%d%% T:%d%%",light,temp];
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.editIndexPath = indexPath;
+    [self performSegueWithIdentifier:@"toSceneLEDChoose" sender:self];
+}
+
 
 /*
 #pragma mark - Navigation
