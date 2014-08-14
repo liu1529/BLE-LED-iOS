@@ -68,6 +68,10 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
     self.isRefreing = NO;
+    
+    
+   
+    
 
 }
 
@@ -75,6 +79,24 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    switch (self.interfaceOrientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            if ([self.LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+                ((UICollectionViewFlowLayout *)(self.LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            }
+            
+            break;
+        default:
+            if ([self.LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+                ((UICollectionViewFlowLayout *)(self.LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionVertical;
+            }
+            break;
+    }
 }
 
 - (void) loadInit
@@ -321,9 +343,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
  
     for (LEDItem *aLED in self.selectLEDs) {
-        if (aLED.currentLight != (int)slider.value) {
+       
             aLED.currentLight = (int)slider.value;
-        }
+        
         
     }
 }

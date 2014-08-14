@@ -22,6 +22,7 @@
 
 
 - (IBAction)doneActione:(id)sender;
+- (IBAction)hideKeyboard:(id)sender;
 
 
 @end
@@ -77,12 +78,12 @@
     LEDItem *aLED = self.currentScene.LEDs[indexPath.row];
    
     
-    NSInteger light = ((NSNumber *)(self.currentScene.lights[indexPath.row])).unsignedCharValue;
-    NSInteger temp = ((NSNumber *)(self.currentScene.temps[indexPath.row])).unsignedCharValue;
+    unsigned char light = ((NSNumber *)(self.currentScene.lights[indexPath.row])).unsignedCharValue;
+    unsigned char temp = ((NSNumber *)(self.currentScene.temps[indexPath.row])).unsignedCharValue;
     
     cell.imageView.image = aLED.image;
     cell.textLabel.text = aLED.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"L:%d%% T:%d%%",light,temp];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"L:%d%% T:%d%%",(int)((float)light / LED_LIGHT_MAX * 100),(int)((float)temp / LED_TEMP_MAX * 100)];
     
     return cell;
 }
@@ -106,9 +107,15 @@
 */
 
 - (IBAction)doneActione:(id)sender {
+    self.currentScene.name = self.nameLabel.text;
+    self.currentScene.image = self.imageView.image;
     [self.navigationController popToViewController:self.listVC animated:YES];
     [self.listVC unWindToHere:sender];
     
+}
+
+- (IBAction)hideKeyboard:(id)sender {
+    [self.nameLabel resignFirstResponder];
 }
 
 - (IBAction)unWindToHere:(id)sender

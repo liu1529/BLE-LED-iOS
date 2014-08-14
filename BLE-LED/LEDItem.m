@@ -55,6 +55,7 @@
     {
          printf("p:%s c:%s is nil\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String]);
     }
+    _currentLight = currentLight;
 
 }
 
@@ -89,7 +90,7 @@
     {
         printf("p:%s c:%s is nil\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String]);
     }
-
+    _currentTemp = currentTemp;
 }
 
 

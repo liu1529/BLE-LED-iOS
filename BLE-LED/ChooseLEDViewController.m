@@ -78,8 +78,8 @@
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
         
-        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",self.selectedLED.currentLight];
-        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",self.selectedLED.currentTemp];
+        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
+        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
         
     }
     else
@@ -157,8 +157,8 @@
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
         
-        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",self.selectedLED.currentLight];
-        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",self.selectedLED.currentTemp];
+        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
+        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
     }
     
 }
@@ -176,15 +176,15 @@
 
 - (IBAction)lightChange:(id)sender {
     UISlider *slider = sender;
-     self.selectedLED.currentLight = slider.value;
-    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+     self.selectedLED.currentLight = (unsigned char)(slider.value);
+    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
    
 }
 
 - (IBAction)tempChange:(id)sender {
     UISlider *slider = sender;
     self.selectedLED.currentTemp = slider.value;
-    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
 }
 
 - (IBAction)donePick:(id)sender {

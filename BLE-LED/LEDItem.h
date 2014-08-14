@@ -21,6 +21,9 @@
 
 @end
 
+#define LED_LIGHT_MAX           255
+#define LED_TEMP_MAX            255
+
 #define LED_SERVICE_UUID        [CBUUID UUIDWithString:@"DC00"]
 #define LED_SERVICE_UUIDS       @[LED_SERVICE_UUID]
 
