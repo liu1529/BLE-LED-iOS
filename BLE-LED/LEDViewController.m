@@ -10,12 +10,14 @@
 #import "TabBarViewController.h"
 #import "LEDCollectionCell.h"
 #import "LEDEditViewController.h"
+#import "AppDelegate.h"
 
 @interface LEDViewController ()
 
-
+@property (nonatomic, strong) LEDItem *currentSelectLED;
 @property (nonatomic,strong) NSMutableArray *selectLEDs;
-
+@property (strong, nonatomic) CBCentralManager *centralManager;
+@property  BOOL isRefreing;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *LEDControlView;
@@ -25,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
 
+
+- (IBAction)refreshList:(id)sender;
+
 - (IBAction)lightChange:(id)sender;
 - (IBAction)tempChange:(id)sender;
 
@@ -33,6 +38,7 @@
 @implementation LEDViewController
 
 NSString *kCellID = @"CellLED";                          // UICollectionViewCell storyboard id
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,18 +54,45 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.selectLEDs = [[NSMutableArray alloc] init];
-    [self loadInit];
+//    [self loadInit];
 
     self.LEDCollectionView.dataSource = self;
     self.LEDCollectionView.delegate = self;
     self.LEDCollectionView.allowsSelection = YES;
-    self.LEDCollectionView.allowsMultipleSelection = YES;
+//    self.LEDCollectionView.allowsMultipleSelection = YES;
     
    
     self.lightSlider.enabled = NO;
     self.tempSlider.enabled = NO;
+    
+    
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
+    self.isRefreing = NO;
 
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void) loadInit
+{
+    
+    for(int i = 0; i < 8; i++)
+    {
+        LEDItem *aLED = [[LEDItem alloc] init];
+        aLED.image = [UIImage imageNamed:@"LED0.png"];
+        aLED.name = [NSString stringWithFormat:@"LED %d", i];
+        
+        
+        [((TabBarViewController *)(self.tabBarController)).allLEDs addObject:aLED];
+    }
+    
+}
+
+#pragma mark - LongPressGestureRecognizer
 
 - (void) doLongPress:(UILongPressGestureRecognizer *)sender
 {
@@ -98,12 +131,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
+#pragma mark - CollectonView
 
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -143,73 +172,165 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    LEDItem *aLED = ((TabBarViewController *)(self.tabBarController)).allLEDs[indexPath.row];
+    self.currentSelectLED = ((TabBarViewController *)(self.tabBarController)).allLEDs[indexPath.row];
     
-    
-    if([self.selectLEDs containsObject:aLED])
+    switch (self.currentSelectLED.bluePeripheral.state)
     {
-        aLED.selectedImage = nil;
-        [self.selectLEDs removeObject:aLED];
-        
-        
+        case CBPeripheralStateDisconnected:
+            [self.centralManager connectPeripheral:self.currentSelectLED.bluePeripheral options:nil];
+            break;
+        case CBPeripheralStateConnected:
+            [self.centralManager cancelPeripheralConnection:self.currentSelectLED.bluePeripheral];
+            break;
+        default:
+            break;
     }
-    else
-    {
-        aLED.selectedImage = [UIImage imageNamed:@"LED1.png"];
-        [self.selectLEDs addObject:aLED];
-        
-        [self.lightSlider setValue:aLED.currentLight animated:YES];
-        [self.tempSlider setValue:aLED.currentTemp animated:YES];
-        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentLight];
-        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentTemp];
-    }
-    
-    if (self.selectLEDs.count > 0) {
-        self.lightSlider.enabled = YES;
-        self.tempSlider.enabled = YES;
-    }
-    else
-    {
-        self.lightSlider.enabled = NO;
-        self.tempSlider.enabled = NO;
-    }
-    
-    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
     
 }
 
 
 
 
-- (void) loadInit
-{
+
+
+#pragma mark - LED Refrefing
+
+- (IBAction)refreshList:(id)sender {
+    if (self.isRefreing == NO) {
+        
+        self.isRefreing = YES;
+        
+        [((TabBarViewController *)(self.tabBarController)).allLEDs removeAllObjects];
+        for (LEDItem *LED in self.selectLEDs) {
+            if (CBPeripheralStateConnected == LED.bluePeripheral.state) {
+                [self.centralManager cancelPeripheralConnection:LED.bluePeripheral];
+            }
+        }
+        [self.selectLEDs removeAllObjects];
+        [self.LEDCollectionView reloadData];
     
-    for(int i = 0; i < 8; i++)
-    {
-        LEDItem *aLED = [[LEDItem alloc] init];
-        aLED.image = [UIImage imageNamed:@"LED0.png"];
-        aLED.name = [NSString stringWithFormat:@"LED %d", i];
+        // start progress spinner
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
-        
-        [((TabBarViewController *)(self.tabBarController)).allLEDs addObject:aLED];
+        [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(scanTimer) userInfo:nil repeats:NO];
     }
    
 }
 
+- (void) scanTimer
+{
+    [self.centralManager stopScan];
+    self.isRefreing = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.LEDCollectionView reloadData];
+}
 
+#pragma mark - BLE
+
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+
+}
+
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+   
+    NSMutableArray *LEDs = ((TabBarViewController *)(self.tabBarController)).allLEDs;
+    
+    for (NSInteger i = 0;i < LEDs.count; i++)
+    {
+        LEDItem *LED = LEDs[i];
+        CBPeripheral *p = LED.bluePeripheral;
+        int r = [p.identifier isEqual:peripheral.identifier];
+        if (1 == r)
+        {
+            LED.bluePeripheral = peripheral;
+            return;
+        }
+        else if(-1 == r)
+        {
+            if ([p.name isEqualToString:peripheral.name]) {
+                LED.bluePeripheral = peripheral;
+                return;
+            }
+        }
+        
+    }
+    LEDItem *newLED = [LEDItem new];
+    newLED.bluePeripheral = peripheral;
+    newLED.name = peripheral.name;
+    newLED.image = [UIImage imageNamed:@"LED0.png"];
+   
+    [LEDs addObject:newLED];
+   
+    printf("discover peripheral %s\n", [peripheral.description UTF8String]);
+  
+}
+
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+
+    self.currentSelectLED.selectedImage = [UIImage imageNamed:@"LED1.png"];
+    [self.selectLEDs addObject:self.currentSelectLED];
+//    [self.lightSlider setValue:aLED.currentLight animated:YES];
+//    [self.tempSlider setValue:aLED.currentTemp animated:YES];
+//    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentLight];
+//    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentTemp];
+    
+    
+    self.lightSlider.enabled = YES;
+    self.tempSlider.enabled = YES;
+   
+    
+    [self.LEDCollectionView reloadData];
+    
+    [peripheral discoverServices:LED_SERVICE_UUIDS];
+    
+    peripheral.delegate = self.currentSelectLED;
+    
+    printf("connect peripheral %s\n", [[peripheral.identifier UUIDString] UTF8String]);
+}
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    self.currentSelectLED.selectedImage = nil;
+    [self.selectLEDs removeObject:self.currentSelectLED];
+    
+    if (self.selectLEDs.count == 0)
+    {
+        self.lightSlider.enabled = NO;
+        self.tempSlider.enabled = NO;
+    }
+    [self.LEDCollectionView reloadData];
+    printf("disconnect peripheral %s\n", [[peripheral.identifier UUIDString] UTF8String]);
+}
+
+
+- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+
+}
+
+
+
+#pragma mark - LED Control
 
 - (IBAction)lightChange:(id)sender {
     UISlider *slider = sender;
-    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
  
     for (LEDItem *aLED in self.selectLEDs) {
-        aLED.currentLight = (int)slider.value;
+        if (aLED.currentLight != (int)slider.value) {
+            aLED.currentLight = (int)slider.value;
+        }
+        
     }
 }
 
 - (IBAction)tempChange:(id)sender {
     UISlider *slider = sender;
-    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)slider.value];
+    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
     
     for (LEDItem *aLED in self.selectLEDs) {
         aLED.currentTemp = (int)slider.value;

@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "LEDItem.h"
 
+@import CoreBluetooth;
+
 @interface LEDViewController : UIViewController <UICollectionViewDataSource,
                                                 UICollectionViewDelegate,
-                                                UIActionSheetDelegate>
+                                                UIActionSheetDelegate,
+                                                CBCentralManagerDelegate,
+                                                CBPeripheralDelegate>
 
 @property (weak, nonatomic) LEDItem *editLED;
 

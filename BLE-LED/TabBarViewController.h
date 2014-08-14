@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LEDItem.h"
+@import CoreBluetooth;
 
 @interface TabBarViewController : UITabBarController
 

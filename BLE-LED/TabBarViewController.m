@@ -33,6 +33,8 @@
     self.allScenes = [NSMutableArray new];
     
     
+   
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,6 +42,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - CentralManager
+
+
 
 /*
 #pragma mark - Navigation
