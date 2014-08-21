@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "LEDItem.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface LEDAddViewController : UIViewController
+@interface LEDAddViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
 
 - (IBAction)unWindToAdd:(id)sender;
