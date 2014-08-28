@@ -17,6 +17,8 @@
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreview;
 
+@property (weak, nonatomic) LEDViewController *listVC;
+
 @end
 
 @implementation LEDAddViewController
@@ -35,6 +37,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupCamera];
+    
+    UIViewController *backVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
+    self.listVC = (LEDViewController *)backVC;
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,12 +80,44 @@
 {
     [self.captureSession stopRunning];
     [self.captureVideoPreview removeFromSuperlayer];
-    if (metadataObjects.count > 0) {
+    if (metadataObjects.count > 0)
+    {
         AVMetadataMachineReadableCodeObject *metadata = metadataObjects[0];
         NSLog(@"%@",metadata.stringValue);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:metadata.stringValue delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-        [alert show];
+        if ([self metadataIsVaild:metadata.stringValue])
+        {
+            [self performSegueWithIdentifier:@"toLEDAddEdit" sender:self];
+            
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:metadata.stringValue delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+            [self.navigationController popViewControllerAnimated:YES];
+
+        }
     }
+}
+
+- (BOOL) metadataIsVaild:(NSString *)metadata
+{
+  
+    NSArray *items = [metadata componentsSeparatedByString:@","];
+    
+    if (2 != items.count) {
+        return NO;
+    }
+    NSArray *addrItems = [items[0] componentsSeparatedByString:@":"];
+    if (6 != addrItems.count) {
+        return NO;
+    }
+    for (NSString *addrItem in addrItems) {
+        if (addrItem.intValue > 0xff) {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 

@@ -9,7 +9,7 @@
 #import "LEDItem.h"
 
 @interface LEDItem ()
-@property (strong, nonatomic) NSArray *characteristics;
+
 @end
 
 @implementation LEDItem
@@ -94,40 +94,7 @@
 }
 
 
-- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
-{
-    printf("p:%s discover services\n",[[peripheral.identifier UUIDString] UTF8String]);
-    for (CBService *service in peripheral.services)
-    {
-       
-        if ([service.UUID isEqual:LED_SERVICE_UUID])
-        {
-            [peripheral discoverCharacteristics:LED_CHAR_UUIDS forService:service];
-            
-        }
-    }
-}
 
--(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
-{
-    self.characteristics =  service.characteristics;
-    printf("p:%s,s:%s discover characteristics\n",[[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String]);
-    
-}
-
-- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
-    if (error)
-    {
-        printf("!!!p:%s c:%s err:%s!!!\n",[[peripheral.identifier UUIDString] UTF8String],[characteristic.UUID.data.description UTF8String],[[error description] UTF8String] );
-    }
-   
-}
-
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
-
-}
 
 @end
 

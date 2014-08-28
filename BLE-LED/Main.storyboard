@@ -20,48 +20,55 @@
                                 <rect key="frame" x="0.0" y="423" width="320" height="95"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-A3-QFU">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-A3-QFU">
                                         <rect key="frame" x="75" y="5" width="227" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <connections>
                                             <action selector="lightChange:" destination="NTL-X2-VaZ" eventType="valueChanged" id="cf7-Ik-4Us"/>
                                         </connections>
                                     </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmB-Lu-e4L">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmB-Lu-e4L">
                                         <rect key="frame" x="77" y="46" width="227" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="223" id="6GA-yd-8OA"/>
+                                        </constraints>
                                         <connections>
                                             <action selector="tempChange:" destination="NTL-X2-VaZ" eventType="valueChanged" id="Seu-cK-07f"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="moO-Ul-Zem">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="moO-Ul-Zem">
                                         <rect key="frame" x="20" y="9" width="51" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1O-pt-Lbb">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1O-pt-Lbb">
                                         <rect key="frame" x="20" y="50" width="51" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="wbu-A3-QFU" firstAttribute="leading" secondItem="moO-Ul-Zem" secondAttribute="trailing" constant="6" id="5Yk-g9-lhJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="RmB-Lu-e4L" secondAttribute="trailing" constant="18" id="W3H-bE-a9p"/>
-                                    <constraint firstItem="moO-Ul-Zem" firstAttribute="leading" secondItem="Vzy-iC-nWR" secondAttribute="leading" constant="20" id="ZUl-MS-LWh"/>
-                                    <constraint firstItem="RmB-Lu-e4L" firstAttribute="leading" secondItem="l1O-pt-Lbb" secondAttribute="trailing" constant="8" id="iAL-hZ-t2r"/>
+                                    <constraint firstItem="moO-Ul-Zem" firstAttribute="trailing" secondItem="l1O-pt-Lbb" secondAttribute="trailing" id="49G-0V-Xjj"/>
+                                    <constraint firstItem="moO-Ul-Zem" firstAttribute="leading" secondItem="l1O-pt-Lbb" secondAttribute="leading" id="AIi-Qt-Utb"/>
+                                    <constraint firstAttribute="bottom" secondItem="RmB-Lu-e4L" secondAttribute="bottom" constant="19" id="XeE-lT-xsD"/>
+                                    <constraint firstItem="moO-Ul-Zem" firstAttribute="top" secondItem="Vzy-iC-nWR" secondAttribute="top" constant="9" id="czF-74-PVP"/>
+                                    <constraint firstItem="l1O-pt-Lbb" firstAttribute="top" secondItem="moO-Ul-Zem" secondAttribute="bottom" constant="20" id="eN6-A3-b2E"/>
+                                    <constraint firstItem="RmB-Lu-e4L" firstAttribute="top" secondItem="wbu-A3-QFU" secondAttribute="bottom" constant="11" id="hqK-ku-Gqb"/>
                                     <constraint firstAttribute="height" constant="95" id="j1m-JL-56h"/>
                                     <constraint firstAttribute="trailing" secondItem="wbu-A3-QFU" secondAttribute="trailing" constant="20" id="ldM-rb-7g9"/>
+                                    <constraint firstAttribute="trailing" secondItem="RmB-Lu-e4L" secondAttribute="trailing" constant="18" id="rlt-cO-4LZ"/>
+                                    <constraint firstItem="RmB-Lu-e4L" firstAttribute="leading" secondItem="l1O-pt-Lbb" secondAttribute="trailing" constant="8" symbolic="YES" id="s6h-J9-P2L"/>
+                                    <constraint firstItem="wbu-A3-QFU" firstAttribute="leading" secondItem="moO-Ul-Zem" secondAttribute="trailing" constant="6" id="urg-yN-bwS"/>
                                     <constraint firstItem="l1O-pt-Lbb" firstAttribute="leading" secondItem="Vzy-iC-nWR" secondAttribute="leading" constant="20" id="w2K-bZ-nuP"/>
                                 </constraints>
                             </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-mH-IoL">
                                 <rect key="frame" x="0.0" y="64" width="320" height="360"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9aF-1H-D16">
                                     <size key="itemSize" width="153" height="120"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -76,30 +83,44 @@
                                             <rect key="frame" x="0.0" y="0.0" width="153" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
                                                     <rect key="frame" x="17" y="5" width="119" height="95"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
                                                     <rect key="frame" x="17" y="99" width="118" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ail-SZ-01J">
-                                                    <rect key="frame" x="106" y="5" width="30" height="25"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED1" translatesAutoresizingMaskIntoConstraints="NO" id="0Yk-Id-zRY">
+                                                    <rect key="frame" x="108" y="5" width="28" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zU5-8U-EfJ">
+                                                    <rect key="frame" x="108" y="5" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="f2l-vg-79K" secondAttribute="leading" constant="17" id="5wW-6h-2n4"/>
+                                            <constraint firstItem="6C5-Hj-sZz" firstAttribute="centerX" secondItem="f2l-vg-79K" secondAttribute="centerX" id="DCu-t6-tPJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="oKs-Px-Xi4" secondAttribute="bottom" constant="20" id="Ddw-KY-c9W"/>
+                                            <constraint firstItem="6C5-Hj-sZz" firstAttribute="centerX" secondItem="oKs-Px-Xi4" secondAttribute="centerX" id="V1e-x6-9ST"/>
+                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="6C5-Hj-sZz" secondAttribute="leading" id="csL-iE-35q"/>
+                                            <constraint firstAttribute="bottom" secondItem="6C5-Hj-sZz" secondAttribute="bottom" id="cwF-M8-CFD"/>
+                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="top" secondItem="f2l-vg-79K" secondAttribute="top" constant="5" id="paN-Zw-mCk"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="oKs-Px-Xi4" id="pRn-77-0It"/>
+                                            <outlet property="indicatorActivityView" destination="zU5-8U-EfJ" id="e4e-rJ-OD7"/>
+                                            <outlet property="indicatorImageView" destination="0Yk-Id-zRY" id="6r9-Cv-FYY"/>
                                             <outlet property="nameLabel" destination="6C5-Hj-sZz" id="bzW-Qt-kBd"/>
-                                            <outlet property="selectedImageView" destination="Ail-SZ-01J" id="Xna-Mi-RNV"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -156,6 +177,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="dyu-4X-Mrk"/>
+                    <connections>
+                        <segue destination="EEl-rM-1Mh" kind="push" identifier="toLEDAddEdit" id="5xf-5l-REa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uww-o1-puo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -541,10 +565,14 @@
     </scenes>
     <resources>
         <image name="LED0" width="512" height="512"/>
+        <image name="LED1" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="EtV-f5-RFA"/>
+    </inferredMetricsTieBreakers>
 </document>

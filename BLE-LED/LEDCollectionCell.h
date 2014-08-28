@@ -14,7 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *selectedImageView;
-
+@property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicatorActivityView;
 
 @end

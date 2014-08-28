@@ -10,16 +10,27 @@
 
 @import CoreBluetooth;
 
-@interface LEDItem : NSObject <CBPeripheralDelegate>
+typedef enum {
+    LEDStateDisConnected,
+    LEDStateConnecting,
+    LEDStateStateConnected,
+    LEDStateDiscoverServices,
+    LEDStateDiscoverCharacteristics
+}LEDState;
+
+@interface LEDItem : NSObject
 
 @property (nonatomic) UIImage *image;
 @property (nonatomic) NSString *name;
-@property (nonatomic) UIImage *selectedImage;
 @property (nonatomic, getter = getLight) unsigned char currentLight;
 @property (nonatomic) unsigned char currentTemp;
 @property (nonatomic) CBPeripheral *bluePeripheral;
+@property (strong, nonatomic) NSArray *characteristics;
+@property LEDState state;
 
 @end
+
+
 
 #define LED_LIGHT_MAX           255
 #define LED_TEMP_MAX            255
