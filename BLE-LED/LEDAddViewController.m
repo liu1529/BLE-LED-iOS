@@ -8,16 +8,19 @@
 
 #import "LEDAddViewController.h"
 #import "LEDViewController.h"
+#import "LEDEditViewController.h"
 
 @interface LEDAddViewController ()
+{
+    NSTimer *_scanTimer;
+}
 
-@property (strong, nonatomic) AVCaptureDevice *captureDevice;
-@property (strong, nonatomic) AVCaptureDeviceInput *captureDeviceInput;
-@property (strong, nonatomic) AVCaptureMetadataOutput *captureMetadataOutput;
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreview;
 
-@property (weak, nonatomic) LEDViewController *listVC;
+
+@property (weak, nonatomic) IBOutlet UIImageView *backImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *scanLineImageView;
 
 @end
 
@@ -36,10 +39,31 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
     [self setupCamera];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+   
     
-    UIViewController *backVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
-    self.listVC = (LEDViewController *)backVC;
+    
+   
+
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+   
+    [self.captureSession stopRunning];
+    [_scanTimer invalidate];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,36 +74,79 @@
 
 - (void) setupCamera
 {
-    self.captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     
-    self.captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:self.captureDevice error:nil];
+    AVCaptureDeviceInput *captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
     
-    self.captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
-    [self.captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
+    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
     
+
+    
+    //capture
     self.captureSession = [[AVCaptureSession alloc] init];
-    [self.captureSession setSessionPreset:AVCaptureSessionPresetHigh];
-    if ([self.captureSession canAddInput:self.captureDeviceInput]) {
-        [self.captureSession addInput:self.captureDeviceInput];
-    }
-    if ([self.captureSession canAddOutput:self.captureMetadataOutput]) {
-        [self.captureSession addOutput:self.captureMetadataOutput];
-    }
     
-    self.captureMetadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
+    [self.captureSession setSessionPreset:AVCaptureSessionPresetHigh];
+    if ([self.captureSession canAddInput:captureDeviceInput])
+    {
+        [self.captureSession addInput:captureDeviceInput];
+    }
+
+    if ([self.captureSession canAddOutput:captureMetadataOutput])
+    {
+        [self.captureSession addOutput:captureMetadataOutput];
+    }
+    //扫描类型为二维码
+    captureMetadataOutput.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
     
     self.captureVideoPreview = [AVCaptureVideoPreviewLayer layerWithSession:self.captureSession];
     self.captureVideoPreview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [self.captureVideoPreview setFrame:self.view.frame];
-    [self.view.layer addSublayer:self.captureVideoPreview];
     
+    self.captureVideoPreview.frame = self.backImageView.frame;
+    [self.view.layer insertSublayer:self.captureVideoPreview atIndex:0];
+    
+     _scanTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(scanTimer:) userInfo:nil repeats:YES];
     [self.captureSession startRunning];
+    
+}
+
+- (void) scanTimer:(NSTimer *)timer
+{
+    CGRect backFrame = self.backImageView.frame;
+    static CGFloat yLine = 0;
+    static BOOL directDown = YES;
+    
+    if (directDown)
+    {
+        yLine += 2;
+        if (yLine >= backFrame.size.height)
+        {
+            yLine = backFrame.size.height;
+            directDown = !directDown;
+        }
+    }
+    else
+    {
+       
+        yLine -= 2;
+        if (yLine <= 0) {
+            yLine = 0;
+            directDown = !directDown;
+        }
+
+    }
+    self.scanLineImageView.frame = CGRectMake(
+                                              backFrame.origin.x,
+                                              backFrame.origin.y + yLine,
+                                              self.scanLineImageView.frame.size.width,
+                                              self.scanLineImageView.frame.size.height);
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     [self.captureSession stopRunning];
     [self.captureVideoPreview removeFromSuperlayer];
+    [_scanTimer invalidate];
     if (metadataObjects.count > 0)
     {
         AVMetadataMachineReadableCodeObject *metadata = metadataObjects[0];
@@ -87,17 +154,23 @@
         if ([self metadataIsVaild:metadata.stringValue])
         {
             [self performSegueWithIdentifier:@"toLEDAddEdit" sender:self];
-            
+            self.theAddLED.name = [self metadataGetName:metadata.stringValue];
+            self.theAddLED.blueAddr = [self metadataGetName:metadata.stringValue];
         }
         else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:metadata.stringValue delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
             [alert show];
-            [self.navigationController popViewControllerAnimated:YES];
+            if (self.completionBlock)
+            {
+                self.completionBlock(NO);
+            }
 
         }
     }
 }
+
+
 
 - (BOOL) metadataIsVaild:(NSString *)metadata
 {
@@ -120,6 +193,18 @@
     return YES;
 }
 
+- (NSString *) metadataGetAddr:(NSString *)metadata
+{
+    NSArray *items = [metadata componentsSeparatedByString:@","];
+    return items[0];
+}
+
+- (NSString *) metadataGetName:(NSString *)metadata
+{
+    NSArray *items = [metadata componentsSeparatedByString:@","];
+    return items[1];
+}
+
 
 #pragma mark - Navigation
 
@@ -128,12 +213,24 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"toLEDAddEdit"])
+    {
+        LEDEditViewController *editVC = segue.destinationViewController;
+        editVC.editLED = self.theAddLED;
+        editVC.completionBlock = ^(BOOL success)
+        {
+            if (self.completionBlock)
+            {
+                self.completionBlock(success);
+                
+            }
+           
+        };
+    }
 }
 
-- (IBAction)unWindToAdd:(id)sender
-{
-    
-}
+
 
 
 @end

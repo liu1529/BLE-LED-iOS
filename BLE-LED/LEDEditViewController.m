@@ -19,6 +19,7 @@
 
 - (IBAction)hideKeyboard:(id)sender;
 - (IBAction)doneEdit:(id)sender;
+- (IBAction)cancelEdit:(id)sender;
 
 
 @property (weak,nonatomic) LEDViewController *listViewController;
@@ -56,23 +57,8 @@
                     [NSString stringWithFormat:@"LED%d.png",i]]];
     }
   
-   
-    
-    UIViewController *backVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
-    
-    if ([backVC isKindOfClass:[LEDViewController class]]) {
-        self.listViewController = (LEDViewController *)backVC;
-        //set the led's image and name
-        self.LEDImageView.image = self.listViewController.editLED.image;
-        self.LEDNameLabel.text = self.listViewController.editLED.name;
-    }
-    else if([backVC isKindOfClass:[LEDAddViewController class]]){
-        self.addViewController = (LEDAddViewController *)backVC;
-        self.listViewController = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 3];
-        self.LEDImageView.image = self.allImages[0];
-        
-        
-    }
+    self.LEDImageView.image = self.editLED.image;
+    self.LEDNameLabel.text = self.editLED.name;
 
 
 }
@@ -137,23 +123,19 @@
     [self.LEDNameLabel resignFirstResponder];
 }
 
+- (IBAction)cancelEdit:(id)sender
+{
+    if (self.completionBlock) {
+        self.completionBlock(NO);
+    }
+}
+
 - (IBAction)doneEdit:(id)sender {
-    [self.navigationController popToViewController:self.listViewController animated:YES];
-    if (self.addViewController)
-    {
-        LEDItem *newLED = [LEDItem new];
-       
-        newLED.image = self.LEDImageView.image;
-        newLED.name = self.LEDNameLabel.text;
-        [((TabBarViewController *)(self.tabBarController)).allLEDs addObject:newLED];
-        
+
+    self.editLED.image = self.LEDImageView.image;
+    self.editLED.name = self.LEDNameLabel.text;
+    if (self.completionBlock) {
+        self.completionBlock(YES);
     }
-    else
-    {
-        self.listViewController.editLED.image = self.LEDImageView.image;
-        self.listViewController.editLED.name = self.LEDNameLabel.text;
-    }
-   
-    [self.listViewController unWindToList:sender];
 }
 @end

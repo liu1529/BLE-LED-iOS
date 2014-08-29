@@ -8,7 +8,7 @@
 
 #import "LEDItem.h"
 
-@interface LEDItem ()
+@interface LEDItem () <NSCopying>
 
 @end
 
@@ -22,9 +22,28 @@
     LED.name = self.name;
     LED.currentLight = self.currentLight;
     LED.currentTemp = self.currentTemp;
+    LED.bluePeripheral = self.bluePeripheral;
+    LED.state = self.state;
     
     return LED;
 }
+
+
++ (id)LEDWithName:(NSString *)name Image:(UIImage *)image
+{
+    return [[LEDItem alloc] initWithName:name Image:image];
+}
+
+- (id)initWithName:(NSString *)name Image:(UIImage *)image
+{
+    if (self = [super init]) {
+        self.name = name;
+        self.image = image;
+        self.state = LEDStateDisSelected;
+    }
+    return self;
+}
+
 
 - (void)setCurrentLight:(unsigned char)currentLight
 {

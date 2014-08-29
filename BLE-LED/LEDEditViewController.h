@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "LEDViewController.h"
 
+typedef void (^LEDEditCompletionBlock)(BOOL success);
+
 @interface LEDEditViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-
+@property (strong, nonatomic) LEDItem *editLED;
+@property (copy, nonatomic) LEDEditCompletionBlock completionBlock;
 
 @end

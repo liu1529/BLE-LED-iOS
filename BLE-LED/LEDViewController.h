@@ -16,13 +16,9 @@
 @interface LEDViewController : UIViewController <UICollectionViewDataSource,
                                                 UICollectionViewDelegate,
                                                 UIActionSheetDelegate,
-                                                CBCentralManagerDelegate,
-                                                CBPeripheralDelegate>
-
-@property (weak, nonatomic) LEDItem *editLED;
+                                                CBCentralManagerDelegate>
 
 
-- (IBAction)unWindToList:(id)sender;
 
 
 @end

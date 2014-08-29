@@ -20,9 +20,12 @@
                                 <rect key="frame" x="0.0" y="423" width="320" height="95"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-A3-QFU">
+                                    <slider opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="fill" contentVerticalAlignment="center" minValue="0.0" maxValue="255" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbu-A3-QFU">
                                         <rect key="frame" x="75" y="5" width="227" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="minimumTrackTintColor" red="0.9337863246" green="0.25503330610000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="maximumTrackTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="thumbTintColor" red="0.73000663529999998" green="1" blue="0.78698403859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="lightChange:" destination="NTL-X2-VaZ" eventType="valueChanged" id="cf7-Ik-4Us"/>
                                         </connections>
@@ -174,10 +177,29 @@
                     <view key="view" contentMode="scaleToFill" id="nqV-hi-n9K">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pick_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Ahv-74-qbH">
+                                <rect key="frame" x="20" y="132" width="280" height="272"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="hLV-2V-AXk">
+                                <rect key="frame" x="20" y="250" width="280" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="viewtinder rectangle to scan it" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqW-1p-Cfw">
+                                <rect key="frame" x="39" y="91" width="242" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="dyu-4X-Mrk"/>
                     <connections>
+                        <outlet property="backImageView" destination="Ahv-74-qbH" id="9qz-dE-PFA"/>
+                        <outlet property="scanLineImageView" destination="hLV-2V-AXk" id="Ndo-sN-YKz"/>
                         <segue destination="EEl-rM-1Mh" kind="push" identifier="toLEDAddEdit" id="5xf-5l-REa"/>
                     </connections>
                 </viewController>
@@ -344,13 +366,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="2vq-df-Uc1">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="T9M-Zj-w3H">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="1mQ-ny-5Jv">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="SMe-cZ-pJo">
                             <connections>
-                                <action selector="doneEdit:" destination="EEl-rM-1Mh" id="Wjz-sx-P0G"/>
+                                <action selector="cancelEdit:" destination="EEl-rM-1Mh" id="bnQ-K3-dyP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="eXQ-vp-CkH">
+                            <connections>
+                                <action selector="doneEdit:" destination="EEl-rM-1Mh" id="vFu-8H-TIN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="LEDImageView" destination="1jZ-Bv-931" id="jFz-9K-uGJ"/>
                         <outlet property="LEDNameLabel" destination="OBT-kR-lcD" id="7gA-C0-Dyt"/>
@@ -566,6 +595,8 @@
     <resources>
         <image name="LED0" width="512" height="512"/>
         <image name="LED1" width="256" height="256"/>
+        <image name="line" width="220" height="5"/>
+        <image name="pick_bg" width="280" height="280"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

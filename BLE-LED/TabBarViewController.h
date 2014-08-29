@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LEDItem.h"
+#import "DataModel.h"
+
 @import CoreBluetooth;
 
 @interface TabBarViewController : UITabBarController
 
 @property (nonatomic,strong) NSMutableArray *allLEDs;
 @property (nonatomic,strong) NSMutableArray *allScenes;
+
 
 @end
