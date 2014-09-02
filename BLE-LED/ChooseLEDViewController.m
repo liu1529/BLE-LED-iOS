@@ -187,7 +187,7 @@
     
     if (self.editLED)
     {
-        [self.editScene replaceLEDAtIndex:[self.editScene.LEDs indexOfObject:self.editLED] withLED:self.selectedLED];
+        [self.editScene replaceLED:self.editLED withLED:self.self.selectedLED];
     }
     else
     {

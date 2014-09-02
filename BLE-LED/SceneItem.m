@@ -12,6 +12,8 @@
 @interface SceneItem()
 
 @property (strong, nonatomic) NSMutableArray *LEDs;
+@property (strong, nonatomic) NSMutableArray *lights;
+@property (strong, nonatomic) NSMutableArray *temps;
 
 @end
 
@@ -19,7 +21,7 @@
 
 - (NSArray *)keysForEncoding;
 {
-    return @[@"name", @"image", @"LEDs"];
+    return @[@"name", @"image", @"LEDs", @"lights", @"temps"];
 }
 
 + (SceneItem *)SceneWithName:(NSString *)name Image:(UIImage *)image
@@ -53,26 +55,47 @@
         self.name = name;
         self.image = image;
         self.LEDs = [[NSMutableArray alloc] init];
+        self.lights = [[NSMutableArray alloc] init];
+        self.temps = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void) addLED:(LEDItem *)aLED
 {
-    [self.LEDs addObject:[aLED copy]];
+    [self.LEDs addObject:aLED];
+    [self.lights addObject:@(aLED.currentLight)];
+    [self.temps addObject:@(aLED.currentTemp)];
    
 }
 - (void) removeLED:(LEDItem *)aLED
 {
-    if ([self.LEDs containsObject:aLED]) {
-        [self.LEDs removeObject:aLED];
+    NSUInteger index = [self.LEDs indexOfObject:aLED];
+    if (index != NSNotFound) {
+        [self.LEDs removeObjectAtIndex:index];
+        [self.lights removeObjectAtIndex:index];
+        [self.temps removeObjectAtIndex:index];
+        
     }
 }
 
 - (void) replaceLEDAtIndex:(NSUInteger )index withLED:(LEDItem *)aLED
 {
-    self.LEDs[index] = [aLED copy];
+    self.LEDs[index] = aLED;
+    self.lights[index] = @(aLED.currentLight);
+    self.temps[index] = @(aLED.currentTemp);
     
+    
+}
+
+- (void) replaceLED:(LEDItem *)old withLED:(LEDItem *)now
+{
+     NSUInteger index = [self.LEDs indexOfObject:old];
+    if (index != NSNotFound) {
+        self.LEDs[index] = now;
+        self.lights[index] = @(now.currentLight);
+        self.temps[index] = @(now.currentTemp);
+    }
 }
 
 - (void) call

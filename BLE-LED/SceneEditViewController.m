@@ -72,8 +72,8 @@
     LEDItem *aLED = self.editScene.LEDs[indexPath.row];
    
     
-    unsigned char light = aLED.currentLight;
-    unsigned char temp = aLED.currentTemp;
+    unsigned char light = [self.editScene.lights[indexPath.row] unsignedCharValue];
+    unsigned char temp = [self.editScene.temps[indexPath.row] unsignedCharValue];
     
     cell.imageView.image = aLED.image;
     cell.textLabel.text = aLED.name;
