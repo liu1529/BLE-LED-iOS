@@ -9,6 +9,7 @@
 #import "LEDAddViewController.h"
 #import "LEDViewController.h"
 #import "LEDEditViewController.h"
+#import "DataModel.h"
 
 @interface LEDAddViewController ()
 {
@@ -153,9 +154,33 @@
         NSLog(@"%@",metadata.stringValue);
         if ([self metadataIsVaild:metadata.stringValue])
         {
-            [self performSegueWithIdentifier:@"toLEDAddEdit" sender:self];
+            self.theAddLED.blueAddrWithColon = [self metadataGetAddr:metadata.stringValue];
+            if (self.theAddLED.blueAddrWithColon == nil) {
+                return;
+            }
             self.theAddLED.name = [self metadataGetName:metadata.stringValue];
-            self.theAddLED.blueAddr = [self metadataGetName:metadata.stringValue];
+
+            
+            for (LEDItem *aLED in [DataModel sharedDataModel].LEDs)
+            {
+                if ([aLED.blueAddr isEqualToString:self.theAddLED.blueAddr])
+                {
+                    
+                    NSString *msg = [NSString stringWithFormat:@"LED:%@ have been added in the list",aLED.blueAddr];
+                     UIAlertView *alert = [[UIAlertView alloc]
+                                           initWithTitle:nil
+                                           message:msg
+                                           delegate:nil
+                                           cancelButtonTitle:@"Cancel"
+                                           otherButtonTitles:nil];
+                    [alert show];
+                    if (self.completionBlock) {
+                        self.completionBlock(NO);
+                    }
+                    return;
+                }
+            }
+            [self performSegueWithIdentifier:@"toLEDAddEdit" sender:self];
         }
         else
         {
@@ -180,16 +205,6 @@
     if (2 != items.count) {
         return NO;
     }
-    NSArray *addrItems = [items[0] componentsSeparatedByString:@":"];
-    if (6 != addrItems.count) {
-        return NO;
-    }
-    for (NSString *addrItem in addrItems) {
-        if (addrItem.intValue > 0xff) {
-            return NO;
-        }
-    }
-    
     return YES;
 }
 

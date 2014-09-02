@@ -19,6 +19,16 @@
 
 @implementation DataModel
 
+static DataModel *_sharedDataModel = nil;
+
++ (DataModel *)sharedDataModel
+{
+    if (!_sharedDataModel) {
+        _sharedDataModel = [[self alloc] init];
+    }
+    return _sharedDataModel;
+}
+
 - (id)init
 {
     if (self = [super init])
@@ -62,6 +72,11 @@
 {
     aLED.state = LEDStateDisSelected;
     [self.selectLEDs removeObject:aLED];
+}
+
+- (void) removeSceneFromList:(SceneItem *)scene
+{
+    [self.Scenes removeObject:scene];
 }
 
 - (void) clearLEDs

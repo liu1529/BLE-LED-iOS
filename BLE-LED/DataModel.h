@@ -10,12 +10,15 @@
 #import "LEDItem.h"
 #import "SceneItem.h"
 
+@import AudioToolbox;
+
 @interface DataModel : NSObject
 
 @property (strong, nonatomic, readonly) NSMutableArray *LEDs;
 @property (strong, nonatomic, readonly) NSMutableArray *selectLEDs;
 @property (strong, nonatomic, readonly) NSMutableArray *Scenes;
 
++ (DataModel *) sharedDataModel;
 
 - (void) addLEDToList:(LEDItem *)aLED;
 - (void) addLEDtoSelects:(LEDItem *) aLED;
@@ -24,6 +27,7 @@
 
 - (void) removeLEDFromList:(LEDItem *)aLED;
 - (void) removeLEDFromSelects:(LEDItem *)aLED;
+- (void) removeSceneFromList:(SceneItem *)scene;
 
 - (void) clearLEDs;
 - (void) clearSelectsLEDs;

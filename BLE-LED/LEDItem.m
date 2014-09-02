@@ -9,7 +9,7 @@
 #import "LEDItem.h"
 
 @interface LEDItem () <NSCopying>
-
+@property (copy, nonatomic) NSString *blueAddr;
 @end
 
 @implementation LEDItem
@@ -22,10 +22,17 @@
     LED.name = self.name;
     LED.currentLight = self.currentLight;
     LED.currentTemp = self.currentTemp;
+    LED.blueAddr = self.blueAddr;
     LED.bluePeripheral = self.bluePeripheral;
+    LED.characteristics = self.characteristics;
     LED.state = self.state;
     
     return LED;
+}
+
+- (BOOL)isEqual:(id)object
+{
+    return [[self blueAddr] isEqualToString:[object blueAddr]];
 }
 
 
@@ -44,6 +51,22 @@
     return self;
 }
 
+- (void)setBlueAddrWithColon:(NSString *)blueAddrWithColon
+{
+    NSArray *items = [blueAddrWithColon componentsSeparatedByString:@":"];
+    if (items.count != 6) {
+        return;
+    }
+    NSMutableString *addr = [[NSMutableString alloc] init];
+    for (NSString *addrItem in items) {
+        if (addrItem.intValue > 0xff) {
+            return;
+        }
+        [addr appendString:addrItem];
+    }
+    _blueAddrWithColon = blueAddrWithColon;
+    _blueAddr = addr;
+}
 
 - (void)setCurrentLight:(unsigned char)currentLight
 {

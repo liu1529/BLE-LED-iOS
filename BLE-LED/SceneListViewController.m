@@ -8,16 +8,22 @@
 
 #import "SceneListViewController.h"
 #import "SceneCollectionCell.h"
-#import "TabBarViewController.h"
+#import "DataModel.h"
+#import "SceneEditViewController.h"
 
 
 @interface SceneListViewController ()
 
-
+@property (strong,nonatomic) SceneItem* editScene;
 
 @end
 
 @implementation SceneListViewController
+{
+    DataModel *_dataModel;
+}
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +38,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _dataModel = [DataModel sharedDataModel];
    
 }
 
@@ -47,7 +55,7 @@
 {
     if (sender.state == UIGestureRecognizerStateBegan) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                      initWithTitle:@"Del or edit it?"
+                                      initWithTitle:nil
                                       delegate:self
                                       cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:@"Del It"
@@ -60,7 +68,7 @@
                               indexPathForItemAtPoint:
                               [sender locationInView:self.collectionView]];
         
-        self.editScene = ((TabBarViewController *)(self.tabBarController)).allScenes[index.row];
+        self.editScene = _dataModel.Scenes[index.row];
     }
     
 }
@@ -69,7 +77,7 @@
 {
     switch (buttonIndex) {
         case 0:
-            [((TabBarViewController *)(self.tabBarController)).allScenes removeObject:self.editScene];
+            [_dataModel removeSceneFromList:self.editScene];
             [self.collectionView reloadData];
             break;
         case 1:
@@ -84,13 +92,13 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return ((TabBarViewController *)self.tabBarController).allScenes.count;
+    return _dataModel.Scenes.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SceneCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellScene" forIndexPath:indexPath];
-    SceneItem *scene = ((TabBarViewController *)self.tabBarController).allScenes[indexPath.row];
+    SceneItem *scene = _dataModel.Scenes[indexPath.row];
     
     
     
@@ -112,7 +120,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    SceneItem *scene = [DataModel sharedDataModel].Scenes[indexPath.row];
+    [scene call];
 }
 
 
@@ -126,35 +135,38 @@
    
     if ([sender isKindOfClass:[UIBarButtonItem class]])
     {
-        if (self.addScene == nil)
+        SceneEditViewController *editVC = segue.destinationViewController;
+        SceneItem *theNewScene = [SceneItem SceneWithName:@"new scene" Image:[UIImage imageNamed:@"scene4.png"]];
+        editVC.editScene = theNewScene;
+        editVC.completionBlock = ^(BOOL success)
         {
-            self.addScene = [SceneItem new];
-            self.addScene.image = [UIImage imageNamed:@"scene4.png"];
-            self.addScene.LEDs = [NSMutableArray new];
-            self.addScene.lights = [NSMutableArray new];
-            self.addScene.temps = [NSMutableArray new];
-        }
-        
+            if (success)
+            {
+                [_dataModel addScene:theNewScene];
+                [self.collectionView reloadData];
+            }
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        };
 
     }
     else if ([sender isKindOfClass:[UIActionSheet class]])
     {
-       
+        SceneEditViewController *editVC = segue.destinationViewController;
+        editVC.editScene = self.editScene;
+        editVC.completionBlock = ^(BOOL success)
+        {
+            if (success)
+            {
+                [self.collectionView reloadData];
+            }
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        };
+
         
     }
     
 }
 
-
-- (IBAction)unWindToHere: (id)sender
-{
-    if (self.addScene.LEDs.count > 0) {
-        [((TabBarViewController *)self.tabBarController).allScenes addObject:self.addScene];
-        [self.collectionView reloadData];
-    }
-    self.addScene = nil;
-    self.editScene = nil;
-}
 
 
 @end

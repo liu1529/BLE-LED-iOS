@@ -11,9 +11,5 @@
 
 @interface SceneListViewController : UICollectionViewController <UIActionSheetDelegate>
 
-@property (strong,nonatomic) SceneItem* addScene;
-@property (weak,nonatomic) SceneItem* editScene;
-
-- (IBAction)unWindToHere: (id)sender;
 
 @end

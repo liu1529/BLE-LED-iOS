@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1F037A4719933E9C002E099E /* SceneListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A4619933E9C002E099E /* SceneListViewController.m */; };
 		1F037A4A19934014002E099E /* SceneItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A4919934014002E099E /* SceneItem.m */; };
-		1F037A4E19934187002E099E /* SceneAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A4D19934187002E099E /* SceneAddViewController.m */; };
+		1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A4D19934187002E099E /* SceneEditViewController.m */; };
 		1F037A5119934EE5002E099E /* SceneLEDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A5019934EE5002E099E /* SceneLEDTableViewCell.m */; };
 		1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F05128D19935F8D00AC0DDB /* TabBarViewController.m */; };
 		1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260AA1990D165005FA983 /* CellBackGroud.m */; };
@@ -34,6 +34,7 @@
 		1F98B86F1986435100C77187 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B8511986435000C77187 /* UIKit.framework */; };
 		1F98B8771986435100C77187 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B8751986435100C77187 /* InfoPlist.strings */; };
 		1F98B8791986435100C77187 /* BLE_LEDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8781986435100C77187 /* BLE_LEDTests.m */; };
+		1F9F6D4019B0771D00A0B3D1 /* UIImage+Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +52,8 @@
 		1F037A4619933E9C002E099E /* SceneListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneListViewController.m; path = "BLE-LED/SceneListViewController.m"; sourceTree = "<group>"; };
 		1F037A4819934014002E099E /* SceneItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneItem.h; path = "BLE-LED/SceneItem.h"; sourceTree = "<group>"; };
 		1F037A4919934014002E099E /* SceneItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneItem.m; path = "BLE-LED/SceneItem.m"; sourceTree = "<group>"; };
-		1F037A4C19934187002E099E /* SceneAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneAddViewController.h; path = "BLE-LED/SceneAddViewController.h"; sourceTree = "<group>"; };
-		1F037A4D19934187002E099E /* SceneAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneAddViewController.m; path = "BLE-LED/SceneAddViewController.m"; sourceTree = "<group>"; };
+		1F037A4C19934187002E099E /* SceneEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneEditViewController.h; path = "BLE-LED/SceneEditViewController.h"; sourceTree = "<group>"; };
+		1F037A4D19934187002E099E /* SceneEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneEditViewController.m; path = "BLE-LED/SceneEditViewController.m"; sourceTree = "<group>"; };
 		1F037A4F19934EE5002E099E /* SceneLEDTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneLEDTableViewCell.h; path = "BLE-LED/SceneLEDTableViewCell.h"; sourceTree = "<group>"; };
 		1F037A5019934EE5002E099E /* SceneLEDTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneLEDTableViewCell.m; path = "BLE-LED/SceneLEDTableViewCell.m"; sourceTree = "<group>"; };
 		1F05128C19935F8D00AC0DDB /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = "BLE-LED/TabBarViewController.h"; sourceTree = "<group>"; };
@@ -92,6 +93,8 @@
 		1F98B8741986435100C77187 /* BLE-LEDTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BLE-LEDTests-Info.plist"; sourceTree = "<group>"; };
 		1F98B8761986435100C77187 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1F98B8781986435100C77187 /* BLE_LEDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLE_LEDTests.m; sourceTree = "<group>"; };
+		1F9F6D3E19B0771D00A0B3D1 /* UIImage+Tint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Tint.h"; path = "BLE-LED/UIImage+Tint.h"; sourceTree = "<group>"; };
+		1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Tint.m"; path = "BLE-LED/UIImage+Tint.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +135,8 @@
 		1F037A4B19934139002E099E /* Add */ = {
 			isa = PBXGroup;
 			children = (
-				1F037A4C19934187002E099E /* SceneAddViewController.h */,
-				1F037A4D19934187002E099E /* SceneAddViewController.m */,
+				1F037A4C19934187002E099E /* SceneEditViewController.h */,
+				1F037A4D19934187002E099E /* SceneEditViewController.m */,
 				1F037A4F19934EE5002E099E /* SceneLEDTableViewCell.h */,
 				1F037A5019934EE5002E099E /* SceneLEDTableViewCell.m */,
 				1F5AC3C519937A30001A1EC8 /* ChooseLEDViewController.h */,
@@ -153,6 +156,8 @@
 				1F1ED95719AF0C6400E954DE /* DataModel.h */,
 				1F1ED95819AF0C6400E954DE /* DataModel.m */,
 				1F1260C81990D477005FA983 /* AppDelegate.h */,
+				1F9F6D3E19B0771D00A0B3D1 /* UIImage+Tint.h */,
+				1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */,
 				1F1260C91990D477005FA983 /* AppDelegate.m */,
 				1F1260B41990D165005FA983 /* Main.storyboard */,
 				1F1260BA1990D1D8005FA983 /* Supporting Files */,
@@ -372,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9F6D4019B0771D00A0B3D1 /* UIImage+Tint.m in Sources */,
 				1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */,
 				1F1260BC1990D317005FA983 /* main.m in Sources */,
 				1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */,
@@ -382,7 +388,7 @@
 				1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */,
 				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
 				1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */,
-				1F037A4E19934187002E099E /* SceneAddViewController.m in Sources */,
+				1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */,
 				1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */,
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,

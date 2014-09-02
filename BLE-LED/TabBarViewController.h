@@ -13,8 +13,5 @@
 
 @interface TabBarViewController : UITabBarController
 
-@property (nonatomic,strong) NSMutableArray *allLEDs;
-@property (nonatomic,strong) NSMutableArray *allScenes;
-
 
 @end

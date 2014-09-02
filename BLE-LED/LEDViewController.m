@@ -13,11 +13,13 @@
 #import "LEDAddViewController.h"
 #import "AppDelegate.h"
 #import "DataModel.h"
+#import "UIImage+Tint.h"
 
 @interface LEDViewController ()  <CBPeripheralDelegate>
 {
     DataModel *_dataModel;
     LEDItem *_editLED;
+    NSMutableArray *_discoverPeripherals;
 }
 
 @property (strong, nonatomic) CBCentralManager *centralManager;
@@ -59,8 +61,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     self = [super initWithCoder:aDecoder];
     if (self)
     {
-        _dataModel = [[DataModel alloc] init];
-        
+        _dataModel = [DataModel sharedDataModel];
+        _discoverPeripherals = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -112,6 +114,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     for(int i = 0; i < 8; i++)
     {
         LEDItem *aLED = [LEDItem LEDWithName:[NSString stringWithFormat:@"LED %i", i] Image:[UIImage imageNamed:@"LED0.png"]];
+        aLED.blueAddrWithColon = [NSString stringWithFormat:@"00:00:00:00:00:%02d",i];
         [_dataModel addLEDToList:aLED];
     }
     
@@ -174,8 +177,15 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     LEDCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellID forIndexPath:indexPath];
     
     LEDItem *aLED = _dataModel.LEDs[indexPath.row];
-    cell.imageView.image = aLED.image;
     cell.nameLabel.text = aLED.name;
+    
+    if (aLED.bluePeripheral) {
+        cell.imageView.image = aLED.image;
+    }
+    else
+    {
+        cell.imageView.image = [aLED.image imageWithTintColor:[UIColor grayColor]];
+    }
     
     switch (aLED.state)
     {
@@ -245,6 +255,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (IBAction)refreshList:(id)sender {
     if (self.isRefreing == NO) {
         
+        [_discoverPeripherals removeAllObjects];
         self.isRefreing = YES;
         
         for (LEDItem *LED in _dataModel.LEDs)
@@ -253,7 +264,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 [self.centralManager cancelPeripheralConnection:LED.bluePeripheral];
             }
         }
-        [_dataModel clearLEDs];
+        [_dataModel clearSelectsLEDs];
         self.lightSlider.enabled = NO;
         self.tempSlider.enabled = NO;
         [self.LEDCollectionView reloadData];
@@ -326,15 +337,24 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             LED.bluePeripheral = peripheral;
             return;
         }
-        
     }
-    LEDItem *aLED = [LEDItem LEDWithName:peripheral.name Image:[UIImage imageNamed:@"LED0.png"]];
-    aLED.bluePeripheral = peripheral;
     
-    [_dataModel addLEDToList:aLED];
-    [self.LEDCollectionView reloadData];
-   
+    for (CBPeripheral *p in _discoverPeripherals) {
+        if ([p.identifier isEqual:peripheral.identifier]) {
+            return;
+        }
+    }
+    [_discoverPeripherals addObject:peripheral];
+//    LEDItem *aLED = [LEDItem LEDWithName:peripheral.name Image:[UIImage imageNamed:@"LED0.png"]];
+//    aLED.bluePeripheral = peripheral;
+//    aLED.isValid = YES;
+//    
+//    [_dataModel addLEDToList:aLED];
+//    [self.LEDCollectionView reloadData];
+    
+    
     printf("discover peripheral %s\n", [peripheral.description UTF8String]);
+     [_centralManager connectPeripheral:peripheral options:nil];
    
   
 }
@@ -431,20 +451,30 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
    
     if (!error)
     {
-        for (LEDItem *aLED in _dataModel.LEDs)
+//        for (LEDItem *aLED in _dataModel.LEDs)
+//        {
+//            if (aLED.bluePeripheral == peripheral)
+//            {
+//                
+//                aLED.characteristics = service.characteristics;
+//                [_dataModel addLEDtoSelects:aLED];
+//                [self.LEDCollectionView reloadData];
+//                break;
+//            }
+//        }
+        
+        for (CBCharacteristic *charac in service.characteristics)
         {
-            if (aLED.bluePeripheral == peripheral)
+            if ([charac.UUID isEqual:LED_CHAR_ID_UUID] &&
+                charac.properties & CBCharacteristicPropertyRead)
             {
-                
-                aLED.characteristics = service.characteristics;
-                [_dataModel addLEDtoSelects:aLED];
-                [self.LEDCollectionView reloadData];
-                break;
+                [peripheral readValueForCharacteristic:charac];
             }
         }
         
-        self.lightSlider.enabled = YES;
-        self.tempSlider.enabled = YES;
+        
+//        self.lightSlider.enabled = YES;
+//        self.tempSlider.enabled = YES;
         
         printf("p:%s,s:%s discover characteristics\n",[[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String]);
     }
@@ -458,14 +488,62 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     if (error)
     {
-        printf("!!!p:%s c:%s err:%s!!!\n",[[peripheral.identifier UUIDString] UTF8String],[characteristic.UUID.data.description UTF8String],[[error description] UTF8String] );
+        printf("!!!p:%s c:%s write err:%s!!!\n",[[peripheral.identifier UUIDString] UTF8String],[characteristic.UUID.data.description UTF8String],[[error description] UTF8String] );
     }
     
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    
+    if (!error)
+    {
+       
+        printf("p:%s c:%s read value:%s\n",
+               [[peripheral.identifier UUIDString] UTF8String],
+               [characteristic.UUID.data.description UTF8String],
+               [[characteristic.value description] UTF8String]);
+        
+        if (characteristic.value.length != 6) {
+            [_centralManager cancelPeripheralConnection:peripheral];
+            [_discoverPeripherals removeObject:peripheral];
+            return;
+        }
+        
+        
+        
+        __block NSMutableString *recvAddrString = [[NSMutableString alloc] init];
+        [characteristic.value enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+            Byte *p = (Byte *)(bytes + byteRange.length - 1);
+            for (NSUInteger i = 0; i < byteRange.length; i++) {
+                [recvAddrString appendFormat:@"%02X",*p--];
+            }
+        }];
+       
+        printf("recv addr string %s \n",[recvAddrString UTF8String]);
+        
+        NSUInteger i = 0;
+        for (;i < _dataModel.LEDs.count; i++)
+        {
+            LEDItem *aLED = _dataModel.LEDs[i];
+            if ([aLED.blueAddr isEqualToString:recvAddrString])
+            {
+                aLED.bluePeripheral = peripheral;
+                aLED.characteristics = [[peripheral.services firstObject] characteristics];
+                [self.LEDCollectionView reloadData];
+                break;
+            }
+        }
+        if (i >= _dataModel.LEDs.count) {
+            [_centralManager cancelPeripheralConnection:peripheral];
+        }
+    }
+    else
+    {
+        
+        [_centralManager cancelPeripheralConnection:peripheral];
+        printf("!!!p:%s c:%s read err:%s!!!\n",[[peripheral.identifier UUIDString] UTF8String],[characteristic.UUID.data.description UTF8String],[[error description] UTF8String] );
+
+    }
 }
 
 - (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error

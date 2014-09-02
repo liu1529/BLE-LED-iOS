@@ -7,13 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LEDItem.h"
 
 @interface SceneItem : NSObject
 
-@property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSMutableArray *LEDs;
-@property (strong, nonatomic) NSMutableArray *lights;
-@property (strong, nonatomic) NSMutableArray *temps;
+@property (copy, nonatomic) UIImage *image;
+@property (copy, nonatomic) NSString *name;
+@property (strong, nonatomic, readonly) NSMutableArray *LEDs;
+
++ (SceneItem *)SceneWithName:(NSString *)name Image:(UIImage *)image;
+- (void) addLED:(LEDItem *)aLED;
+- (void) removeLED:(LEDItem *)aLED;
+- (void) replaceLEDAtIndex:(NSUInteger )index withLED:(LEDItem *)aLED;
+- (void) call;
 
 @end

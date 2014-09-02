@@ -8,22 +8,22 @@
 
 #import "ChooseLEDViewController.h"
 #import "TabBarViewController.h"
-#import "SceneAddViewController.h"
+#import "SceneEditViewController.h"
 #import "SceneListViewController.h"
+#import "DataModel.h"
 
 @interface ChooseLEDViewController ()
+{
+    NSMutableArray *_validLEDs;
+}
 @property (weak, nonatomic) IBOutlet UIPickerView *pickView;
 @property (weak, nonatomic) IBOutlet UILabel *lightLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tempLabel;
 @property (weak, nonatomic) IBOutlet UISlider *lightSlider;
 @property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
-@property (strong, nonatomic) NSMutableArray *LEDs;
-@property (weak, nonatomic) LEDItem *selectedLED;
-@property (weak, nonatomic) SceneAddViewController *addVC;
-@property (weak, nonatomic) SceneListViewController *listVC;
-@property (weak, nonatomic) SceneItem *currentScene;
 
+@property (weak, nonatomic) LEDItem *selectedLED;
 
 
 - (IBAction)lightChange:(id)sender;
@@ -51,29 +51,21 @@
     self.pickView.dataSource = self;
     self.pickView.delegate = self;
     
-    self.addVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
-    self.listVC = (SceneListViewController *)(self.navigationController.viewControllers[0]);
-    self.currentScene = (self.listVC.addScene) ? (self.listVC.addScene) : (self.listVC.editScene);
+    _validLEDs = [[NSMutableArray alloc] initWithArray:[DataModel sharedDataModel].LEDs];
     
-    NSMutableArray *LEDs = [[NSMutableArray alloc ]initWithArray:((TabBarViewController *)self.tabBarController).allLEDs];
-    for (LEDItem *LED in self.currentScene.LEDs)
+    for (LEDItem *LED in self.editScene.LEDs)
     {
-        [LEDs removeObject:LED];
+        [_validLEDs removeObject:LED];
     }
-    
-    if (self.addVC.editIndexPath)
-    {
-        [LEDs insertObject:self.currentScene.LEDs[self.addVC.editIndexPath.row] atIndex:0];
+    if (self.editLED) {
+         [_validLEDs insertObject:_editLED atIndex:0];
     }
    
     
-    self.LEDs = LEDs;
     
-    
-    
-    if (self.LEDs.count > 0)
+    if (_validLEDs.count > 0)
     {
-        self.selectedLED = self.LEDs[0];
+        self.selectedLED = _validLEDs[0];
         
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
@@ -104,7 +96,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
   
-    return self.LEDs.count;
+    return _validLEDs.count;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
@@ -115,7 +107,7 @@
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
     CGRect bounds = [self.view bounds];
-    LEDItem *LED = self.LEDs[row];
+    LEDItem *LED = _validLEDs[row];
     UIView *aView = [[UIView alloc]
                      initWithFrame:CGRectMake(
                                               0,
@@ -123,10 +115,19 @@
                                               bounds.size.width,
                                               bounds.size.height / 4)];
     
+    UIImageView *imageView = [[UIImageView alloc]
+                              initWithFrame:CGRectMake(
+                                                       0,
+                                                       0,
+                                                       aView.frame.size.width / 2,
+                                                       aView.frame.size.height)];
+    imageView.image = LED.image;
+
+    
     
     UILabel *label = [[UILabel alloc]
                       initWithFrame:CGRectMake(
-                                               0,
+                                               aView.frame.size.width / 2,
                                                0,
                                                aView.frame.size.width / 2,
                                                aView.frame.size.height)];
@@ -134,31 +135,26 @@
     [label setTextAlignment:NSTextAlignmentCenter];
     label.adjustsFontSizeToFitWidth = YES;
     
-    UIImageView *imageView = [[UIImageView alloc]
-                              initWithFrame:CGRectMake(
-                                                       aView.frame.size.width / 2,
-                                                       0,
-                                                       aView.frame.size.width / 2,
-                                                       aView.frame.size.height)];
-    imageView.image = LED.image;
-    
     [aView addSubview:label];
     [aView addSubview:imageView];
     
     
+   
     
     return aView;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (self.LEDs.count > 0) {
-        self.selectedLED = self.LEDs[row];
+    if (_validLEDs.count > 0) {
+        self.selectedLED = _validLEDs[row];
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
         
-        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
-        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
+        self.lightLabel.text = [NSString stringWithFormat:
+                                @"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
+        self.tempLabel.text = [NSString stringWithFormat:
+                               @"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
     }
     
 }
@@ -188,27 +184,23 @@
 }
 
 - (IBAction)donePick:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
     
-    if (self.selectedLED) {
-        if (self.addVC.editIndexPath) {
-            [self.currentScene.LEDs replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:self.selectedLED];
-            [self.currentScene.lights replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentLight]];
-            [self.currentScene.temps replaceObjectAtIndex:self.addVC.editIndexPath.row withObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentTemp]];
+    if (self.editLED)
+    {
+        [self.editScene replaceLEDAtIndex:[self.editScene.LEDs indexOfObject:self.editLED] withLED:self.selectedLED];
+    }
+    else
+    {
+        if (self.selectedLED) {
+            [self.editScene addLED:self.selectedLED];
         }
-        else
-        {
-            [self.currentScene.LEDs addObject:self.selectedLED];
-            [self.currentScene.lights addObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentLight]];
-            [self.currentScene.temps addObject:[NSNumber numberWithUnsignedChar:self.selectedLED.currentTemp]];
-        }
-       
-        [self.addVC unWindToHere:sender];
-
+    }
+    if (self.completionBlock) {
+        self.completionBlock(YES);
     }
 }
 
 - (IBAction)cancelPick:(id)sender {
-     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 @end

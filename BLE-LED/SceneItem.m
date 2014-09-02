@@ -7,7 +7,57 @@
 //
 
 #import "SceneItem.h"
+@import AudioToolbox;
+
+@interface SceneItem()
+
+@property (strong, nonatomic) NSMutableArray *LEDs;
+
+@end
 
 @implementation SceneItem
+
++ (SceneItem *)SceneWithName:(NSString *)name Image:(UIImage *)image
+{
+    return [[SceneItem alloc] initWithName:name Image:image];
+}
+
+- (SceneItem *)initWithName:(NSString *)name Image:(UIImage *)image
+{
+    if (self = [super init])
+    {
+        self.name = name;
+        self.image = image;
+        self.LEDs = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (void) addLED:(LEDItem *)aLED
+{
+    [self.LEDs addObject:[aLED copy]];
+   
+}
+- (void) removeLED:(LEDItem *)aLED
+{
+    if ([self.LEDs containsObject:aLED]) {
+        [self.LEDs removeObject:aLED];
+    }
+}
+
+- (void) replaceLEDAtIndex:(NSUInteger )index withLED:(LEDItem *)aLED
+{
+    self.LEDs[index] = [aLED copy];
+    
+}
+
+- (void) call
+{
+    for (LEDItem *aLED in self.LEDs) {
+        aLED.currentTemp = aLED.currentTemp;
+        aLED.currentLight = aLED.currentLight;
+    }
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
 
 @end

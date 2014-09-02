@@ -16,16 +16,21 @@ typedef enum {
     LEDStateSelected,
 }LEDState;
 
+
+
+
+
 @interface LEDItem : NSObject
 
 @property (copy, nonatomic) UIImage *image;
 @property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *blueAddr;
+@property (copy, nonatomic ,readonly) NSString *blueAddr;
+@property (copy, nonatomic) NSString *blueAddrWithColon;
 @property (nonatomic, getter = getLight) unsigned char currentLight;
 @property (nonatomic) unsigned char currentTemp;
 @property (strong, nonatomic) CBPeripheral *bluePeripheral;
 @property (strong, nonatomic) NSArray *characteristics;
-@property LEDState state;
+@property LEDState state;       //是否被选中，用于调光
 
 + (id) LEDWithName:(NSString *)name Image:(UIImage *)image;
 
@@ -67,7 +72,5 @@ typedef enum {
                                 LED_CHAR_ON_OFF_UUID, \
                                 LED_CHAR_DIM_RATE_UUID, \
                                 LED_CHAR_SCENE_UUID, \
-                                LED_CHAR_GROUP_UUID, \
                                 LED_CHAR_ID_UUID, \
-                                LED_CHAR_TYPE_UUID, \
-                                LED_CHAR_STATE_UUID]
+                                ]
