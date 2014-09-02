@@ -152,15 +152,9 @@
     {
         AVMetadataMachineReadableCodeObject *metadata = metadataObjects[0];
         NSLog(@"%@",metadata.stringValue);
-        if ([self metadataIsVaild:metadata.stringValue])
+        self.theAddLED.QRCodeString = metadata.stringValue;
+        if (self.theAddLED.QRCodeString)
         {
-            self.theAddLED.blueAddrWithColon = [self metadataGetAddr:metadata.stringValue];
-            if (self.theAddLED.blueAddrWithColon == nil) {
-                return;
-            }
-            self.theAddLED.name = [self metadataGetName:metadata.stringValue];
-
-            
             for (LEDItem *aLED in [DataModel sharedDataModel].LEDs)
             {
                 if ([aLED.blueAddr isEqualToString:self.theAddLED.blueAddr])
@@ -197,28 +191,6 @@
 
 
 
-- (BOOL) metadataIsVaild:(NSString *)metadata
-{
-  
-    NSArray *items = [metadata componentsSeparatedByString:@","];
-    
-    if (2 != items.count) {
-        return NO;
-    }
-    return YES;
-}
-
-- (NSString *) metadataGetAddr:(NSString *)metadata
-{
-    NSArray *items = [metadata componentsSeparatedByString:@","];
-    return items[0];
-}
-
-- (NSString *) metadataGetName:(NSString *)metadata
-{
-    NSArray *items = [metadata componentsSeparatedByString:@","];
-    return items[1];
-}
 
 
 #pragma mark - Navigation

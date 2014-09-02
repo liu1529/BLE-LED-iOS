@@ -8,12 +8,17 @@
 
 #import "LEDItem.h"
 
-@interface LEDItem () <NSCopying>
+@interface LEDItem () <NSCopying, NSCoding>
 @property (copy, nonatomic) NSString *blueAddr;
 @end
 
 @implementation LEDItem
 
+
+- (NSArray *)keysForEncoding;
+{
+    return @[@"name", @"image", @"QRCodeString"];
+}
 
 - (id)copyWithZone:(NSZone *)zone
 {
@@ -22,12 +27,30 @@
     LED.name = self.name;
     LED.currentLight = self.currentLight;
     LED.currentTemp = self.currentTemp;
-    LED.blueAddr = self.blueAddr;
+    LED.QRCodeString = _QRCodeString;
     LED.bluePeripheral = self.bluePeripheral;
     LED.characteristics = self.characteristics;
     LED.state = self.state;
     
     return LED;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super init]) {
+        for (NSString *key in [self keysForEncoding]) {
+            [self setValue:[aDecoder decodeObjectForKey:key] forKey:key];
+        }
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    for (NSString *key in self.keysForEncoding)
+    {
+        [aCoder encodeObject:[self valueForKey:key] forKey:key];
+    }
 }
 
 - (BOOL)isEqual:(id)object
@@ -51,21 +74,29 @@
     return self;
 }
 
-- (void)setBlueAddrWithColon:(NSString *)blueAddrWithColon
+
+- (void)setQRCodeString:(NSString *)QRCodeString
 {
-    NSArray *items = [blueAddrWithColon componentsSeparatedByString:@":"];
-    if (items.count != 6) {
+    NSArray *addrAndName = [QRCodeString componentsSeparatedByString:@","];
+    
+    if (2 != addrAndName.count) {
+        return;
+    }
+    NSArray *addrItems = [addrAndName[0] componentsSeparatedByString:@":"];
+    if (addrItems.count != 6) {
         return;
     }
     NSMutableString *addr = [[NSMutableString alloc] init];
-    for (NSString *addrItem in items) {
+    for (NSString *addrItem in addrItems) {
         if (addrItem.intValue > 0xff) {
             return;
         }
         [addr appendString:addrItem];
     }
-    _blueAddrWithColon = blueAddrWithColon;
+    _name = addrAndName[1];
     _blueAddr = addr;
+    _QRCodeString = QRCodeString;
+
 }
 
 - (void)setCurrentLight:(unsigned char)currentLight

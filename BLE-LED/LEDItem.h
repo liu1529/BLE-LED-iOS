@@ -25,7 +25,7 @@ typedef enum {
 @property (copy, nonatomic) UIImage *image;
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic ,readonly) NSString *blueAddr;
-@property (copy, nonatomic) NSString *blueAddrWithColon;
+@property (copy, nonatomic) NSString *QRCodeString;
 @property (nonatomic, getter = getLight) unsigned char currentLight;
 @property (nonatomic) unsigned char currentTemp;
 @property (strong, nonatomic) CBPeripheral *bluePeripheral;

@@ -33,4 +33,6 @@
 - (void) clearSelectsLEDs;
 - (void) clearScenes;
 
+- (void) saveData;
+
 @end

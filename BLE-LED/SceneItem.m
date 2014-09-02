@@ -17,10 +17,34 @@
 
 @implementation SceneItem
 
+- (NSArray *)keysForEncoding;
+{
+    return @[@"name", @"image", @"LEDs"];
+}
+
 + (SceneItem *)SceneWithName:(NSString *)name Image:(UIImage *)image
 {
     return [[SceneItem alloc] initWithName:name Image:image];
 }
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super init]) {
+        for (NSString *key in [self keysForEncoding]) {
+            [self setValue:[aDecoder decodeObjectForKey:key] forKey:key];
+        }
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    for (NSString *key in self.keysForEncoding)
+    {
+        [aCoder encodeObject:[self valueForKey:key] forKey:key];
+    }
+}
+
 
 - (SceneItem *)initWithName:(NSString *)name Image:(UIImage *)image
 {

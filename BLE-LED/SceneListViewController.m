@@ -144,6 +144,7 @@
             {
                 [_dataModel addScene:theNewScene];
                 [self.collectionView reloadData];
+                [_dataModel saveData];
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
         };
@@ -158,6 +159,7 @@
             if (success)
             {
                 [self.collectionView reloadData];
+                [_dataModel saveData];
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
         };
