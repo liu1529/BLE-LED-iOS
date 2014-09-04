@@ -12,7 +12,7 @@
 #import "SceneListViewController.h"
 #import "DataModel.h"
 
-@interface ChooseLEDViewController ()
+@interface ChooseLEDViewController () <UIActionSheetDelegate>
 {
     NSMutableArray *_validLEDs;
 }
@@ -57,28 +57,12 @@
     {
         [_validLEDs removeObject:LED];
     }
+    if (_editLEDIndex) {
+        [_validLEDs insertObject:_editScene.LEDs[_editLEDIndex.row] atIndex:0];
+    }
     
-    if (!_isAdd) {
-        [_validLEDs insertObject:self.editScene.LEDs[_editLEDIndex.row] atIndex:0];
-        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                           target:self
-                                           action:nil];
-        
-        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
-                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
-                                         target:self
-                                         action:@selector(transhLED)];
-        [self setToolbarItems:@[
-                                fixibleBarItem,
-                                trashBarItem,
-                                fixibleBarItem]];
-        [self.navigationController setToolbarHidden:NO animated:YES];
-    }
-    else
-    {
-        [self.navigationController setToolbarHidden:YES animated:YES];
-    }
+
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
    
     
     
@@ -227,13 +211,29 @@
     
 }
 
-- (void)transhLED
+- (IBAction)transhLED:(id)sender
 {
-    [self.editScene removeLEDAtIndexe:_editLEDIndex.row];
-    if (self.completionBlock) {
-        self.completionBlock(YES);
-    }
-    
+   
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:@"Delete LED from scene"
+                                  otherButtonTitles:nil];
+    [actionSheet showFromBarButtonItem:sender animated:YES];
+
 }
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self.editScene removeLEDAtIndexe:_editLEDIndex.row];
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+        }
+    }
+}
+
+
 
 @end

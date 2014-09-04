@@ -313,11 +313,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jZ-Bv-931">
-                                <rect key="frame" x="20" y="85" width="119" height="95"/>
+                                <rect key="frame" x="20" y="69" width="119" height="119"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBT-kR-lcD">
-                                <rect key="frame" x="147" y="118" width="153" height="30"/>
+                                <rect key="frame" x="147" y="158" width="153" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -325,42 +325,40 @@
                                     <action selector="hideKeyboard:" destination="EEl-rM-1Mh" eventType="editingDidEndOnExit" id="Zym-F6-peb"/>
                                 </connections>
                             </textField>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cLz-8j-zyi">
-                                <rect key="frame" x="20" y="201" width="280" height="322"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="d1M-uM-QmZ">
-                                    <size key="itemSize" width="134" height="117"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellImage" id="c7n-K0-ukZ" customClass="ImageCollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="134" height="117"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="134" height="117"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jP9-i5-CXb">
-                                                    <rect key="frame" x="12" y="10" width="110" height="97"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <connections>
-                                            <outlet property="imageView" destination="jP9-i5-CXb" id="jJ2-uG-UNZ"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LED Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNJ-8z-2ag">
+                                <rect key="frame" x="147" y="129" width="87" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="QR Code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HKE-tM-Ouo">
+                                <rect key="frame" x="20" y="188" width="76" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P4C-Bm-rDk">
+                                <rect key="frame" x="20" y="213" width="280" height="280"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayh-KK-HfG">
+                                <rect key="frame" x="20" y="492" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" id="YWb-w0-wzU"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="3dB-Cc-UDX"/>
+                        <barButtonItem systemItem="trash" id="YWb-w0-wzU">
+                            <connections>
+                                <action selector="transhLED:" destination="EEl-rM-1Mh" id="Kk2-3q-NKv"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="tNW-92-dxC"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="1mQ-ny-5Jv">
                         <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="SMe-cZ-pJo">
@@ -378,7 +376,8 @@
                     <connections>
                         <outlet property="LEDImageView" destination="1jZ-Bv-931" id="jFz-9K-uGJ"/>
                         <outlet property="LEDNameLabel" destination="OBT-kR-lcD" id="7gA-C0-Dyt"/>
-                        <outlet property="imageCollectionView" destination="cLz-8j-zyi" id="YUX-jY-y6i"/>
+                        <outlet property="QRImageView" destination="P4C-Bm-rDk" id="Z0N-Rb-5ne"/>
+                        <outlet property="QRLabel" destination="ayh-KK-HfG" id="62h-ff-xM3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VIJ-4j-OfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -458,7 +457,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Kvc-is-Ld5"/>
+                        <barButtonItem systemItem="trash" id="DO4-TY-BiD">
+                            <connections>
+                                <action selector="transhScene:" destination="iqm-H6-KeO" id="nFb-U0-Vx8"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="y8G-GQ-doN"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="hgU-fy-yuq">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="bD1-MD-Z4h"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="PCi-ro-ehw">
@@ -526,7 +533,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="rqL-No-Zzt"/>
+                        <barButtonItem systemItem="trash" id="ghT-zM-RPk">
+                            <connections>
+                                <action selector="transhLED:" destination="jlK-r9-v3d" id="kKV-0S-664"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="l6S-Gs-Y0r"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="YYD-aQ-7Rq">
                         <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="nHW-U5-tT4"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="done" id="fzh-Z5-O61">

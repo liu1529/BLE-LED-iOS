@@ -9,6 +9,8 @@
 #import "LEDItem.h"
 
 @interface LEDItem () <NSCopying, NSCoding>
+
+@property (strong, nonatomic) NSString *blueAddrWithColon;
 @property (copy, nonatomic) NSString *blueAddr;
 @end
 
@@ -20,7 +22,7 @@
 
 - (NSArray *)keysForEncoding;
 {
-    return @[@"name", @"image", @"blueAddr"];
+    return @[@"name", @"image", @"blueAddr",@"blueAddrWithColon"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -99,19 +101,20 @@
         }
         [addr appendString:addrItem];
     }
+    _blueAddrWithColon = addrAndName[0];
     _name = addrAndName[1];
     _blueAddr = addr;
     _QRCodeString = QRCodeString;
-
+    
 }
 
 - (NSString *)QRCodeString
 {
-    if (!_QRCodeString) {
-        NSMutableString *s = [[NSMutableString alloc] initWithString:_blueAddr];
-        [s appendFormat:@",%@",_name];
-        _QRCodeString = s;
-    }
+ 
+    NSMutableString *s = [[NSMutableString alloc] initWithString:_blueAddrWithColon];
+    [s appendFormat:@",%@",_name];
+    _QRCodeString = s;
+    
     return _QRCodeString;
 }
 

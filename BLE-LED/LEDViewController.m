@@ -136,6 +136,24 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     return _dataModel.LEDs.count + 1;
 }
 
+- (UIImage *) imageEffect:(UIImage *)image WithFilterName:(NSString *)filterName
+{
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *cImage = [[CIImage alloc] initWithImage:image];
+    CIFilter *filter = [CIFilter filterWithName:filterName];
+    [filter setDefaults];
+    
+    [filter setValue:cImage forKey:kCIInputImageKey];
+    
+    CGImageRef cgImage = [context createCGImage:filter.outputImage
+                                       fromRect:filter.outputImage.extent];
+    
+    UIImage *outputImage = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    
+    return [outputImage copy];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LEDCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellID forIndexPath:indexPath];
@@ -158,7 +176,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     }
     else
     {
-        cell.imageView.image = [aLED.image imageWithTintColor:[UIColor grayColor]];
+        cell.imageView.image = [self imageEffect:aLED.image WithFilterName:@"CIPhotoEffectMono"];
     }
     
     switch (aLED.state)
@@ -348,26 +366,26 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
+    for (LEDItem *aLED in _dataModel.LEDs)
+    {
+        if (aLED.bluePeripheral == peripheral)
+        {
+            [_dataModel removeLEDFromSelects:aLED];
+            aLED.bluePeripheral = nil;
+            [self.LEDCollectionView reloadData];
+            break;
+        }
+    }
+    
+    if (_dataModel.selectLEDs.count == 0)
+    {
+        self.lightSlider.enabled = NO;
+        self.tempSlider.enabled = NO;
+    }
+
     
     if (!error)
     {
-        for (LEDItem *aLED in _dataModel.LEDs)
-        {
-            if (aLED.bluePeripheral == peripheral)
-            {
-                [_dataModel removeLEDFromSelects:aLED];
-                aLED.bluePeripheral = nil;
-                [self.LEDCollectionView reloadData];
-                break;
-            }
-        }
-        
-        if (_dataModel.selectLEDs.count == 0)
-        {
-            self.lightSlider.enabled = NO;
-            self.tempSlider.enabled = NO;
-        }
-        
         printf("disconnect peripheral %s\n", [[peripheral.identifier UUIDString] UTF8String]);
 
         
@@ -583,6 +601,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
+            [self setEditing:NO animated:NO];
             [self.navigationController setToolbarHidden:YES animated:YES];
 
         };

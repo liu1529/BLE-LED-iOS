@@ -12,7 +12,7 @@
 #import "ChooseLEDViewController.h"
 
 
-@interface SceneEditViewController ()
+@interface SceneEditViewController () <UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -44,31 +44,8 @@
     
     
   
-    if (!_isAdd) {
-        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                           target:self
-                                           action:nil];
-        
-        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
-                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
-                                         target:self
-                                         action:@selector(transhScene)];
-        [self setToolbarItems:@[
-                                fixibleBarItem,
-                                trashBarItem,
-                                fixibleBarItem]
-                     animated:YES];
-       [self.navigationController setToolbarHidden:NO animated:YES];
-
-    }
-    else
-    {
-        [self.navigationController setToolbarHidden:YES animated:YES];
-    }
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
        
-    
-    
     
     self.imageView.image = self.editScene.image;
     self.nameLabel.text = self.editScene.name;
@@ -197,14 +174,26 @@
     [self.nameLabel resignFirstResponder];
 }
 
-- (void) transhScene
+- (IBAction) transhScene:(id) sender
 {
-    [[DataModel sharedDataModel].Scenes removeObject:self.editScene];
-    if (self.completionBlock) {
-        self.completionBlock(YES);
-    }
-    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:@"Delete Scene"
+                                  otherButtonTitles:nil];
+    [actionSheet showFromBarButtonItem:sender animated:YES];
 
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+       [[DataModel sharedDataModel].Scenes removeObject:self.editScene];
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+        }
+    }
 }
 
 

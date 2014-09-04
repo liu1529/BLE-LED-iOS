@@ -128,6 +128,9 @@ static DataModel *_sharedDataModel = nil;
 
 - (void) removeLEDFromList:(LEDItem *)aLED
 {
+    for (SceneItem *scene in _Scenes) {
+        [scene removeLED:aLED];
+    }
     [self.LEDs removeObject:aLED];
    
 }

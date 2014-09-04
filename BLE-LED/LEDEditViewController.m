@@ -11,11 +11,14 @@
 #import "TabBarViewController.h"
 #import "LEDAddViewController.h"
 
+@import CoreImage;
 
-@interface LEDEditViewController ()
+@interface LEDEditViewController () <UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *imageCollectionView;
 @property (nonatomic) IBOutlet UIImageView *LEDImageView;
 @property (weak, nonatomic) IBOutlet UITextField *LEDNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *QRImageView;
+@property (weak, nonatomic) IBOutlet UILabel *QRLabel;
 
 - (IBAction)hideKeyboard:(id)sender;
 - (IBAction)doneEdit:(id)sender;
@@ -46,38 +49,21 @@
     // Do any additional setup after loading the view.
     
     //set collectionview delegate
-    self.imageCollectionView.dataSource = self;
-    self.imageCollectionView.delegate = self;
-    
+
     //init allImages array
     self.allImages = [DataModel sharedDataModel].imageDic[@"LEDImages"];
     
     self.LEDImageView.image = self.editLED.image;
     self.LEDNameLabel.text = self.editLED.name;
     
-    if (!_isAdd)
-    {
-        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
-                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                           target:self
-                                           action:nil];
-        
-        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
-                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
-                                         target:self
-                                         action:@selector(transhLED)];
-        [self setToolbarItems:@[
-                                fixibleBarItem,
-                                trashBarItem,
-                                fixibleBarItem]];
-        [self.navigationController setToolbarHidden:NO animated:YES];
-    }
-    else
-    {
-         [self.navigationController setToolbarHidden:YES animated:YES];
-    }
-    
 
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    
+    CIImage *qrImage = [self createQRForString:_editLED.QRCodeString];
+    self.QRImageView.image = [self createNonInterpolateduIImageForCIImage:qrImage
+                                                                withScale:2 * [UIScreen mainScreen].scale];
+    self.QRLabel.text = _editLED.QRCodeString;
+    
    
 }
 
@@ -87,28 +73,43 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (CIImage *) createQRForString:(NSString *)qrString
 {
-    return self.allImages.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ImageCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellImage" forIndexPath:indexPath];
+    NSData *stringData = [qrString dataUsingEncoding:NSUTF8StringEncoding];
     
-    cell.imageView.image = self.allImages[indexPath.row];
+    CIFilter *qfFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    [qfFilter setDefaults];
     
-    return cell;
+    [qfFilter setValue:stringData forKey:@"inputMessage"];
+    [qfFilter setValue:@"H" forKey:@"inputCorrectionLevel"];
+    
+    return qfFilter.outputImage;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (UIImage *)createNonInterpolateduIImageForCIImage:(CIImage *)image withScale:(CGFloat) scale
 {
-    self.LEDImageView.image = self.allImages[indexPath.row];
+    CGFloat width = image.extent.size.width * scale;
+    CGFloat height = image.extent.size.height * scale;
+    CGImageRef cgImage = [[CIContext contextWithOptions:nil] createCGImage:image fromRect:image.extent];
+    
+    UIImage *aImage = [UIImage imageWithCGImage:cgImage scale:0.1 orientation:UIImageOrientationUp];
+    
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+    [aImage drawInRect:CGRectMake(0, 0, width, height)];
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    CGImageRelease(cgImage);
+    
+    
+    return scaledImage;
+    
+    
 }
 
 
@@ -120,7 +121,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
 
 
 - (IBAction)hideKeyboard:(id)sender {
@@ -146,12 +146,28 @@
     
 }
 
-- (void) transhLED
+- (IBAction)transhLED:(id) sender
 {
-    [[DataModel sharedDataModel] removeLEDFromList:self.editLED];
-    if (self.completionBlock) {
-        self.completionBlock(YES);
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:@"Delete LED"
+                                  otherButtonTitles:nil];
+    [actionSheet showFromBarButtonItem:sender animated:YES];
+    
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [[DataModel sharedDataModel] removeLEDFromList:self.editLED];
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+        }
     }
 }
+
 
 @end

@@ -123,6 +123,7 @@
                 [_dataModel saveData];
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
+            [self setEditing:NO animated:NO];
             [self.navigationController setToolbarHidden:YES animated:YES];
         };
 
