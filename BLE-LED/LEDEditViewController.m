@@ -50,32 +50,36 @@
     self.imageCollectionView.delegate = self;
     
     //init allImages array
-    self.allImages = [NSMutableArray new];
-    for (int i = 0; i < 3; i++) {
-        [self.allImages
-         addObject:[UIImage imageNamed:
-                    [NSString stringWithFormat:@"LED%d.png",i]]];
-    }
-  
+    self.allImages = [DataModel sharedDataModel].imageDic[@"LEDImages"];
+    
     self.LEDImageView.image = self.editLED.image;
     self.LEDNameLabel.text = self.editLED.name;
-
-
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
+    if (!_isAdd)
+    {
+        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                           target:self
+                                           action:nil];
+        
+        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                         target:self
+                                         action:@selector(transhLED)];
+        [self setToolbarItems:@[
+                                fixibleBarItem,
+                                trashBarItem,
+                                fixibleBarItem]];
+        [self.navigationController setToolbarHidden:NO animated:YES];
+    }
+    else
+    {
+         [self.navigationController setToolbarHidden:YES animated:YES];
+    }
     
+
+   
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -132,10 +136,22 @@
 
 - (IBAction)doneEdit:(id)sender {
 
+   
     self.editLED.image = self.LEDImageView.image;
     self.editLED.name = self.LEDNameLabel.text;
+
+    if (self.completionBlock) {
+        self.completionBlock(YES);
+    }
+    
+}
+
+- (void) transhLED
+{
+    [[DataModel sharedDataModel] removeLEDFromList:self.editLED];
     if (self.completionBlock) {
         self.completionBlock(YES);
     }
 }
+
 @end

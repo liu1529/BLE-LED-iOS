@@ -14,8 +14,7 @@ typedef void (^LEDAddCompletionBlock)(BOOL success);
 
 @interface LEDAddViewController : UIViewController <AVCaptureMetadataOutputObjectsDelegate>
 
-
-@property (strong, nonatomic) LEDItem *theAddLED;
 @property (copy, nonatomic) LEDAddCompletionBlock completionBlock;
+@property (strong, nonatomic) LEDItem *addLED;
 
 @end

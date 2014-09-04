@@ -14,8 +14,9 @@ typedef void (^ChooseLEDCompletionBlock)(BOOL success);
 
 @interface ChooseLEDViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate>
 
-@property (weak, nonatomic) LEDItem *editLED;
-@property (weak, nonatomic) SceneItem *editScene;
+@property (nonatomic) BOOL isAdd;
+@property (strong, nonatomic) NSIndexPath *editLEDIndex;
+@property (strong, nonatomic) SceneItem *editScene;
 @property (copy, nonatomic) ChooseLEDCompletionBlock completionBlock;
 
 @end

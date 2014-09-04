@@ -79,6 +79,13 @@
     }
 }
 
+- (void) removeLEDAtIndexe:(NSUInteger )index
+{
+    [self.LEDs removeObjectAtIndex:index];
+    [self.lights removeObjectAtIndex:index];
+    [self.temps removeObjectAtIndex:index];
+}
+
 - (void) replaceLEDAtIndex:(NSUInteger )index withLED:(LEDItem *)aLED
 {
     self.LEDs[index] = aLED;

@@ -17,6 +17,7 @@
 @property (strong, nonatomic, readonly) NSMutableArray *LEDs;
 @property (strong, nonatomic, readonly) NSMutableArray *selectLEDs;
 @property (strong, nonatomic, readonly) NSMutableArray *Scenes;
+@property (strong, nonatomic, readonly) NSDictionary *imageDic;
 
 + (DataModel *) sharedDataModel;
 

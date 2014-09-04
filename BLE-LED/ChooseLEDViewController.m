@@ -57,8 +57,27 @@
     {
         [_validLEDs removeObject:LED];
     }
-    if (self.editLED) {
-         [_validLEDs insertObject:_editLED atIndex:0];
+    
+    if (!_isAdd) {
+        [_validLEDs insertObject:self.editScene.LEDs[_editLEDIndex.row] atIndex:0];
+        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                           target:self
+                                           action:nil];
+        
+        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                         target:self
+                                         action:@selector(transhLED)];
+        [self setToolbarItems:@[
+                                fixibleBarItem,
+                                trashBarItem,
+                                fixibleBarItem]];
+        [self.navigationController setToolbarHidden:NO animated:YES];
+    }
+    else
+    {
+        [self.navigationController setToolbarHidden:YES animated:YES];
     }
    
     
@@ -81,6 +100,9 @@
     }
    
 }
+
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -185,9 +207,9 @@
 
 - (IBAction)donePick:(id)sender {
     
-    if (self.editLED)
+    if (!_isAdd)
     {
-        [self.editScene replaceLED:self.editLED withLED:self.self.selectedLED];
+        [self.editScene replaceLEDAtIndex:_editLEDIndex.row withLED:_selectedLED];
     }
     else
     {
@@ -198,9 +220,20 @@
     if (self.completionBlock) {
         self.completionBlock(YES);
     }
+    
 }
 
 - (IBAction)cancelPick:(id)sender {
     
 }
+
+- (void)transhLED
+{
+    [self.editScene removeLEDAtIndexe:_editLEDIndex.row];
+    if (self.completionBlock) {
+        self.completionBlock(YES);
+    }
+    
+}
+
 @end

@@ -34,7 +34,6 @@ typedef enum {
 
 + (id) LEDWithName:(NSString *)name Image:(UIImage *)image;
 
-
 @end
 
 

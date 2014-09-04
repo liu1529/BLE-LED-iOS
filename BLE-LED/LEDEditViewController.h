@@ -13,6 +13,7 @@ typedef void (^LEDEditCompletionBlock)(BOOL success);
 
 @interface LEDEditViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic) BOOL isAdd;
 @property (strong, nonatomic) LEDItem *editLED;
 @property (copy, nonatomic) LEDEditCompletionBlock completionBlock;
 

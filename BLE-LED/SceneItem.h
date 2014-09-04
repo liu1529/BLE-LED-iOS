@@ -20,6 +20,7 @@
 + (SceneItem *)SceneWithName:(NSString *)name Image:(UIImage *)image;
 - (void) addLED:(LEDItem *)aLED;
 - (void) removeLED:(LEDItem *)aLED;
+- (void) removeLEDAtIndexe:(NSUInteger )index;
 - (void) replaceLEDAtIndex:(NSUInteger )index withLED:(LEDItem *)aLED;
 - (void) replaceLED:(LEDItem *)old withLED:(LEDItem *)now;
 - (void) call;

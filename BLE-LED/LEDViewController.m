@@ -18,7 +18,6 @@
 @interface LEDViewController ()  <CBPeripheralDelegate>
 {
     DataModel *_dataModel;
-    LEDItem *_editLED;
     NSMutableArray *_discoverPeripherals;
 }
 
@@ -81,8 +80,11 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
     self.isRefreing = NO;
     
-
+    self.navigationItem.rightBarButtonItem = [self editButtonItem];
+    
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -120,44 +122,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
-#pragma mark - LongPressGestureRecognizer
-
-- (void) doLongPress:(UILongPressGestureRecognizer *)sender
-{
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                      initWithTitle:nil
-                                      delegate:self
-                                      cancelButtonTitle:@"Cancel"
-                                      destructiveButtonTitle:@"Del It"
-                                      otherButtonTitles:@"Edit It", nil];
-        [actionSheet showInView:self.view];
-        
-        
-        NSIndexPath *index = [self.LEDCollectionView
-                              indexPathForItemAtPoint:
-                              [sender locationInView:self.LEDCollectionView]];
-        
-        _editLED = _dataModel.LEDs[index.row];
-    }
-    
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex) {
-        case 0:
-            [_dataModel removeLEDFromList:_editLED];
-            [self.LEDCollectionView reloadData];
-            break;
-        case 1:
-            [self performSegueWithIdentifier:@"toLEDEdit" sender:self];
-            break;
-        default:
-            break;
-    }
-}
-
 
 #pragma mark - CollectonView
 
@@ -169,12 +133,20 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _dataModel.LEDs.count;
+    return _dataModel.LEDs.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LEDCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellID forIndexPath:indexPath];
+    
+    if (indexPath.row >= _dataModel.LEDs.count) {
+        cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
+        cell.nameLabel.text = @"scan to add";
+        cell.indicatorImageView.hidden = YES;
+        cell.indicatorActivityView.hidden = YES;
+        return cell;
+    }
     
     
     LEDItem *aLED = _dataModel.LEDs[indexPath.row];
@@ -207,14 +179,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             break;
     }
    
-    UILongPressGestureRecognizer *longPressGr =
-        [[UILongPressGestureRecognizer alloc]
-         initWithTarget:self
-         action:@selector(doLongPress:)];
-    longPressGr.numberOfTapsRequired = 0;
-    
-    [cell addGestureRecognizer:longPressGr];
-    
     return cell;
 }
 
@@ -224,6 +188,15 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row >= _dataModel.LEDs.count) {
+        [self performSegueWithIdentifier:@"toLEDAdd" sender:indexPath];
+        return;
+    }
+    
+    if (self.isEditing) {
+        [self performSegueWithIdentifier:@"toLEDEdit" sender:indexPath];
+        return;
+    }
     
     LEDItem *currentSelectLED = _dataModel.LEDs[indexPath.row];
     
@@ -573,7 +546,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     if ([segue.identifier isEqualToString:@"toLEDEdit"])
     {
         LEDEditViewController *editVC = segue.destinationViewController;
-        editVC.editLED = _editLED;
+        editVC.editLED = _dataModel.LEDs[[sender row]];
+
         editVC.completionBlock = ^(BOOL success)
         {
             if (success)
@@ -586,20 +560,21 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
-
+            [self setEditing:NO animated:NO];
+            [self.navigationController setToolbarHidden:YES animated:YES];
         };
     }
     else if ([segue.identifier isEqualToString:@"toLEDAdd"])
     {
         LEDAddViewController *addVC = segue.destinationViewController;
-        LEDItem *theNewLED = [LEDItem LEDWithName:@"new led" Image:[UIImage imageNamed:@"LED0.png"]];
-        addVC.theAddLED = theNewLED;
+        LEDItem *aLED = [LEDItem LEDWithName:@"new light" Image:[UIImage imageNamed:@"LED0.png"]];
+        addVC.addLED = aLED;
+       
         addVC.completionBlock = ^(BOOL success)
         {
             if (success)
             {
-                [_dataModel addLEDToList:theNewLED];
-                
+                [_dataModel addLEDToList:aLED];
                 [self.LEDCollectionView reloadData];
                 [_dataModel saveData];
             }
@@ -608,6 +583,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController setToolbarHidden:YES animated:YES];
+
         };
        
         

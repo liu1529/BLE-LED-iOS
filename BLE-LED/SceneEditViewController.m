@@ -43,10 +43,44 @@
     self.tableView.delegate = self;
     
     
+  
+    if (!_isAdd) {
+        UIBarButtonItem *fixibleBarItem = [[UIBarButtonItem alloc]
+                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                           target:self
+                                           action:nil];
+        
+        UIBarButtonItem *trashBarItem = [[UIBarButtonItem alloc]
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                         target:self
+                                         action:@selector(transhScene)];
+        [self setToolbarItems:@[
+                                fixibleBarItem,
+                                trashBarItem,
+                                fixibleBarItem]
+                     animated:YES];
+       [self.navigationController setToolbarHidden:NO animated:YES];
+
+    }
+    else
+    {
+        [self.navigationController setToolbarHidden:YES animated:YES];
+    }
+       
+    
+    
+    
     self.imageView.image = self.editScene.image;
     self.nameLabel.text = self.editScene.name;
+
+    
+   
     
 }
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -58,7 +92,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.editScene.LEDs.count;
+    return self.editScene.LEDs.count + 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -69,6 +103,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SceneTabbleCell" forIndexPath:indexPath];
+    
+    if (indexPath.row >= self.editScene.LEDs.count) {
+        cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
+        cell.textLabel.text = @"Add LED";
+        cell.detailTextLabel.text = @"Add a LED to the scene";
+        return cell;
+    }
+    
     LEDItem *aLED = self.editScene.LEDs[indexPath.row];
    
     
@@ -87,8 +129,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    [self performSegueWithIdentifier:@"toSceneLEDChoose" sender:self];
+    [self performSegueWithIdentifier:@"toSceneLEDChoose" sender:indexPath];
 }
 
 
@@ -103,11 +144,14 @@
     if ([segue.identifier isEqualToString:@"toSceneLEDChoose"]) {
         ChooseLEDViewController *chooseVC = segue.destinationViewController;
         chooseVC.editScene = self.editScene;
-        NSIndexPath *index = [self.tableView indexPathForSelectedRow];
-        if (index)
+        NSIndexPath *index = sender;
+        BOOL toolBarIsHide = self.navigationController.isToolbarHidden;
+        
+        if (index.row < self.editScene.LEDs.count)
         {
             //edit led
-            chooseVC.editLED = self.editScene.LEDs[index.row];
+            chooseVC.editLEDIndex = sender;
+            chooseVC.isAdd = NO;
             chooseVC.completionBlock = ^(BOOL success)
             {
                 if (success)
@@ -115,11 +159,15 @@
                     [self.tableView reloadData];
                 }
                 [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController setToolbarHidden:toolBarIsHide animated:YES];
             };
 
         }
         else
         {
+            //add led
+            chooseVC.isAdd = YES;
+           
             chooseVC.completionBlock = ^(BOOL success)
             {
                 if (success)
@@ -127,6 +175,7 @@
                     [self.tableView reloadData];
                 }
                 [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController setToolbarHidden:toolBarIsHide animated:YES];
             };
         }
     }
@@ -136,15 +185,27 @@
 - (IBAction)doneActione:(id)sender {
     self.editScene.name = self.nameLabel.text;
     self.editScene.image = self.imageView.image;
+    
+    
     if (self.completionBlock) {
         self.completionBlock(YES);
     }
+    
 }
 
 - (IBAction)hideKeyboard:(id)sender {
     [self.nameLabel resignFirstResponder];
 }
 
+- (void) transhScene
+{
+    [[DataModel sharedDataModel].Scenes removeObject:self.editScene];
+    if (self.completionBlock) {
+        self.completionBlock(YES);
+    }
+    
+
+}
 
 
 

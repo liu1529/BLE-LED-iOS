@@ -14,7 +14,7 @@ typedef void (^SceneEditCompletionBlock)(BOOL success);
 
 @interface SceneEditViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
-
+@property (nonatomic) BOOL isAdd;
 @property (strong, nonatomic) SceneItem *editScene;
 @property (copy, nonatomic) SceneEditCompletionBlock completionBlock;
 

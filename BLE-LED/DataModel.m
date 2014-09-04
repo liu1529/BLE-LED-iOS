@@ -14,8 +14,9 @@
 @property (strong, nonatomic) NSMutableArray *LEDs;
 @property (strong, nonatomic) NSMutableArray *selectLEDs;
 @property (strong, nonatomic) NSMutableArray *Scenes;
+@property (strong, nonatomic) NSDictionary *imageDic;
 
-@property (strong, nonatomic) NSMutableDictionary *dataDic;
+@property (strong, nonatomic) NSMutableDictionary *stroeDataDic;
 
 @end
 
@@ -49,6 +50,25 @@ static DataModel *_sharedDataModel = nil;
     if (self = [super init])
     {
     
+        _imageDic = @{
+                      @"LEDImages":
+                        @[[UIImage imageNamed:@"LED0.png"],
+                          [UIImage imageNamed:@"LED1.png"],
+                          [UIImage imageNamed:@"LED2.png"]
+                          ],
+                      @"SceneImages":
+                          @[[UIImage imageNamed:@"scene0.png"],
+                            [UIImage imageNamed:@"scene1.png"],
+                            [UIImage imageNamed:@"scene2.png"],
+                            [UIImage imageNamed:@"scene3.png"],
+                            [UIImage imageNamed:@"scene4.png"],
+                            [UIImage imageNamed:@"scene5.png"],
+                            [UIImage imageNamed:@"scene6.png"],
+                            [UIImage imageNamed:@"scene7.png"]
+                            ]
+                      
+                      };
+        
        
         NSURL *dataFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"SavedData"];
         if ([[NSFileManager defaultManager] fileExistsAtPath:[dataFileURL path]])
@@ -56,23 +76,23 @@ static DataModel *_sharedDataModel = nil;
             // saved file exists, load it's content from that path
             // note: unarchiveObjectWithFile returns an immutable array, we need to make it mutable
             //
-            _dataDic = [[NSKeyedUnarchiver unarchiveObjectWithFile:[dataFileURL path]] mutableCopy];
-            _LEDs = _dataDic[@"SavedLEDs"];
-            _selectLEDs =_dataDic[@"SavedSelectLEDs"];
-            _Scenes = _dataDic[@"SavedScenes"];
+            _stroeDataDic = [[NSKeyedUnarchiver unarchiveObjectWithFile:[dataFileURL path]] mutableCopy];
+            _LEDs = _stroeDataDic[@"SavedLEDs"];
+            _selectLEDs =_stroeDataDic[@"SavedSelectLEDs"];
+            _Scenes = _stroeDataDic[@"SavedScenes"];
             
         }
         else
         {
-            _dataDic = [[NSMutableDictionary alloc] init];
+            _stroeDataDic = [[NSMutableDictionary alloc] init];
             _LEDs = [[NSMutableArray alloc] init];
             _selectLEDs = [[NSMutableArray alloc] init];
             _Scenes = [[NSMutableArray alloc] init];
             
             
-            _dataDic[@"SavedLEDs"] = _LEDs;
-            _dataDic[@"SavedSelectLEDs"] = _selectLEDs;
-            _dataDic[@"SavedScenes"] = _Scenes;
+            _stroeDataDic[@"SavedLEDs"] = _LEDs;
+            _stroeDataDic[@"SavedSelectLEDs"] = _selectLEDs;
+            _stroeDataDic[@"SavedScenes"] = _Scenes;
         }
     }
     return self;
@@ -144,7 +164,7 @@ static DataModel *_sharedDataModel = nil;
 - (void) saveData
 {
     NSURL *dataFileURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"SavedData"];
-    [NSKeyedArchiver archiveRootObject:self.dataDic toFile:[dataFileURL path]];
+    [NSKeyedArchiver archiveRootObject:_stroeDataDic toFile:[dataFileURL path]];
 }
 
 @end

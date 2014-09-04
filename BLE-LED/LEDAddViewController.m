@@ -152,12 +152,13 @@
     {
         AVMetadataMachineReadableCodeObject *metadata = metadataObjects[0];
         NSLog(@"%@",metadata.stringValue);
-        self.theAddLED.QRCodeString = metadata.stringValue;
-        if (self.theAddLED.QRCodeString)
+        
+        _addLED.QRCodeString = metadata.stringValue;
+        if (_addLED.QRCodeString)
         {
             for (LEDItem *aLED in [DataModel sharedDataModel].LEDs)
             {
-                if ([aLED.blueAddr isEqualToString:self.theAddLED.blueAddr])
+                if ([aLED.blueAddr isEqualToString:_addLED.blueAddr])
                 {
                     
                     NSString *msg = [NSString stringWithFormat:@"LED:%@ have been added in the list",aLED.blueAddr];
@@ -204,7 +205,8 @@
     if ([segue.identifier isEqualToString:@"toLEDAddEdit"])
     {
         LEDEditViewController *editVC = segue.destinationViewController;
-        editVC.editLED = self.theAddLED;
+        editVC.isAdd = YES;
+        editVC.editLED = self.addLED;
         editVC.completionBlock = ^(BOOL success)
         {
             if (self.completionBlock)

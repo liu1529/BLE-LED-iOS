@@ -73,37 +73,37 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9aF-1H-D16">
-                                    <size key="itemSize" width="153" height="120"/>
+                                    <size key="itemSize" width="155" height="133"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CellLED" reuseIdentifier="CellLED" id="f2l-vg-79K" customClass="LEDCollectionCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="153" height="120"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="155" height="133"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="153" height="120"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="155" height="133"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
-                                                    <rect key="frame" x="17" y="5" width="119" height="95"/>
+                                                    <rect key="frame" x="22" y="5" width="110" height="110"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <gestureRecognizers/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
-                                                    <rect key="frame" x="17" y="99" width="118" height="21"/>
+                                                    <rect key="frame" x="17" y="112" width="120" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED1" translatesAutoresizingMaskIntoConstraints="NO" id="0Yk-Id-zRY">
-                                                    <rect key="frame" x="108" y="5" width="28" height="29"/>
+                                                    <rect key="frame" x="107" y="5" width="28" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zU5-8U-EfJ">
-                                                    <rect key="frame" x="108" y="5" width="20" height="20"/>
+                                                    <rect key="frame" x="112" y="5" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -111,11 +111,11 @@
                                         </view>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="f2l-vg-79K" secondAttribute="leading" constant="17" id="5wW-6h-2n4"/>
+                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="f2l-vg-79K" secondAttribute="leading" constant="22" id="5wW-6h-2n4"/>
                                             <constraint firstItem="6C5-Hj-sZz" firstAttribute="centerX" secondItem="f2l-vg-79K" secondAttribute="centerX" id="DCu-t6-tPJ"/>
-                                            <constraint firstAttribute="bottom" secondItem="oKs-Px-Xi4" secondAttribute="bottom" constant="20" id="Ddw-KY-c9W"/>
+                                            <constraint firstAttribute="bottom" secondItem="oKs-Px-Xi4" secondAttribute="bottom" constant="18" id="Ddw-KY-c9W"/>
                                             <constraint firstItem="6C5-Hj-sZz" firstAttribute="centerX" secondItem="oKs-Px-Xi4" secondAttribute="centerX" id="V1e-x6-9ST"/>
-                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="6C5-Hj-sZz" secondAttribute="leading" id="csL-iE-35q"/>
+                                            <constraint firstItem="oKs-Px-Xi4" firstAttribute="leading" secondItem="6C5-Hj-sZz" secondAttribute="leading" constant="5" id="csL-iE-35q"/>
                                             <constraint firstAttribute="bottom" secondItem="6C5-Hj-sZz" secondAttribute="bottom" id="cwF-M8-CFD"/>
                                             <constraint firstItem="oKs-Px-Xi4" firstAttribute="top" secondItem="f2l-vg-79K" secondAttribute="top" constant="5" id="paN-Zw-mCk"/>
                                         </constraints>
@@ -146,11 +146,6 @@
                                 <action selector="refreshList:" destination="NTL-X2-VaZ" id="myS-Hl-hU6"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="HHk-fb-VIv">
-                            <connections>
-                                <segue destination="lyN-WV-99M" kind="push" identifier="toLEDAdd" id="XGd-e9-GkJ"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="LEDCollectionView" destination="j2R-mH-IoL" id="kue-kT-Tx1"/>
@@ -160,6 +155,7 @@
                         <outlet property="tempLabel" destination="l1O-pt-Lbb" id="OoV-Fh-hVw"/>
                         <outlet property="tempSlider" destination="RmB-Lu-e4L" id="YZi-QZ-VYm"/>
                         <segue destination="EEl-rM-1Mh" kind="push" identifier="toLEDEdit" id="EtV-f5-RFA"/>
+                        <segue destination="lyN-WV-99M" kind="push" identifier="toLEDAdd" id="vma-9g-0u9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vMT-t8-O1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -235,6 +231,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z3P-Tn-TdS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.098817221820354462" green="0.75210690498352051" blue="0.014155022799968719" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -268,7 +265,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NWn-SB-MWI">
-                                            <rect key="frame" x="11" y="9" width="129" height="129"/>
+                                            <rect key="frame" x="20" y="24" width="110" height="110"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rui-aM-wl2">
@@ -294,14 +291,10 @@
                             <outlet property="delegate" destination="KXh-8d-70t" id="Qxj-0p-AbS"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="6jA-At-A3d">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="obm-z4-q2R">
-                            <connections>
-                                <action selector="doNewScene:" destination="KXh-8d-70t" id="HXk-Jf-BcT"/>
-                                <segue destination="iqm-H6-KeO" kind="push" identifier="toSceneDetail" id="r9e-No-gTi"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="6jA-At-A3d"/>
+                    <connections>
+                        <segue destination="iqm-H6-KeO" kind="push" identifier="toSceneEdit" id="S4C-mC-iDN"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hsV-pI-94O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -333,7 +326,7 @@
                                 </connections>
                             </textField>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cLz-8j-zyi">
-                                <rect key="frame" x="20" y="201" width="280" height="347"/>
+                                <rect key="frame" x="20" y="201" width="280" height="322"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="d1M-uM-QmZ">
@@ -366,7 +359,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="YWb-w0-wzU"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="1mQ-ny-5Jv">
                         <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="SMe-cZ-pJo">
                             <connections>
@@ -387,6 +382,15 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VIJ-4j-OfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Gv9-qv-Em9">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jfK-AC-ZQq"/>
+                        <barButtonItem title="Delete LED" id="wDx-Wh-DpF"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="LKQ-MV-fVp"/>
+                    </items>
+                </toolbar>
             </objects>
             <point key="canvasLocation" x="2141" y="-63"/>
         </scene>
@@ -451,24 +455,12 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lMV-pv-whg">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="nRd-1b-e0p"/>
-                                    <barButtonItem title="Add a LED" id="6DR-GK-Jx0">
-                                        <connections>
-                                            <segue destination="jlK-r9-v3d" kind="push" identifier="toSceneLEDChoose" id="bNd-yU-y6U"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cyk-hJ-tBb"/>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hgU-fy-yuq">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="bD1-MD-Z4h"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="PCi-ro-ehw">
                             <connections>
                                 <action selector="doneActione:" destination="iqm-H6-KeO" id="jJ5-jb-HiP"/>
@@ -480,6 +472,7 @@
                         <outlet property="imageView" destination="PQD-9Q-xPa" id="Ju9-1a-4Kh"/>
                         <outlet property="nameLabel" destination="zFB-6f-9HC" id="Zrm-EF-cXe"/>
                         <outlet property="tableView" destination="l2Q-HS-rsN" id="geE-6u-ng2"/>
+                        <segue destination="jlK-r9-v3d" kind="push" identifier="toSceneLEDChoose" id="PTI-A2-6wm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikc-Gx-3dy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -516,25 +509,6 @@
                                     <action selector="tempChange:" destination="jlK-r9-v3d" eventType="valueChanged" id="73N-kn-lxJ"/>
                                 </connections>
                             </slider>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y4g-Em-Tt6">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="3Sb-uR-ddU"/>
-                                    <barButtonItem systemItem="cancel" id="ygl-pd-mBc">
-                                        <connections>
-                                            <action selector="cancelPick:" destination="jlK-r9-v3d" id="MuD-wv-plt"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="lrT-6B-hMx"/>
-                                    <barButtonItem systemItem="done" id="bJZ-3W-qR8">
-                                        <connections>
-                                            <action selector="donePick:" destination="jlK-r9-v3d" id="zcC-bm-oWI"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="X00-Br-wQM"/>
-                                </items>
-                            </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j73-F9-eye">
                                 <rect key="frame" x="20" y="356" width="46" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -554,6 +528,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="YYD-aQ-7Rq">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="nHW-U5-tT4"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="done" id="fzh-Z5-O61">
                             <connections>
                                 <action selector="donePick:" destination="jlK-r9-v3d" id="F1G-xf-ITP"/>
@@ -581,6 +556,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jdD-Vj-prC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.098817221819999995" green="0.75210690499999999" blue="0.0141550228" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

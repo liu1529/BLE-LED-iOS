@@ -12,12 +12,15 @@
 @property (copy, nonatomic) NSString *blueAddr;
 @end
 
+
+
 @implementation LEDItem
 
+@synthesize QRCodeString = _QRCodeString;
 
 - (NSArray *)keysForEncoding;
 {
-    return @[@"name", @"image", @"QRCodeString"];
+    return @[@"name", @"image", @"blueAddr"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -77,15 +80,18 @@
 
 - (void)setQRCodeString:(NSString *)QRCodeString
 {
+
     NSArray *addrAndName = [QRCodeString componentsSeparatedByString:@","];
-    
     if (2 != addrAndName.count) {
-        return;
+        return ;
     }
+
+    
     NSArray *addrItems = [addrAndName[0] componentsSeparatedByString:@":"];
     if (addrItems.count != 6) {
-        return;
+        return ;
     }
+   
     NSMutableString *addr = [[NSMutableString alloc] init];
     for (NSString *addrItem in addrItems) {
         if (addrItem.intValue > 0xff) {
@@ -98,6 +104,17 @@
     _QRCodeString = QRCodeString;
 
 }
+
+- (NSString *)QRCodeString
+{
+    if (!_QRCodeString) {
+        NSMutableString *s = [[NSMutableString alloc] initWithString:_blueAddr];
+        [s appendFormat:@",%@",_name];
+        _QRCodeString = s;
+    }
+    return _QRCodeString;
+}
+
 
 - (void)setCurrentLight:(unsigned char)currentLight
 {
