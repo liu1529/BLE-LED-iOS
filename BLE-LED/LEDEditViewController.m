@@ -57,7 +57,7 @@
     self.LEDNameLabel.text = self.editLED.name;
     
 
-    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+   
     
     CIImage *qrImage = [self createQRForString:_editLED.QRCodeString];
     self.QRImageView.image = [self createNonInterpolateduIImageForCIImage:qrImage
@@ -65,6 +65,18 @@
     self.QRLabel.text = _editLED.QRCodeString;
     
    
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

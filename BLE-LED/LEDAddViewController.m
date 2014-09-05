@@ -41,31 +41,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
    
-    [self setupCamera];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];
-   
+    [super viewWillAppear:animated];
     
-    
-   
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self setupCamera];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)viewDidDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];
-   
+    [super viewDidDisappear:animated];
     [self.captureSession stopRunning];
     [_scanTimer invalidate];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -107,7 +104,7 @@
     [self.view.layer insertSublayer:self.captureVideoPreview atIndex:0];
     
      _scanTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(scanTimer:) userInfo:nil repeats:YES];
-    [self.captureSession startRunning];
+   [self.captureSession startRunning];
     
 }
 
@@ -160,6 +157,9 @@
             {
                 if ([aLED.blueAddr isEqualToString:_addLED.blueAddr])
                 {
+                    if (self.completionBlock) {
+                        self.completionBlock(NO);
+                    }
                     
                     NSString *msg = [NSString stringWithFormat:@"LED:%@ have been added in the list",aLED.blueAddr];
                      UIAlertView *alert = [[UIAlertView alloc]
@@ -169,9 +169,7 @@
                                            cancelButtonTitle:@"Cancel"
                                            otherButtonTitles:nil];
                     [alert show];
-                    if (self.completionBlock) {
-                        self.completionBlock(NO);
-                    }
+                   
                     return;
                 }
             }
@@ -187,6 +185,15 @@
             }
 
         }
+    }
+}
+
+- (IBAction)cancelScan:(id)sender
+{
+    [self.captureSession stopRunning];
+    [_scanTimer invalidate];
+    if (self.completionBlock) {
+        self.completionBlock(NO);
     }
 }
 

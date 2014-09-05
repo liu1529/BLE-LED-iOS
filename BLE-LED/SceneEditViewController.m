@@ -44,7 +44,7 @@
     
     
   
-    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    
        
     
     self.imageView.image = self.editScene.image;
@@ -55,7 +55,11 @@
     
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+}
 
 
 
@@ -122,7 +126,7 @@
         ChooseLEDViewController *chooseVC = segue.destinationViewController;
         chooseVC.editScene = self.editScene;
         NSIndexPath *index = sender;
-        BOOL toolBarIsHide = self.navigationController.isToolbarHidden;
+       
         
         if (index.row < self.editScene.LEDs.count)
         {
@@ -136,7 +140,7 @@
                     [self.tableView reloadData];
                 }
                 [self.navigationController popViewControllerAnimated:YES];
-                [self.navigationController setToolbarHidden:toolBarIsHide animated:YES];
+               
             };
 
         }
@@ -152,7 +156,7 @@
                     [self.tableView reloadData];
                 }
                 [self.navigationController popViewControllerAnimated:YES];
-                [self.navigationController setToolbarHidden:toolBarIsHide animated:YES];
+               
             };
         }
     }

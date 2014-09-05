@@ -84,6 +84,20 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setEditing:NO animated:NO];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+   
+
+}
+
 
 
 - (void)didReceiveMemoryWarning
@@ -577,9 +591,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             {
                 
             }
+           
             [self.navigationController popToRootViewControllerAnimated:YES];
-            [self setEditing:NO animated:NO];
-            [self.navigationController setToolbarHidden:YES animated:YES];
         };
     }
     else if ([segue.identifier isEqualToString:@"toLEDAdd"])
@@ -601,9 +614,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
-            [self setEditing:NO animated:NO];
-            [self.navigationController setToolbarHidden:YES animated:YES];
-
+            
         };
        
         

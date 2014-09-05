@@ -192,7 +192,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dyu-4X-Mrk"/>
+                    <navigationItem key="navigationItem" id="dyu-4X-Mrk">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="Zjg-F4-HvJ">
+                            <connections>
+                                <action selector="cancelScan:" destination="lyN-WV-99M" id="wKM-z7-pJT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="backImageView" destination="Ahv-74-qbH" id="9qz-dE-PFA"/>
                         <outlet property="scanLineImageView" destination="hLV-2V-AXk" id="Ndo-sN-YKz"/>
@@ -361,11 +367,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="tNW-92-dxC"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="1mQ-ny-5Jv">
-                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="SMe-cZ-pJo">
-                            <connections>
-                                <action selector="cancelEdit:" destination="EEl-rM-1Mh" id="bnQ-K3-dyP"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="eXQ-vp-CkH">
                             <connections>
                                 <action selector="doneEdit:" destination="EEl-rM-1Mh" id="vFu-8H-TIN"/>
@@ -467,7 +468,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="y8G-GQ-doN"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="hgU-fy-yuq">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="bD1-MD-Z4h"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="PCi-ro-ehw">
                             <connections>
                                 <action selector="doneActione:" destination="iqm-H6-KeO" id="jJ5-jb-HiP"/>
@@ -543,7 +543,6 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="l6S-Gs-Y0r"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="YYD-aQ-7Rq">
-                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="nHW-U5-tT4"/>
                         <barButtonItem key="rightBarButtonItem" title="Item" systemItem="done" id="fzh-Z5-O61">
                             <connections>
                                 <action selector="donePick:" destination="jlK-r9-v3d" id="F1G-xf-ITP"/>
@@ -595,6 +594,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="EtV-f5-RFA"/>
+        <segue reference="5xf-5l-REa"/>
     </inferredMetricsTieBreakers>
 </document>

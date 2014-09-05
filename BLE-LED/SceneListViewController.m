@@ -44,6 +44,20 @@
    
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+ 
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self setEditing:NO animated:NO];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -123,8 +137,6 @@
                 [_dataModel saveData];
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
-            [self setEditing:NO animated:NO];
-            [self.navigationController setToolbarHidden:YES animated:YES];
         };
 
     }
@@ -143,9 +155,7 @@
                 [_dataModel saveData];
             }
             [self.navigationController popToRootViewControllerAnimated:YES];
-            [self setEditing:NO animated:NO];
-            [self.navigationController setToolbarHidden:YES animated:YES];
-
+           
         };
 
         

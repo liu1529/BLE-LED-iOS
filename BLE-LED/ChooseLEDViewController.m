@@ -62,7 +62,7 @@
     }
     
 
-    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    
    
     
     
@@ -85,7 +85,11 @@
    
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning
