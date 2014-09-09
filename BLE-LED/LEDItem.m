@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) NSString *blueAddrWithColon;
 @property (copy, nonatomic) NSString *blueAddr;
+@property (strong, nonatomic) NSArray *blueAddrBytes;
 @end
 
 
@@ -22,7 +23,7 @@
 
 - (NSArray *)keysForEncoding;
 {
-    return @[@"name", @"image", @"blueAddr",@"blueAddrWithColon"];
+    return @[@"name", @"image", @"identifier", @"blueAddr",@"blueAddrWithColon"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -101,6 +102,8 @@
         }
         [addr appendString:addrItem];
     }
+    
+    _blueAddrBytes = addrItems;
     _blueAddrWithColon = addrAndName[0];
     _name = addrAndName[1];
     _blueAddr = addr;
@@ -133,7 +136,9 @@
     }
     
     if (charac &&
-        charac.properties & CBCharacteristicPropertyWrite) {
+        charac.properties & CBCharacteristicPropertyWrite)
+    {
+        
         NSMutableData *data = [NSMutableData new];
         unsigned char Cmd = LED_CHAR_CTRL_CMD_LIGHT;
         [data appendBytes:&Cmd length:1];
@@ -186,7 +191,36 @@
     _currentTemp = currentTemp;
 }
 
+- (void) writeConfirmation:(NSData *)confimation
+{
+    CBCharacteristic *charac = nil;
+    
+    if (charac == nil)
+    {
+        for (CBCharacteristic *c in self.characteristics) {
+            if ([c.UUID isEqual:LED_CHAR_CTRL_UUID]) {
+                charac = c;
+            }
+        }
+    }
+    
+    if (charac &&
+        charac.properties & CBCharacteristicPropertyWrite) {
+        NSMutableData *data = [NSMutableData new];
+        unsigned char Cmd = LED_CHAR_CTRL_CMD_CONFIRM;
+        [data appendBytes:&Cmd length:1];
+        [data appendData:confimation];
+    
+        [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
+        
+        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+    }
+    else
+    {
+        printf("p:%s c:%s is nil\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String]);
+    }
 
+}
 
 
 @end

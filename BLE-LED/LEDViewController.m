@@ -22,7 +22,6 @@
 }
 
 @property (strong, nonatomic) CBCentralManager *centralManager;
-@property  BOOL isRefreing;
 
 
 @property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
@@ -77,12 +76,18 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 //    self.LEDCollectionView.allowsMultipleSelection = YES;
 
     
-    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
-    self.isRefreing = NO;
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:@{CBCentralManagerOptionShowPowerAlertKey:@(YES)}];
+   
     
     self.navigationItem.rightBarButtonItem = [self editButtonItem];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to refresh"];
+    [refreshControl addTarget:self action:@selector(refreshList:) forControlEvents: UIControlEventValueChanged ];
+    [self.LEDCollectionView addSubview:refreshControl];
+    
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -137,7 +142,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 }
 
 
-#pragma mark - CollectonView
+#pragma mark - CollectonView datasource
 
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -171,6 +176,10 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     LEDCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCellID forIndexPath:indexPath];
+    
+//    cell.layer.borderColor = [UIColor blueColor].CGColor;
+//    cell.layer.borderWidth = 2;
+    
     
     if (indexPath.row >= _dataModel.LEDs.count) {
         cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
@@ -216,7 +225,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 
 
-
+# pragma mark - CollectonView delegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -262,10 +271,10 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 #pragma mark - LED Refrefing
 
 - (IBAction)refreshList:(id)sender {
-    if (self.isRefreing == NO) {
+//    if ([sender isRefreshing] == NO)
+    {
         
         [_discoverPeripherals removeAllObjects];
-        self.isRefreing = YES;
         
         for (LEDItem *LED in _dataModel.LEDs)
         {
@@ -282,23 +291,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         // start progress spinner
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
-        //add ActiveIndicatorView
-        UIView *activeBackView = [[UIView alloc] initWithFrame:self.view.frame];
-        activeBackView.backgroundColor =  self.LEDCollectionView.backgroundColor;
-        activeBackView.alpha = 0.1;
-        [self.view addSubview:activeBackView];
-        
-        UIActivityIndicatorView * activeIndicator = [[UIActivityIndicatorView alloc]
-                                                     initWithFrame:CGRectMake(0, 0, 50, 50)];
-        activeIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        activeIndicator.color = [UIColor blackColor];
-        [activeIndicator setCenter:activeBackView.center];
-        [activeIndicator startAnimating];
-        [activeBackView addSubview:activeIndicator];
-        
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-        [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(scanTimer:) userInfo:activeBackView repeats:NO];
 
+        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scanTimer:) userInfo:sender repeats:NO];
         
     }
    
@@ -306,13 +301,16 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void) scanTimer:(NSTimer *)timer
 {
-    UIView *activeBackView = timer.userInfo;
-    activeBackView.hidden = YES;
-    
+
     [self.centralManager stopScan];
-    self.isRefreing = NO;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
- //   [self.LEDCollectionView reloadData];
+    
+  
+    UIRefreshControl *refreshControl = timer.userInfo;
+    [refreshControl endRefreshing];
+
+    
+  
 }
 
 #pragma mark - Bluethooth CentralManager
@@ -357,7 +355,12 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     [_discoverPeripherals addObject:peripheral];
 
     printf("discover peripheral %s\n", [peripheral.description UTF8String]);
-     [_centralManager connectPeripheral:peripheral options:nil];
+     [_centralManager connectPeripheral:peripheral
+                                options:
+                                    @{
+                                      CBConnectPeripheralOptionNotifyOnConnectionKey: @(YES),
+                                      CBConnectPeripheralOptionNotifyOnDisconnectionKey: @(YES)
+                                      }];
    
   
 }
@@ -380,6 +383,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
+    [_discoverPeripherals removeObject:peripheral];
     for (LEDItem *aLED in _dataModel.LEDs)
     {
         if (aLED.bluePeripheral == peripheral)
@@ -411,10 +415,12 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
+    [_discoverPeripherals removeObject:peripheral];
     for (LEDItem *aLED in _dataModel.LEDs)
     {
         if (aLED.bluePeripheral == peripheral)
         {
+            aLED.bluePeripheral = nil;
             aLED.state = LEDStateDisSelected;
             [self.LEDCollectionView reloadData];
             break;
@@ -448,6 +454,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             
         }
     }
+    if (error) {
+        [_discoverPeripherals removeObject:peripheral];
+    }
 }
 
 -(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
@@ -468,7 +477,11 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         printf("p:%s,s:%s discover characteristics\n",[[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String]);
     }
     else
+    {
         printf("p:%s,s:%s discover characteristics err:%s \n", [[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String],[error.description UTF8String]);
+        [_discoverPeripherals removeObject:peripheral];
+    }
+    
    
     
 }
@@ -485,6 +498,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
+    [_discoverPeripherals removeObject:peripheral];
+    
     if (!error)
     {
        
@@ -502,13 +517,17 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         
         
         __block NSMutableString *recvAddrString = [[NSMutableString alloc] init];
+        __block NSMutableData *recvAddrData = [[NSMutableData alloc] init];
         [characteristic.value enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             Byte *p = (Byte *)(bytes + byteRange.length - 1);
             for (NSUInteger i = 0; i < byteRange.length; i++) {
+                [recvAddrData appendBytes:p length:1];
                 [recvAddrString appendFormat:@"%02X",*p--];
+                
             }
         }];
        
+        NSLog(@"%@",recvAddrData);
         printf("recv addr string %s \n",[recvAddrString UTF8String]);
         
         NSUInteger i = 0;
@@ -520,6 +539,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                 aLED.bluePeripheral = peripheral;
                 aLED.characteristics = [[peripheral.services firstObject] characteristics];
                 [self.LEDCollectionView reloadData];
+                [aLED writeConfirmation:[recvAddrData subdataWithRange:NSMakeRange(3, 3)]];
+                aLED.identifier = peripheral.identifier;
                 break;
             }
         }

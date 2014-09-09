@@ -24,6 +24,7 @@ typedef enum {
 
 @property (copy, nonatomic) UIImage *image;
 @property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSUUID *identifier;
 @property (copy, nonatomic ,readonly) NSString *blueAddr;
 @property (copy, nonatomic) NSString *QRCodeString;
 @property (nonatomic, getter = getLight) unsigned char currentLight;
@@ -33,6 +34,7 @@ typedef enum {
 @property LEDState state;       //是否被选中，用于调光
 
 + (id) LEDWithName:(NSString *)name Image:(UIImage *)image;
+- (void) writeConfirmation:(NSData *)confimation;
 
 @end
 
@@ -64,6 +66,8 @@ typedef enum {
 #define LED_CHAR_CTRL_CMD_SCENE_SET     0X04
 #define LED_CHAR_CTRL_CMD_SCENE_CALL    0X05
 #define LED_CHAR_CTRL_CMD_GROUP_SET     0X06
+#define LED_CHAR_CTRL_CMD_CONFIRM       0X07
+
 
 #define LED_CHAR_UUIDS          @[LED_CHAR_CTRL_UUID, \
                                 LED_CHAR_LIGHT_UUID, \

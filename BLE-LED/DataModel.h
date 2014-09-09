@@ -34,6 +34,8 @@
 - (void) clearSelectsLEDs;
 - (void) clearScenes;
 
+- (LEDItem *) LEDForIdentifier:(NSUUID *)indentifier;
+
 - (void) saveData;
 
 @end

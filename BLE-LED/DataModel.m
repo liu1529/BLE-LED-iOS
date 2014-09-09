@@ -163,6 +163,15 @@ static DataModel *_sharedDataModel = nil;
     
 }
 
+- (LEDItem *) LEDForIdentifier:(NSUUID *)indentifier
+{
+    for (LEDItem *aLED in _LEDs) {
+        if ([aLED.identifier isEqual:indentifier]) {
+            return aLED;
+        }
+    }
+    return nil;
+}
 
 - (void) saveData
 {

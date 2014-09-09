@@ -107,10 +107,12 @@
 
 - (void) call
 {
-    for (LEDItem *aLED in self.LEDs) {
-        aLED.currentTemp = aLED.currentTemp;
-        aLED.currentLight = aLED.currentLight;
+   
+    for (int i = 0; i < _LEDs.count; i++) {
+        [_LEDs[i] setCurrentLight:[_lights[i] unsignedCharValue]];
+        [_LEDs[i] setCurrentTemp:[_temps[i] unsignedCharValue]];
     }
+    
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 

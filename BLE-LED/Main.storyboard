@@ -68,7 +68,7 @@
                                     <constraint firstItem="l1O-pt-Lbb" firstAttribute="leading" secondItem="Vzy-iC-nWR" secondAttribute="leading" constant="20" id="w2K-bZ-nuP"/>
                                 </constraints>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-mH-IoL">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j2R-mH-IoL">
                                 <rect key="frame" x="0.0" y="64" width="320" height="360"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -140,13 +140,7 @@
                             <constraint firstAttribute="trailing" secondItem="Vzy-iC-nWR" secondAttribute="trailing" id="qqd-Bf-UfN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="LED List" id="MRm-cg-JPX">
-                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="refresh" id="Tzi-1z-Mth">
-                            <connections>
-                                <action selector="refreshList:" destination="NTL-X2-VaZ" id="myS-Hl-hU6"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="LED List" id="MRm-cg-JPX"/>
                     <connections>
                         <outlet property="LEDCollectionView" destination="j2R-mH-IoL" id="kue-kT-Tx1"/>
                         <outlet property="LEDControlView" destination="Vzy-iC-nWR" id="4kV-0F-Msm"/>
@@ -594,6 +588,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="5xf-5l-REa"/>
+        <segue reference="EtV-f5-RFA"/>
     </inferredMetricsTieBreakers>
 </document>
