@@ -40,13 +40,13 @@
                                             <action selector="tempChange:" destination="NTL-X2-VaZ" eventType="valueChanged" id="Seu-cK-07f"/>
                                         </connections>
                                     </slider>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="moO-Ul-Zem">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="moO-Ul-Zem">
                                         <rect key="frame" x="20" y="9" width="51" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1O-pt-Lbb">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1O-pt-Lbb">
                                         <rect key="frame" x="20" y="50" width="51" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -86,7 +86,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="155" height="133"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LED" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
                                                     <rect key="frame" x="22" y="5" width="110" height="110"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <gestureRecognizers/>
@@ -98,7 +98,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED1" translatesAutoresizingMaskIntoConstraints="NO" id="0Yk-Id-zRY">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED" translatesAutoresizingMaskIntoConstraints="NO" id="0Yk-Id-zRY">
                                                     <rect key="frame" x="107" y="5" width="28" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -226,7 +226,7 @@
         <scene sceneID="Ui5-D3-kHf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="89d-ot-Cus" userLabel="LEDListNavi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="LED" id="za4-vj-Gwd"/>
+                    <tabBarItem key="tabBarItem" title="LED" image="LED_tab" id="za4-vj-Gwd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="z3P-Tn-TdS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -559,7 +559,7 @@
         <scene sceneID="mwo-J5-GTe">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="X72-tf-eWu" userLabel="SceneListNavi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Scene" id="8hg-Zv-slr"/>
+                    <tabBarItem key="tabBarItem" title="Scene" image="scene_tab" id="8hg-Zv-slr"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jdD-Vj-prC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -577,10 +577,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="LED" width="720" height="720"/>
         <image name="LED0" width="512" height="512"/>
-        <image name="LED1" width="256" height="256"/>
+        <image name="LED_tab" width="30" height="30"/>
         <image name="line" width="220" height="5"/>
         <image name="pick_bg" width="280" height="280"/>
+        <image name="scene_tab" width="60" height="60"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

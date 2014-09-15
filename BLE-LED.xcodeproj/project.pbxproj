@@ -34,7 +34,7 @@
 		1F98B86F1986435100C77187 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B8511986435000C77187 /* UIKit.framework */; };
 		1F98B8771986435100C77187 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B8751986435100C77187 /* InfoPlist.strings */; };
 		1F98B8791986435100C77187 /* BLE_LEDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8781986435100C77187 /* BLE_LEDTests.m */; };
-		1F9F6D4019B0771D00A0B3D1 /* UIImage+Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */; };
+		1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA1A3819C0212800421B6F /* UIImage+Filter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,8 +93,8 @@
 		1F98B8741986435100C77187 /* BLE-LEDTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BLE-LEDTests-Info.plist"; sourceTree = "<group>"; };
 		1F98B8761986435100C77187 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1F98B8781986435100C77187 /* BLE_LEDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLE_LEDTests.m; sourceTree = "<group>"; };
-		1F9F6D3E19B0771D00A0B3D1 /* UIImage+Tint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Tint.h"; path = "BLE-LED/UIImage+Tint.h"; sourceTree = "<group>"; };
-		1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Tint.m"; path = "BLE-LED/UIImage+Tint.m"; sourceTree = "<group>"; };
+		1FBA1A3719C0212800421B6F /* UIImage+Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Filter.h"; path = "BLE-LED/UIImage+Filter.h"; sourceTree = "<group>"; };
+		1FBA1A3819C0212800421B6F /* UIImage+Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Filter.m"; path = "BLE-LED/UIImage+Filter.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,9 +156,9 @@
 				1F1ED95719AF0C6400E954DE /* DataModel.h */,
 				1F1ED95819AF0C6400E954DE /* DataModel.m */,
 				1F1260C81990D477005FA983 /* AppDelegate.h */,
-				1F9F6D3E19B0771D00A0B3D1 /* UIImage+Tint.h */,
-				1F9F6D3F19B0771D00A0B3D1 /* UIImage+Tint.m */,
 				1F1260C91990D477005FA983 /* AppDelegate.m */,
+				1FBA1A3719C0212800421B6F /* UIImage+Filter.h */,
+				1FBA1A3819C0212800421B6F /* UIImage+Filter.m */,
 				1F1260B41990D165005FA983 /* Main.storyboard */,
 				1F1260BA1990D1D8005FA983 /* Supporting Files */,
 			);
@@ -377,7 +377,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F9F6D4019B0771D00A0B3D1 /* UIImage+Tint.m in Sources */,
 				1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */,
 				1F1260BC1990D317005FA983 /* main.m in Sources */,
 				1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */,
@@ -389,6 +388,7 @@
 				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
 				1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */,
 				1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */,
+				1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */,
 				1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */,
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,

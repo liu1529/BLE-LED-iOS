@@ -11,6 +11,7 @@
 #import "SceneEditViewController.h"
 #import "SceneListViewController.h"
 #import "DataModel.h"
+#import "UIImage+Filter.h"
 
 @interface ChooseLEDViewController () <UIActionSheetDelegate>
 {
@@ -131,7 +132,8 @@
                                                        0,
                                                        aView.frame.size.width / 2,
                                                        aView.frame.size.height)];
-    imageView.image = LED.image;
+    imageView.image = LED.bluePeripheral ? LED.image : [LED.image withFilterName: @"CIPhotoEffectMono"];
+
 
     
     

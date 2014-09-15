@@ -10,6 +10,7 @@
 #import "TabBarViewController.h"
 #import "SceneListViewController.h"
 #import "ChooseLEDViewController.h"
+#import "UIImage+Filter.h"
 
 
 @interface SceneEditViewController () <UIActionSheetDelegate>
@@ -98,7 +99,7 @@
     unsigned char light = [self.editScene.lights[indexPath.row] unsignedCharValue];
     unsigned char temp = [self.editScene.temps[indexPath.row] unsignedCharValue];
     
-    cell.imageView.image = aLED.image;
+    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
     cell.textLabel.text = aLED.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:
                                  @"L:%d%% T:%d%%",

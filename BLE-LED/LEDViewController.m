@@ -13,7 +13,7 @@
 #import "LEDAddViewController.h"
 #import "AppDelegate.h"
 #import "DataModel.h"
-#import "UIImage+Tint.h"
+#import "UIImage+Filter.h"
 
 @interface LEDViewController ()  <CBPeripheralDelegate>
 {
@@ -155,23 +155,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     return _dataModel.LEDs.count + 1;
 }
 
-- (UIImage *) imageEffect:(UIImage *)image WithFilterName:(NSString *)filterName
-{
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *cImage = [[CIImage alloc] initWithImage:image];
-    CIFilter *filter = [CIFilter filterWithName:filterName];
-    [filter setDefaults];
-    
-    [filter setValue:cImage forKey:kCIInputImageKey];
-    
-    CGImageRef cgImage = [context createCGImage:filter.outputImage
-                                       fromRect:filter.outputImage.extent];
-    
-    UIImage *outputImage = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    
-    return [outputImage copy];
-}
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -192,15 +176,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     LEDItem *aLED = _dataModel.LEDs[indexPath.row];
     cell.nameLabel.text = aLED.name;
+    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
     
-    
-    if (aLED.bluePeripheral) {
-        cell.imageView.image = aLED.image;
-    }
-    else
-    {
-        cell.imageView.image = [self imageEffect:aLED.image WithFilterName:@"CIPhotoEffectMono"];
-    }
     
     switch (aLED.state)
     {
@@ -619,7 +596,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     else if ([segue.identifier isEqualToString:@"toLEDAdd"])
     {
         LEDAddViewController *addVC = segue.destinationViewController;
-        LEDItem *aLED = [LEDItem LEDWithName:@"new light" Image:[UIImage imageNamed:@"LED0.png"]];
+        LEDItem *aLED = [LEDItem LEDWithName:@"new light" Image:[UIImage imageNamed:@"LED.png"]];
         addVC.addLED = aLED;
        
         addVC.completionBlock = ^(BOOL success)

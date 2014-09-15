@@ -8,6 +8,7 @@
 
 #import "LEDItem.h"
 
+
 @interface LEDItem () <NSCopying, NSCoding>
 
 @property (strong, nonatomic) NSString *blueAddrWithColon;
@@ -190,6 +191,9 @@
     }
     _currentTemp = currentTemp;
 }
+
+
+
 
 - (void) writeConfirmation:(NSData *)confimation
 {
