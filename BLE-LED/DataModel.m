@@ -11,9 +11,9 @@
 
 @interface DataModel()
 
-@property (strong, nonatomic) NSMutableArray *LEDs;
-@property (strong, nonatomic) NSMutableArray *selectLEDs;
-@property (strong, nonatomic) NSMutableArray *Scenes;
+@property (strong, nonatomic) NSMutableArray *LEDArray;
+@property (strong, nonatomic) NSMutableArray *groupArray;
+@property (strong, nonatomic) NSMutableArray *sceneArray;
 @property (strong, nonatomic) NSDictionary *imageDic;
 
 @property (strong, nonatomic) NSMutableDictionary *stroeDataDic;
@@ -77,101 +77,123 @@ static DataModel *_sharedDataModel = nil;
             // note: unarchiveObjectWithFile returns an immutable array, we need to make it mutable
             //
             _stroeDataDic = [[NSKeyedUnarchiver unarchiveObjectWithFile:[dataFileURL path]] mutableCopy];
-            _LEDs = _stroeDataDic[@"SavedLEDs"];
-            _selectLEDs =_stroeDataDic[@"SavedSelectLEDs"];
-            _Scenes = _stroeDataDic[@"SavedScenes"];
+            _LEDArray = _stroeDataDic[@"SavedLEDs"];
+            _groupArray = _stroeDataDic[@"SavedGroups"];
+            _sceneArray = _stroeDataDic[@"SavedScenes"];
             
         }
         else
         {
             _stroeDataDic = [[NSMutableDictionary alloc] init];
-            _LEDs = [[NSMutableArray alloc] init];
-            _selectLEDs = [[NSMutableArray alloc] init];
-            _Scenes = [[NSMutableArray alloc] init];
+            _LEDArray = [[NSMutableArray alloc] init];
+            _groupArray = [[NSMutableArray alloc] init];
+            _sceneArray = [[NSMutableArray alloc] init];
             
             
-            _stroeDataDic[@"SavedLEDs"] = _LEDs;
-            _stroeDataDic[@"SavedSelectLEDs"] = _selectLEDs;
-            _stroeDataDic[@"SavedScenes"] = _Scenes;
+            _stroeDataDic[@"SavedLEDs"] = _LEDArray;
+            _stroeDataDic[@"SavedGroups"] = _groupArray;
+            _stroeDataDic[@"SavedScenes"] = _sceneArray;
         }
     }
     return self;
 }
 
+#pragma mark - LEDs
 
-- (void)addLEDtoSelects:(LEDItem *)aLED
+- (NSArray *)LEDs
 {
-    aLED.state = LEDStateSelected;
-    [self.selectLEDs addObject:aLED];
+    return _LEDArray;
 }
 
 - (void)addLEDToList:(LEDItem *)aLED
 {
-    [self.LEDs addObject:aLED];
-       
-}
-
-- (void) addScene:(SceneItem *)scene
-{
-    [self.Scenes addObject:scene];
-   
-}
-
-- (void)addLEDToScene:(LEDItem *)theLED ToScene:(SceneItem *)scene
-{
-    if ([self.Scenes containsObject:scene])
-    {
-        [scene.LEDs addObject:theLED];
-        
-    }
+    [_LEDArray addObject:aLED];
+    
 }
 
 - (void) removeLEDFromList:(LEDItem *)aLED
 {
-    for (SceneItem *scene in _Scenes) {
+    for (SceneItem *scene in _sceneArray) {
         [scene removeLED:aLED];
     }
-    [self.LEDs removeObject:aLED];
-   
-}
-- (void) removeLEDFromSelects:(LEDItem *)aLED
-{
-    aLED.state = LEDStateDisSelected;
-    [self.selectLEDs removeObject:aLED];
-}
-
-- (void) removeSceneFromList:(SceneItem *)scene
-{
-    [self.Scenes removeObject:scene];
-    
-}
-
-- (void) clearLEDs
-{
-    [self.LEDs removeAllObjects];
-    [self.selectLEDs removeAllObjects];
-    
-}
-- (void) clearSelectsLEDs
-{
-    [self.selectLEDs removeAllObjects];
-   
-}
-- (void) clearScenes
-{
-    [self.Scenes removeAllObjects];
+    for (GroupItem *group in _groupArray) {
+        [group removeLED:aLED];
+    }
+    [_LEDArray removeObject:aLED];
     
 }
 
 - (LEDItem *) LEDForIdentifier:(NSUUID *)indentifier
 {
-    for (LEDItem *aLED in _LEDs) {
+    for (LEDItem *aLED in _LEDArray) {
         if ([aLED.identifier isEqual:indentifier]) {
             return aLED;
         }
     }
     return nil;
 }
+
+#pragma mark - Groups
+
+- (NSArray *)groups
+{
+    return _groupArray;
+}
+
+- (void) addGroup:(GroupItem *)grp
+{
+    [_groupArray addObject:grp];
+}
+
+- (void) addLED:(LEDItem *) aLED ToGroup:(GroupItem *)group
+{
+    if ([_groupArray containsObject:group]) {
+        [group addLED:aLED];
+    }
+}
+
+- (void) removeLED:(LEDItem *)aLED FromGroup:(GroupItem *)grp
+{
+    if ([grp.LEDs containsObject:aLED]) {
+        [grp removeLED:aLED];
+    }
+}
+
+#pragma mark - Scenes
+
+- (NSArray *)scenes
+{
+    return _sceneArray;
+}
+
+- (void) addScene:(SceneItem *)scene
+{
+    [_sceneArray addObject:scene];
+   
+}
+
+- (void)addLEDToScene:(LEDItem *)theLED ToScene:(SceneItem *)scene
+{
+    if ([_sceneArray containsObject:scene])
+    {
+        [scene.LEDs addObject:theLED];
+        
+    }
+}
+
+
+- (void) removeSceneFromList:(SceneItem *)scene
+{
+    [_sceneArray removeObject:scene];
+    
+}
+
+- (void) clearScenes
+{
+    [_sceneArray removeAllObjects];
+    
+}
+
 
 - (void) saveData
 {

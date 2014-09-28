@@ -194,7 +194,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-       [[DataModel sharedDataModel].Scenes removeObject:self.editScene];
+        [[DataModel sharedDataModel] removeSceneFromList:_editScene];
         if (self.completionBlock) {
             self.completionBlock(YES);
         }

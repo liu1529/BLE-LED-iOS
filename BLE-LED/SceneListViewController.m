@@ -68,20 +68,20 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _dataModel.Scenes.count + 1;
+    return _dataModel.scenes.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SceneCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CellScene" forIndexPath:indexPath];
     
-    if (indexPath.row >= _dataModel.Scenes.count) {
+    if (indexPath.row >= _dataModel.scenes.count) {
         cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
         cell.label.text = @"Add Scene";
         return cell;
     }
     
-    SceneItem *scene = _dataModel.Scenes[indexPath.row];
+    SceneItem *scene = _dataModel.scenes[indexPath.row];
     
     cell.imageView.image = scene.image;
     cell.label.text = scene.name;
@@ -95,10 +95,10 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row < _dataModel.Scenes.count &&
+    if (indexPath.row < _dataModel.scenes.count &&
         !self.isEditing)
     {
-        [[DataModel sharedDataModel].Scenes[indexPath.row] call];
+        [[DataModel sharedDataModel].scenes[indexPath.row] call];
     }
     else
     {
@@ -118,7 +118,7 @@
     // Pass the selected object to the new view controller.
     NSIndexPath *index = sender;
     
-    if (index.row >= _dataModel.Scenes.count)
+    if (index.row >= _dataModel.scenes.count)
     {
         //add scene
         SceneEditViewController *editVC = segue.destinationViewController;
@@ -144,7 +144,7 @@
     {
         //edit scene
         SceneEditViewController *editVC = segue.destinationViewController;
-        editVC.editScene = _dataModel.Scenes[index.row];
+        editVC.editScene = _dataModel.scenes[index.row];
         editVC.isAdd = NO;
         
         editVC.completionBlock = ^(BOOL success)

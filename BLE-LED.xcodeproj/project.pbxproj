@@ -12,10 +12,11 @@
 		1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A4D19934187002E099E /* SceneEditViewController.m */; };
 		1F037A5119934EE5002E099E /* SceneLEDTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F037A5019934EE5002E099E /* SceneLEDTableViewCell.m */; };
 		1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F05128D19935F8D00AC0DDB /* TabBarViewController.m */; };
+		1F0DA53119D2AE52003AA68D /* LEDEditTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0DA53019D2AE52003AA68D /* LEDEditTableHeader.m */; };
+		1F0DA53419D2AE70003AA68D /* LEDEditTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F0DA53319D2AE70003AA68D /* LEDEditTableViewCell.m */; };
 		1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260AA1990D165005FA983 /* CellBackGroud.m */; };
 		1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260AC1990D165005FA983 /* ImageCollectionCell.m */; };
 		1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260B01990D165005FA983 /* LEDEditViewController.m */; };
-		1F1260B91990D165005FA983 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F1260B41990D165005FA983 /* Main.storyboard */; };
 		1F1260BC1990D317005FA983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260BB1990D317005FA983 /* main.m */; };
 		1F1260C71990D3BF005FA983 /* SceneCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260C41990D3BF005FA983 /* SceneCollectionCell.m */; };
 		1F1260CB1990D477005FA983 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260C91990D477005FA983 /* AppDelegate.m */; };
@@ -25,6 +26,7 @@
 		1F1260E11990DD32005FA983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F1260E01990DD32005FA983 /* Images.xcassets */; };
 		1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1260E81990E0C7005FA983 /* LEDAddViewController.m */; };
 		1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1ED95819AF0C6400E954DE /* DataModel.m */; };
+		1F43574C19C92B9D00C904D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F43574E19C92B9D00C904D0 /* Main.storyboard */; };
 		1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5AC3C619937A30001A1EC8 /* ChooseLEDViewController.m */; };
 		1F98B84E1986435000C77187 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84D1986435000C77187 /* Foundation.framework */; };
 		1F98B8501986435000C77187 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F98B84F1986435000C77187 /* CoreGraphics.framework */; };
@@ -35,6 +37,15 @@
 		1F98B8771986435100C77187 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F98B8751986435100C77187 /* InfoPlist.strings */; };
 		1F98B8791986435100C77187 /* BLE_LEDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8781986435100C77187 /* BLE_LEDTests.m */; };
 		1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA1A3819C0212800421B6F /* UIImage+Filter.m */; };
+		1FCE62D519D42CAA00CDBB42 /* LEDEditTableViewQRCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE62D419D42CAA00CDBB42 /* LEDEditTableViewQRCell.m */; };
+		1FD7097719C8183500F36AD0 /* SKSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7096E19C8183500F36AD0 /* SKSTableView.m */; };
+		1FD7097819C8183500F36AD0 /* SKSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */; };
+		1FD7097919C8183500F36AD0 /* SKSTableViewCellIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */; };
+		1FD7097A19C8183500F36AD0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097419C8183500F36AD0 /* ViewController.m */; };
+		1FD7097E19C818DF00F36AD0 /* GrpListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097D19C818DF00F36AD0 /* GrpListViewController.m */; };
+		1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098019C818F700F36AD0 /* GrpEditViewController.m */; };
+		1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098319C8195D00F36AD0 /* GroupItem.m */; };
+		1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,13 +69,16 @@
 		1F037A5019934EE5002E099E /* SceneLEDTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SceneLEDTableViewCell.m; path = "BLE-LED/SceneLEDTableViewCell.m"; sourceTree = "<group>"; };
 		1F05128C19935F8D00AC0DDB /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = "BLE-LED/TabBarViewController.h"; sourceTree = "<group>"; };
 		1F05128D19935F8D00AC0DDB /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = "BLE-LED/TabBarViewController.m"; sourceTree = "<group>"; };
+		1F0DA52F19D2AE52003AA68D /* LEDEditTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditTableHeader.h; path = "BLE-LED/LEDEditTableHeader.h"; sourceTree = "<group>"; };
+		1F0DA53019D2AE52003AA68D /* LEDEditTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditTableHeader.m; path = "BLE-LED/LEDEditTableHeader.m"; sourceTree = "<group>"; };
+		1F0DA53219D2AE70003AA68D /* LEDEditTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditTableViewCell.h; path = "BLE-LED/LEDEditTableViewCell.h"; sourceTree = "<group>"; };
+		1F0DA53319D2AE70003AA68D /* LEDEditTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditTableViewCell.m; path = "BLE-LED/LEDEditTableViewCell.m"; sourceTree = "<group>"; };
 		1F1260AA1990D165005FA983 /* CellBackGroud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CellBackGroud.m; path = "BLE-LED/CellBackGroud.m"; sourceTree = "<group>"; };
 		1F1260AB1990D165005FA983 /* ImageCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionCell.h; path = "BLE-LED/ImageCollectionCell.h"; sourceTree = "<group>"; };
 		1F1260AC1990D165005FA983 /* ImageCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionCell.m; path = "BLE-LED/ImageCollectionCell.m"; sourceTree = "<group>"; };
 		1F1260AF1990D165005FA983 /* LEDEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditViewController.h; path = "BLE-LED/LEDEditViewController.h"; sourceTree = "<group>"; };
 		1F1260B01990D165005FA983 /* LEDEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditViewController.m; path = "BLE-LED/LEDEditViewController.m"; sourceTree = "<group>"; };
 		1F1260B11990D165005FA983 /* LEDItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDItem.h; path = "BLE-LED/LEDItem.h"; sourceTree = "<group>"; };
-		1F1260B41990D165005FA983 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "BLE-LED/Main.storyboard"; sourceTree = "<group>"; };
 		1F1260BB1990D317005FA983 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "BLE-LED/main.m"; sourceTree = "<group>"; };
 		1F1260BF1990D388005FA983 /* BLE-LED-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BLE-LED-Prefix.pch"; path = "BLE-LED/BLE-LED-Prefix.pch"; sourceTree = "<group>"; };
 		1F1260C31990D3BF005FA983 /* SceneCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneCollectionCell.h; path = "BLE-LED/SceneCollectionCell.h"; sourceTree = "<group>"; };
@@ -82,6 +96,7 @@
 		1F1260E81990E0C7005FA983 /* LEDAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDAddViewController.m; path = "BLE-LED/LEDAddViewController.m"; sourceTree = "<group>"; };
 		1F1ED95719AF0C6400E954DE /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataModel.h; path = "BLE-LED/DataModel.h"; sourceTree = "<group>"; };
 		1F1ED95819AF0C6400E954DE /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataModel.m; path = "BLE-LED/DataModel.m"; sourceTree = "<group>"; };
+		1F43574D19C92B9D00C904D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F5AC3C519937A30001A1EC8 /* ChooseLEDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChooseLEDViewController.h; path = "BLE-LED/ChooseLEDViewController.h"; sourceTree = "<group>"; };
 		1F5AC3C619937A30001A1EC8 /* ChooseLEDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChooseLEDViewController.m; path = "BLE-LED/ChooseLEDViewController.m"; sourceTree = "<group>"; };
 		1F98B84A1986435000C77187 /* BLE-LED.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BLE-LED.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +110,24 @@
 		1F98B8781986435100C77187 /* BLE_LEDTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLE_LEDTests.m; sourceTree = "<group>"; };
 		1FBA1A3719C0212800421B6F /* UIImage+Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Filter.h"; path = "BLE-LED/UIImage+Filter.h"; sourceTree = "<group>"; };
 		1FBA1A3819C0212800421B6F /* UIImage+Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Filter.m"; path = "BLE-LED/UIImage+Filter.m"; sourceTree = "<group>"; };
+		1FCE62D319D42CAA00CDBB42 /* LEDEditTableViewQRCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditTableViewQRCell.h; path = "BLE-LED/LEDEditTableViewQRCell.h"; sourceTree = "<group>"; };
+		1FCE62D419D42CAA00CDBB42 /* LEDEditTableViewQRCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditTableViewQRCell.m; path = "BLE-LED/LEDEditTableViewQRCell.m"; sourceTree = "<group>"; };
+		1FD7096D19C8183500F36AD0 /* SKSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableView.h; sourceTree = "<group>"; };
+		1FD7096E19C8183500F36AD0 /* SKSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableView.m; sourceTree = "<group>"; };
+		1FD7096F19C8183500F36AD0 /* SKSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableViewCell.h; sourceTree = "<group>"; };
+		1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCell.m; sourceTree = "<group>"; };
+		1FD7097119C8183500F36AD0 /* SKSTableViewCellIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableViewCellIndicator.h; sourceTree = "<group>"; };
+		1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCellIndicator.m; sourceTree = "<group>"; };
+		1FD7097319C8183500F36AD0 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1FD7097419C8183500F36AD0 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1FD7097C19C818DF00F36AD0 /* GrpListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpListViewController.h; path = "BLE-LED/GrpListViewController.h"; sourceTree = "<group>"; };
+		1FD7097D19C818DF00F36AD0 /* GrpListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpListViewController.m; path = "BLE-LED/GrpListViewController.m"; sourceTree = "<group>"; };
+		1FD7097F19C818F700F36AD0 /* GrpEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditViewController.h; path = "BLE-LED/GrpEditViewController.h"; sourceTree = "<group>"; };
+		1FD7098019C818F700F36AD0 /* GrpEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditViewController.m; path = "BLE-LED/GrpEditViewController.m"; sourceTree = "<group>"; };
+		1FD7098219C8195D00F36AD0 /* GroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupItem.h; path = "BLE-LED/GroupItem.h"; sourceTree = "<group>"; };
+		1FD7098319C8195D00F36AD0 /* GroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupItem.m; path = "BLE-LED/GroupItem.m"; sourceTree = "<group>"; };
+		1FD7098519C81EDB00F36AD0 /* GrpCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpCollectionCell.h; path = "BLE-LED/GrpCollectionCell.h"; sourceTree = "<group>"; };
+		1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpCollectionCell.m; path = "BLE-LED/GrpCollectionCell.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +181,8 @@
 		1F1260A91990D127005FA983 /* BLE-LED */ = {
 			isa = PBXGroup;
 			children = (
+				1FD7097B19C8188D00F36AD0 /* GroupTab */,
+				1FD7096A19C8183500F36AD0 /* SKSTableView */,
 				1F05128C19935F8D00AC0DDB /* TabBarViewController.h */,
 				1F05128D19935F8D00AC0DDB /* TabBarViewController.m */,
 				1F1260E31990DF65005FA983 /* SceneTab */,
@@ -159,7 +194,7 @@
 				1F1260C91990D477005FA983 /* AppDelegate.m */,
 				1FBA1A3719C0212800421B6F /* UIImage+Filter.h */,
 				1FBA1A3819C0212800421B6F /* UIImage+Filter.m */,
-				1F1260B41990D165005FA983 /* Main.storyboard */,
+				1F43574E19C92B9D00C904D0 /* Main.storyboard */,
 				1F1260BA1990D1D8005FA983 /* Supporting Files */,
 			);
 			name = "BLE-LED";
@@ -213,10 +248,16 @@
 		1F1260E51990DFD0005FA983 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
+				1FCE62D319D42CAA00CDBB42 /* LEDEditTableViewQRCell.h */,
+				1FCE62D419D42CAA00CDBB42 /* LEDEditTableViewQRCell.m */,
 				1F1260AB1990D165005FA983 /* ImageCollectionCell.h */,
 				1F1260AC1990D165005FA983 /* ImageCollectionCell.m */,
 				1F1260AF1990D165005FA983 /* LEDEditViewController.h */,
 				1F1260B01990D165005FA983 /* LEDEditViewController.m */,
+				1F0DA52F19D2AE52003AA68D /* LEDEditTableHeader.h */,
+				1F0DA53019D2AE52003AA68D /* LEDEditTableHeader.m */,
+				1F0DA53219D2AE70003AA68D /* LEDEditTableViewCell.h */,
+				1F0DA53319D2AE70003AA68D /* LEDEditTableViewCell.m */,
 			);
 			name = Edit;
 			sourceTree = "<group>";
@@ -276,6 +317,37 @@
 				1F98B8751986435100C77187 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1FD7096A19C8183500F36AD0 /* SKSTableView */ = {
+			isa = PBXGroup;
+			children = (
+				1FD7096D19C8183500F36AD0 /* SKSTableView.h */,
+				1FD7096E19C8183500F36AD0 /* SKSTableView.m */,
+				1FD7096F19C8183500F36AD0 /* SKSTableViewCell.h */,
+				1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */,
+				1FD7097119C8183500F36AD0 /* SKSTableViewCellIndicator.h */,
+				1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */,
+				1FD7097319C8183500F36AD0 /* ViewController.h */,
+				1FD7097419C8183500F36AD0 /* ViewController.m */,
+			);
+			name = SKSTableView;
+			path = "BLE-LED/SKSTableView";
+			sourceTree = "<group>";
+		};
+		1FD7097B19C8188D00F36AD0 /* GroupTab */ = {
+			isa = PBXGroup;
+			children = (
+				1FD7097C19C818DF00F36AD0 /* GrpListViewController.h */,
+				1FD7097D19C818DF00F36AD0 /* GrpListViewController.m */,
+				1FD7098519C81EDB00F36AD0 /* GrpCollectionCell.h */,
+				1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */,
+				1FD7097F19C818F700F36AD0 /* GrpEditViewController.h */,
+				1FD7098019C818F700F36AD0 /* GrpEditViewController.m */,
+				1FD7098219C8195D00F36AD0 /* GroupItem.h */,
+				1FD7098319C8195D00F36AD0 /* GroupItem.m */,
+			);
+			name = GroupTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,7 +430,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1260E11990DD32005FA983 /* Images.xcassets in Resources */,
-				1F1260B91990D165005FA983 /* Main.storyboard in Resources */,
+				1F43574C19C92B9D00C904D0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,18 +450,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */,
+				1FD7097819C8183500F36AD0 /* SKSTableViewCell.m in Sources */,
 				1F1260BC1990D317005FA983 /* main.m in Sources */,
 				1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */,
 				1F1260CB1990D477005FA983 /* AppDelegate.m in Sources */,
 				1F037A4719933E9C002E099E /* SceneListViewController.m in Sources */,
+				1FD7097919C8183500F36AD0 /* SKSTableViewCellIndicator.m in Sources */,
+				1F0DA53419D2AE70003AA68D /* LEDEditTableViewCell.m in Sources */,
+				1FD7097E19C818DF00F36AD0 /* GrpListViewController.m in Sources */,
+				1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */,
+				1F0DA53119D2AE52003AA68D /* LEDEditTableHeader.m in Sources */,
+				1FCE62D519D42CAA00CDBB42 /* LEDEditTableViewQRCell.m in Sources */,
 				1F1260C71990D3BF005FA983 /* SceneCollectionCell.m in Sources */,
 				1F1260DB1990DACB005FA983 /* LEDViewController.m in Sources */,
 				1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */,
 				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
 				1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */,
 				1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */,
+				1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */,
+				1FD7097719C8183500F36AD0 /* SKSTableView.m in Sources */,
+				1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */,
 				1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */,
 				1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */,
+				1FD7097A19C8183500F36AD0 /* ViewController.m in Sources */,
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
@@ -417,6 +500,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1F43574E19C92B9D00C904D0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1F43574D19C92B9D00C904D0 /* en */,
+			);
+			name = Main.storyboard;
+			path = "BLE-LED";
+			sourceTree = "<group>";
+		};
 		1F98B8751986435100C77187 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

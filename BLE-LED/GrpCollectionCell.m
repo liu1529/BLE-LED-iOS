@@ -1,23 +1,20 @@
 //
-//  LEDCollectionCell.m
+//  GrpCollectionCell.m
 //  BLE-LED
 //
-//  Created by xlliu on 14-7-31.
+//  Created by xlliu on 14-9-16.
 //  Copyright (c) 2014年 jiuzhou. All rights reserved.
 //
 
-#import "LEDCollectionCell.h"
-#import "CellBackGroud.h"
+#import "GrpCollectionCell.h"
 
-@implementation LEDCollectionCell
+@implementation GrpCollectionCell
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        CellBackGroud* cellBackGround = [[CellBackGroud alloc] initWithFrame:frame];
-        self.selectedBackgroundView = cellBackGround;
     }
     return self;
 }
@@ -30,7 +27,5 @@
     // Drawing code
 }
 */
-
-
 
 @end

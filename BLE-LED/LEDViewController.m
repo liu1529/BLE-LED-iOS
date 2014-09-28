@@ -15,28 +15,22 @@
 #import "DataModel.h"
 #import "UIImage+Filter.h"
 
-@interface LEDViewController ()  <CBPeripheralDelegate>
+@interface LEDViewController ()  <UICollectionViewDataSource,
+                                UICollectionViewDelegate,
+                                UIActionSheetDelegate,
+                                CBCentralManagerDelegate,
+                                CBPeripheralDelegate>
 {
     DataModel *_dataModel;
     NSMutableArray *_discoverPeripherals;
+    UICollectionView *_LEDCollectionView;
 }
 
 @property (strong, nonatomic) CBCentralManager *centralManager;
 
 
-@property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
-@property (weak, nonatomic) IBOutlet UIView *LEDControlView;
-@property (weak, nonatomic) IBOutlet UILabel *lightLabel;
-@property (weak, nonatomic) IBOutlet UILabel *tempLabel;
-@property (weak, nonatomic) IBOutlet UISlider *lightSlider;
-@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
-
-
-
 - (IBAction)refreshList:(id)sender;
 
-- (IBAction)lightChange:(id)sender;
-- (IBAction)tempChange:(id)sender;
 
 @end
 
@@ -69,22 +63,21 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self loadInit];
+    [self loadInit];
 
-    self.LEDCollectionView.dataSource = self;
-    self.LEDCollectionView.delegate = self;
+    _LEDCollectionView = (UICollectionView *)self.view;
+    _LEDCollectionView.dataSource = self;
+    _LEDCollectionView.delegate = self;
 //    self.LEDCollectionView.allowsMultipleSelection = YES;
 
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:@{CBCentralManagerOptionShowPowerAlertKey:@(YES)}];
    
     
-    self.navigationItem.rightBarButtonItem = [self editButtonItem];
-    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to refresh"];
     [refreshControl addTarget:self action:@selector(refreshList:) forControlEvents: UIControlEventValueChanged ];
-    [self.LEDCollectionView addSubview:refreshControl];
+    [_LEDCollectionView addSubview:refreshControl];
     
 }
 
@@ -116,14 +109,14 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     switch (self.interfaceOrientation) {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            if ([self.LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
-                ((UICollectionViewFlowLayout *)(self.LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            if ([_LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+                ((UICollectionViewFlowLayout *)(_LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionHorizontal;
             }
             
             break;
         default:
-            if ([self.LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
-                ((UICollectionViewFlowLayout *)(self.LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionVertical;
+            if ([_LEDCollectionView.collectionViewLayout isKindOfClass:[UICollectionViewFlowLayout class]]) {
+                ((UICollectionViewFlowLayout *)(_LEDCollectionView.collectionViewLayout)).scrollDirection = UICollectionViewScrollDirectionVertical;
             }
             break;
     }
@@ -134,8 +127,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     for(int i = 0; i < 8; i++)
     {
-        LEDItem *aLED = [LEDItem LEDWithName:[NSString stringWithFormat:@"LED %i", i] Image:[UIImage imageNamed:@"LED0.png"]];
-       
+        LEDItem *aLED = [LEDItem LEDWithName:[NSString stringWithFormat:@"LED %i", i] Image:[UIImage imageNamed:@"LED.png"]];
+        aLED.QRCodeString = [NSString stringWithFormat:@"00:00:00:00:00:%02d,%d",i,i];
         [_dataModel addLEDToList:aLED];
     }
     
@@ -168,34 +161,13 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     if (indexPath.row >= _dataModel.LEDs.count) {
         cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
         cell.nameLabel.text = @"scan to add";
-        cell.indicatorImageView.hidden = YES;
-        cell.indicatorActivityView.hidden = YES;
         return cell;
     }
-    
     
     LEDItem *aLED = _dataModel.LEDs[indexPath.row];
     cell.nameLabel.text = aLED.name;
     cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
     
-    
-    switch (aLED.state)
-    {
-        case LEDStateDisSelected:
-            cell.indicatorImageView.hidden = YES;
-            cell.indicatorActivityView.hidden = YES;
-            break;
-        case LEDStateSelecting:
-            cell.indicatorActivityView.hidden = NO;
-            cell.indicatorImageView.hidden = YES;
-            break;
-        case LEDStateSelected:
-            cell.indicatorActivityView.hidden = YES;
-            cell.indicatorImageView.hidden = NO;
-            break;
-        default:
-            break;
-    }
    
     return cell;
 }
@@ -211,33 +183,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         return;
     }
     
-    if (self.isEditing) {
-        [self performSegueWithIdentifier:@"toLEDEdit" sender:indexPath];
-        return;
-    }
-    
-    LEDItem *currentSelectLED = _dataModel.LEDs[indexPath.row];
-    
-    if (!currentSelectLED.bluePeripheral) {
-        return;
-    }
-    
-    if (currentSelectLED.state == LEDStateSelected) {
-        [_dataModel removeLEDFromSelects:currentSelectLED];
-        if (_dataModel.selectLEDs.count == 0) {
-            self.tempSlider.enabled = NO ;
-            self.lightSlider.enabled = NO;
+    [self performSegueWithIdentifier:@"toLEDEdit" sender:indexPath];
 
-        }
-    }
-    else
-    {
-        self.tempSlider.enabled = YES;
-        self.lightSlider.enabled = YES;
-        [_dataModel addLEDtoSelects:currentSelectLED];
-    }
-    
-    [self.LEDCollectionView reloadItemsAtIndexPaths:@[indexPath]];
 }
 
 
@@ -260,10 +207,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             }
           
         }
-        [_dataModel clearSelectsLEDs];
-        self.lightSlider.enabled = NO;
-        self.tempSlider.enabled = NO;
-        [self.LEDCollectionView reloadData];
+        
+
+        [_LEDCollectionView reloadData];
     
         // start progress spinner
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -307,7 +253,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
    
-    NSMutableArray *LEDs = _dataModel.LEDs;
+    NSArray *LEDs = _dataModel.LEDs;
     
     if (![peripheral.name isEqualToString:@"Greeble Light"]) {
         return;
@@ -365,18 +311,12 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     {
         if (aLED.bluePeripheral == peripheral)
         {
-            [_dataModel removeLEDFromSelects:aLED];
             aLED.bluePeripheral = nil;
-            [self.LEDCollectionView reloadData];
+            [_LEDCollectionView reloadData];
             break;
         }
     }
     
-    if (_dataModel.selectLEDs.count == 0)
-    {
-        self.lightSlider.enabled = NO;
-        self.tempSlider.enabled = NO;
-    }
 
     
     if (!error)
@@ -399,7 +339,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         {
             aLED.bluePeripheral = nil;
             aLED.state = LEDStateDisSelected;
-            [self.LEDCollectionView reloadData];
+            [_LEDCollectionView reloadData];
             break;
         }
     }
@@ -515,7 +455,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             {
                 aLED.bluePeripheral = peripheral;
                 aLED.characteristics = [[peripheral.services firstObject] characteristics];
-                [self.LEDCollectionView reloadData];
+                [_LEDCollectionView reloadData];
                 [aLED writeConfirmation:[recvAddrData subdataWithRange:NSMakeRange(3, 3)]];
                 aLED.identifier = peripheral.identifier;
                 break;
@@ -534,36 +474,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     }
 }
 
-- (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
-{
-    if (!error) {
-        printf("p:%s update RSSI:%i\n",[[peripheral.identifier UUIDString] UTF8String],peripheral.RSSI.intValue);
-    }
-}
-
-
-#pragma mark - LED Control
-
-- (IBAction)lightChange:(id)sender {
-    UISlider *slider = sender;
-    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
- 
-    for (LEDItem *aLED in _dataModel.selectLEDs) {
-       
-            aLED.currentLight = (int)slider.value;
-        
-        
-    }
-}
-
-- (IBAction)tempChange:(id)sender {
-    UISlider *slider = sender;
-    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
-    
-    for (LEDItem *aLED in _dataModel.selectLEDs) {
-        aLED.currentTemp = (int)slider.value;
-    }
-}
 
 #pragma mark - Navigation
 
@@ -582,7 +492,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         {
             if (success)
             {
-                [self.LEDCollectionView reloadData];
+                [_LEDCollectionView reloadData];
                 [_dataModel saveData];
             }
             else
@@ -604,7 +514,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             if (success)
             {
                 [_dataModel addLEDToList:aLED];
-                [self.LEDCollectionView reloadData];
+                [_LEDCollectionView reloadData];
                 [_dataModel saveData];
             }
             else

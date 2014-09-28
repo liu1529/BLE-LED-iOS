@@ -13,10 +13,7 @@
 
 
 
-@interface LEDViewController : UIViewController <UICollectionViewDataSource,
-                                                UICollectionViewDelegate,
-                                                UIActionSheetDelegate,
-                                                CBCentralManagerDelegate>
+@interface LEDViewController : UIViewController 
 
 
 
