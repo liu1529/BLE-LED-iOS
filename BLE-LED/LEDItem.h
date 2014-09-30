@@ -27,7 +27,8 @@ typedef enum {
 @property (copy, nonatomic) NSUUID *identifier;
 @property (copy, nonatomic ,readonly) NSString *blueAddr;
 @property (copy, nonatomic) NSString *QRCodeString;
-@property (nonatomic, getter = getLight) unsigned char currentLight;
+@property (nonatomic) BOOL onOff;
+@property (nonatomic) unsigned char currentLight;
 @property (nonatomic) unsigned char currentTemp;
 @property (strong, nonatomic) CBPeripheral *bluePeripheral;
 @property (strong, nonatomic) NSArray *characteristics;
@@ -41,7 +42,9 @@ typedef enum {
 
 
 #define LED_LIGHT_MAX           255
+#define LED_LIGHT_MIN           8
 #define LED_TEMP_MAX            255
+#define LED_TEMP_MIN            0
 
 #define LED_SERVICE_UUID        [CBUUID UUIDWithString:@"DC00"]
 #define LED_SERVICE_UUIDS       @[LED_SERVICE_UUID]

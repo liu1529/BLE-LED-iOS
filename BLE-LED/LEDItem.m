@@ -22,6 +22,7 @@
 
 @synthesize QRCodeString = _QRCodeString;
 
+
 - (NSArray *)keysForEncoding;
 {
     return @[@"name", @"image", @"identifier", @"blueAddr",@"blueAddrWithColon"];
@@ -32,6 +33,7 @@
     LEDItem *LED = [[self class] allocWithZone:zone];
     LED.image = self.image;
     LED.name = self.name;
+    LED.onOff = self.onOff;
     LED.currentLight = self.currentLight;
     LED.currentTemp = self.currentTemp;
     LED.QRCodeString = _QRCodeString;
@@ -122,6 +124,39 @@
     return _QRCodeString;
 }
 
+- (void)setOnOff:(BOOL)onOff
+{
+    CBCharacteristic *charac = nil;
+    
+    if (charac == nil)
+    {
+        for (CBCharacteristic *c in self.characteristics) {
+            if ([c.UUID isEqual:LED_CHAR_CTRL_UUID]) {
+                charac = c;
+            }
+        }
+    }
+    
+    if (charac &&
+        charac.properties & CBCharacteristicPropertyWrite)
+    {
+        
+        NSMutableData *data = [NSMutableData new];
+        unsigned char Cmd = LED_CHAR_CTRL_CMD_ON_OFF;
+        [data appendBytes:&Cmd length:1];
+        [data appendBytes:&onOff length:1];
+        
+        
+        [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
+        
+        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+    }
+    else
+    {
+        printf("p:%s c:%s is nil\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String]);
+    }
+    _onOff = onOff;
+}
 
 - (void)setCurrentLight:(unsigned char)currentLight
 {
@@ -134,6 +169,10 @@
                 charac = c;
             }
         }
+    }
+    
+    if (currentLight < 8) {
+        currentLight = 8;
     }
     
     if (charac &&

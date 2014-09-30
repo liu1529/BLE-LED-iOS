@@ -21,28 +21,21 @@
 @interface LEDEditViewController () <UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     NSTimer *_updateRSSITimer;
-    BOOL _LEDIsExpand;
-    BOOL _QRIsExpand;
+    BOOL _iSQRExpand;
     UIImage *_QRImage;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) IBOutlet UIImageView *LEDImageView;
 @property (weak, nonatomic) IBOutlet UITextField *LEDNameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *QRImageView;
-@property (weak, nonatomic) IBOutlet UILabel *QRLabel;
 @property (weak, nonatomic) IBOutlet UILabel *RSSILabel;
-@property (weak, nonatomic) IBOutlet UISwitch *LEDSwitch;
-@property (weak, nonatomic) IBOutlet UISlider *lightSlider;
-@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
+
 
 - (IBAction)hideKeyboard:(id)sender;
 - (IBAction)doneEdit:(id)sender;
 - (IBAction)cancelEdit:(id)sender;
 
 
-@property (weak,nonatomic) LEDViewController *listViewController;
-@property (weak,nonatomic) LEDAddViewController *addViewController;
 @property (strong,nonatomic) NSMutableArray *allImages;
 
 
@@ -76,16 +69,6 @@
     CIImage *qrImage = [self createQRForString:_editLED.QRCodeString];
     _QRImage = [self createNonInterpolateduIImageForCIImage:qrImage
                                                   withScale:3 * [UIScreen mainScreen].scale];
-    self.QRImageView.image = _QRImage;
-    self.QRLabel.text = _editLED.QRCodeString;
-    
-    if (!_editLED.bluePeripheral) {
-        _LEDSwitch.on = NO;
-        _LEDSwitch.enabled = NO;
-    }
-    
-    _lightSlider.enabled = _LEDSwitch.on;
-    _tempSlider.enabled = _LEDSwitch.on;
     
     
     if (_editLED.bluePeripheral) {
@@ -96,11 +79,11 @@
     
     
     
-    _LEDIsExpand = NO;
-    _QRIsExpand = NO;
+    _iSQRExpand = NO;
     
     
-    
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"OnOffCell"];
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"QRCell"];
    
 }
 
@@ -108,16 +91,13 @@
 {
     if (_editLED.bluePeripheral) {
         if (_editLED.bluePeripheral.RSSI) {
-            _RSSILabel.text = [NSString stringWithFormat:@"%@ DB",_editLED.bluePeripheral.RSSI];
+            _RSSILabel.text = [NSString stringWithFormat:@"%@ dBm",_editLED.bluePeripheral.RSSI];
         }
         [_editLED.bluePeripheral readRSSI];
 
     }
     else
     {
-        _LEDSwitch.enabled = NO;
-        _lightSlider.enabled = _LEDSwitch.on;
-        _tempSlider.enabled = _LEDSwitch.on;
         _RSSILabel.text = @"Not Connect";
     }
 }
@@ -247,11 +227,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return _QRIsExpand ? 1 : 0;
+        return _editLED.onOff ? 3 : 1;
     }
-    else if(section == 1)
-    {
-        return _LEDIsExpand ? 2 : 0;
+    if (section == 1) {
+        return _iSQRExpand ? 2 : 1;
     }
     return 0;
     
@@ -262,198 +241,96 @@
    
     
     if (indexPath.section == 0) {
-        LEDEditTableViewQRCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableQRCell" forIndexPath:indexPath];
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OnOffCell" forIndexPath:indexPath];
+            cell.textLabel.text = @"On/Off";
+            UISwitch *s = [UISwitch new];
+            s.on = _editLED.onOff;
+            [s addTarget:self action:@selector(onOffButton:withEvent:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = s;
+            return cell;
+        }
+        else {
+            LEDEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableCtrlCell" forIndexPath:indexPath];
+            switch (indexPath.row) {
+                case 1:
+                    cell.label.text = @"Lumen:";
+                    [cell.slider setMinimumValue:LED_LIGHT_MIN];
+                    [cell.slider setMaximumValue:LED_LIGHT_MAX];
+                    [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
+                    [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
+                    break;
+                case 2:
+                    cell.label.text = @"CCT:";
+                    [cell.slider setMinimumValue:LED_TEMP_MIN];
+                    [cell.slider setMaximumValue:LED_TEMP_MAX];
+                    [cell.slider setValue:(float)(_editLED.currentTemp) animated:YES];
+                    [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
+                    break;
+                default:
+                    break;
+            }
+            return cell;
+            
+        }
         
-        cell.qrImageView.image = _QRImage;
-        cell.qrString.text = _editLED.QRCodeString;
-        
-        return cell;
+
     }
     else if(indexPath.section == 1)
     {
-        LEDEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableCtrlCell" forIndexPath:indexPath];
-        switch (indexPath.row) {
-            case 0:
-                cell.label.text = @"Lumen:";
-                [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
-                break;
-            case 1:
-                cell.label.text = @"CCT:";
-                [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
-                break;
-            default:
-                break;
+        if (indexPath.row == 0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QRCell" forIndexPath:indexPath];
+            cell.textLabel.text = @"QRImage";
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            return cell;
         }
-        return cell;
+        else {
+            LEDEditTableViewQRCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableQRCell" forIndexPath:indexPath];
+            
+            cell.qrImageView.image = _QRImage;
+            cell.qrString.text = _editLED.QRCodeString;
+            
+            return cell;
+            
+        }
+
     }
     
     return nil;
    
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 300;
-    }
-    else if(indexPath.section == 1)
-    {
-        return 75;
-    }
-    return 0;
+    NSInteger heghits[][3] = {
+        {40,50,50},
+        {40,280,0}};
+    return heghits[indexPath.section][indexPath.row];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section
+- (void) onOffButton:(UISwitch *)s withEvent:(UIControlEvents *)event
 {
-    return 80;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    UISwitch *s = [UISwitch new];
-    return s.frame.size.height + 20;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UITableViewHeaderFooterView *h = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Header"];
-    
-    if (!h) {
-        h = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"Header"];
-    }
-    
-    if (h.tag != 1) {
-        h.tag = 1;
-        NSLog(@"new header");
-        
-        if (section == 0) {
-            
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            //btn.backgroundColor = [UIColor blueColor];
-            [btn setTitle:@"QRImage" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            btn.titleLabel.textAlignment = NSTextAlignmentLeft;
-//            UILabel *label = [UILabel new];
-//            label.text = @"QRCodeImage";
-            [h.contentView addSubview:btn];
-            
-            UIImage *im = [UIImage imageNamed:@"expandableImage"];
-            UIImageView *iv = [UIImageView new];
-            iv.contentMode = UIViewContentModeCenter;
-            iv.image = im;
-            [h.contentView addSubview:iv];
-            
-            
-            btn.translatesAutoresizingMaskIntoConstraints = NO;
-            iv.translatesAutoresizingMaskIntoConstraints = NO;
-            NSDictionary *vs = NSDictionaryOfVariableBindings(btn,iv);
-            
-//            [h.contentView addConstraints:
-//             [NSLayoutConstraint
-//              constraintsWithVisualFormat:
-//              @"H:|-[btn]-|"
-//              options:0 metrics:nil views:vs]];
-            
-//            [h.contentView addConstraints:
-//             [NSLayoutConstraint
-//              constraintsWithVisualFormat:
-//              @"H:|-[btn(>=100)]-(>=10)-[iv]-(30)-|"
-//              options:0 metrics:nil views:vs]];
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"H:|-[btn]-|"
-              options:0 metrics:nil views:vs]];
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"H:[iv]-(30)-|"
-              options:0 metrics:nil views:vs]];
-            
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"V:|[btn]|"
-              options:0 metrics:nil views:vs]];
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"V:|[iv]|"
-              options:0 metrics:nil views:vs]];
-            
-            [btn addTarget:self action:@selector(QRimageExpand) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-        }
-        else if (section == 1)
-        {
-            UILabel *label = [UILabel new];
-            label.text = @"Switch";
-            [h.contentView addSubview:label];
-            
-            UISwitch *s = [UISwitch new];
-            s.tag = 2;
-            [h.contentView addSubview:s];
-            
-            
-            label.translatesAutoresizingMaskIntoConstraints = NO;
-            s.translatesAutoresizingMaskIntoConstraints = NO;
-            NSDictionary *vs = NSDictionaryOfVariableBindings(label,s);
-            
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"H:|-[label]->=5@100-[s]-|"
-              options:0 metrics:nil views:vs]];
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"V:|[label]|"
-              options:0 metrics:nil views:vs]];
-            [h.contentView addConstraints:
-             [NSLayoutConstraint
-              constraintsWithVisualFormat:
-              @"V:|[s]|"
-              options:0 metrics:nil views:vs]];
-            
-            [s addTarget:self action:@selector(LEDSwitch:) forControlEvents:UIControlEventValueChanged];
-            s.on = _LEDIsExpand;
-
-        }
-    }
-        
-    return h;
+    _editLED.onOff = s.on;
+    [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 
 
--(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    return indexPath;
+    _iSQRExpand = !_iSQRExpand;
+    [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [tableView reloadData];
 }
 
 
 
 #pragma mark - LED Control Panle
 
-- (void)QRimageExpand
-{
-    _QRIsExpand = !_QRIsExpand;
-    [_tableView reloadData];
-}
 
-- (IBAction)LEDSwitch:(UISwitch *)sender
-{
-    UITableViewHeaderFooterView *h = [_tableView headerViewForSection:1];
-    if (h) {
-       
-        UISwitch *s = (UISwitch *)[h.contentView viewWithTag:2];
-        _LEDIsExpand = s.on;
- //       [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        [_tableView reloadData];
-    }
-   
-}
+
+
 
 - (IBAction)lightChange:(UISlider *)sender
 {

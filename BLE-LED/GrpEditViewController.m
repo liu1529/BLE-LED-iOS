@@ -92,8 +92,8 @@
     
     LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
     
-//    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
-    cell.imageView.image = aLED.image;
+    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
+//    cell.imageView.image = aLED.image;
     cell.nameLabel.text = aLED.name;
     
     //选择后，为灰色背景
@@ -195,7 +195,7 @@
 -(IBAction)expandAction:(UIButton *)sender
 {
     _isExpand = !_isExpand;
-    _expandImageView.transform = _isExpand ? CGAffineTransformMakeRotation(0) : CGAffineTransformMakeRotation(M_PI);
+    _expandImageView.transform = _isExpand ? CGAffineTransformMakeRotation(M_PI) : CGAffineTransformMakeRotation(0);
     
     [_collectionView reloadData];
 }

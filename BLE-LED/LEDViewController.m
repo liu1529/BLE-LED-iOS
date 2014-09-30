@@ -63,7 +63,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self loadInit];
+//    [self loadInit];
 
     _LEDCollectionView = (UICollectionView *)self.view;
     _LEDCollectionView.dataSource = self;
@@ -413,6 +413,71 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
+- (void)confirmPeripheral:(CBPeripheral *)peripheral forCharateristic:(CBCharacteristic *)characteristic
+{
+    if (characteristic.value.length != 6) {
+        [_centralManager cancelPeripheralConnection:peripheral];
+        [_discoverPeripherals removeObject:peripheral];
+        return ;
+    }
+    
+    __block NSMutableString *recvAddrString = [[NSMutableString alloc] init];
+    __block NSMutableData *recvAddrData = [[NSMutableData alloc] init];
+    [characteristic.value enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+        Byte *p = (Byte *)(bytes + byteRange.length - 1);
+        for (NSUInteger i = 0; i < byteRange.length; i++) {
+            [recvAddrData appendBytes:p length:1];
+            [recvAddrString appendFormat:@"%02X",*p--];
+            
+        }
+    }];
+    
+    NSLog(@"%@",recvAddrData);
+    printf("recv addr string %s \n",[recvAddrString UTF8String]);
+    
+    NSUInteger i = 0;
+    for (;i < _dataModel.LEDs.count; i++)
+    {
+        LEDItem *aLED = _dataModel.LEDs[i];
+        if ([aLED.blueAddr isEqualToString:recvAddrString])
+        {
+            aLED.bluePeripheral = peripheral;
+            aLED.characteristics = [[peripheral.services firstObject] characteristics];
+            [_LEDCollectionView reloadData];
+            //写验证消息，验证消息为蓝牙地址后3个字节
+            [aLED writeConfirmation:[recvAddrData subdataWithRange:NSMakeRange(3, 3)]];
+            aLED.identifier = peripheral.identifier;
+            //读取led的亮度等信息
+            for (CBCharacteristic *charac in aLED.characteristics)
+            {
+                if ([charac.UUID isEqual:LED_CHAR_ON_OFF_UUID] &&
+                    charac.properties & CBCharacteristicPropertyRead)
+                {
+                    [peripheral readValueForCharacteristic:charac];
+                }
+                if ([charac.UUID isEqual:LED_CHAR_LIGHT_UUID] &&
+                    charac.properties & CBCharacteristicPropertyRead)
+                {
+                    [peripheral readValueForCharacteristic:charac];
+                }
+                if ([charac.UUID isEqual:LED_CHAR_TEMP_UUID] &&
+                    charac.properties & CBCharacteristicPropertyRead)
+                {
+                    [peripheral readValueForCharacteristic:charac];
+                }
+               
+                
+            }
+            break;
+        }
+    }
+    if (i >= _dataModel.LEDs.count) {
+        [_centralManager cancelPeripheralConnection:peripheral];
+    }
+    
+}
+
+
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     [_discoverPeripherals removeObject:peripheral];
@@ -424,46 +489,55 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                [[peripheral.identifier UUIDString] UTF8String],
                [characteristic.UUID.data.description UTF8String],
                [[characteristic.value description] UTF8String]);
-        
-        if (characteristic.value.length != 6) {
-            [_centralManager cancelPeripheralConnection:peripheral];
-            [_discoverPeripherals removeObject:peripheral];
-            return;
+        //先验证led
+        if ([characteristic.UUID isEqual:LED_CHAR_ID_UUID]) {
+            [self confirmPeripheral:peripheral forCharateristic:characteristic];
         }
         
-        
-        
-        __block NSMutableString *recvAddrString = [[NSMutableString alloc] init];
-        __block NSMutableData *recvAddrData = [[NSMutableData alloc] init];
-        [characteristic.value enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
-            Byte *p = (Byte *)(bytes + byteRange.length - 1);
-            for (NSUInteger i = 0; i < byteRange.length; i++) {
-                [recvAddrData appendBytes:p length:1];
-                [recvAddrString appendFormat:@"%02X",*p--];
-                
-            }
-        }];
-       
-        NSLog(@"%@",recvAddrData);
-        printf("recv addr string %s \n",[recvAddrString UTF8String]);
-        
-        NSUInteger i = 0;
-        for (;i < _dataModel.LEDs.count; i++)
-        {
-            LEDItem *aLED = _dataModel.LEDs[i];
-            if ([aLED.blueAddr isEqualToString:recvAddrString])
+        //读出onOff信息
+        if ([characteristic.UUID isEqual:LED_CHAR_ON_OFF_UUID]) {
+            for (LEDItem *aLED in _dataModel.LEDs)
             {
-                aLED.bluePeripheral = peripheral;
-                aLED.characteristics = [[peripheral.services firstObject] characteristics];
-                [_LEDCollectionView reloadData];
-                [aLED writeConfirmation:[recvAddrData subdataWithRange:NSMakeRange(3, 3)]];
-                aLED.identifier = peripheral.identifier;
-                break;
+                if (aLED.bluePeripheral == peripheral)
+                {
+                    BOOL value;
+                    [characteristic.value getBytes:&value length:1];
+                    aLED.onOff = value ;
+                    break;
+                }
             }
+
         }
-        if (i >= _dataModel.LEDs.count) {
-            [_centralManager cancelPeripheralConnection:peripheral];
+        //读出light信息
+        if ([characteristic.UUID isEqual:LED_CHAR_LIGHT_UUID]) {
+            for (LEDItem *aLED in _dataModel.LEDs)
+            {
+                if (aLED.bluePeripheral == peripheral)
+                {
+                    unsigned char value;
+                    [characteristic.value getBytes:&value length:1];
+                    aLED.currentLight = value ;
+                    break;
+                }
+            }
+            
         }
+        //读出temp信息
+        if ([characteristic.UUID isEqual:LED_CHAR_TEMP_UUID]) {
+            for (LEDItem *aLED in _dataModel.LEDs)
+            {
+                if (aLED.bluePeripheral == peripheral)
+                {
+                    unsigned char value;
+                    [characteristic.value getBytes:&value length:1];
+                    aLED.currentTemp = value;
+                    break;
+                }
+            }
+            
+        }
+
+
     }
     else
     {
