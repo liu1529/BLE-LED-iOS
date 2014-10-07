@@ -159,6 +159,11 @@ static DataModel *_sharedDataModel = nil;
     }
 }
 
+- (void) removeGroupFromList:(GroupItem *)grp
+{
+    [self.groupArray removeObject:grp];
+}
+
 #pragma mark - Scenes
 
 - (NSArray *)scenes

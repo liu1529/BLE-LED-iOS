@@ -39,6 +39,11 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -102,6 +107,7 @@
         {
             if (success) {
                 [_dataModel addGroup:Grp];
+                [_dataModel saveData];
                 [_collectionView reloadData];
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -115,6 +121,7 @@
         {
             if (success) {
                 [_collectionView reloadData];
+                [_dataModel saveData];
             }
             [self.navigationController popViewControllerAnimated:YES];
         };

@@ -38,10 +38,6 @@
 		1F98B8791986435100C77187 /* BLE_LEDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F98B8781986435100C77187 /* BLE_LEDTests.m */; };
 		1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBA1A3819C0212800421B6F /* UIImage+Filter.m */; };
 		1FCE62D519D42CAA00CDBB42 /* LEDEditTableViewQRCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FCE62D419D42CAA00CDBB42 /* LEDEditTableViewQRCell.m */; };
-		1FD7097719C8183500F36AD0 /* SKSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7096E19C8183500F36AD0 /* SKSTableView.m */; };
-		1FD7097819C8183500F36AD0 /* SKSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */; };
-		1FD7097919C8183500F36AD0 /* SKSTableViewCellIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */; };
-		1FD7097A19C8183500F36AD0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097419C8183500F36AD0 /* ViewController.m */; };
 		1FD7097E19C818DF00F36AD0 /* GrpListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7097D19C818DF00F36AD0 /* GrpListViewController.m */; };
 		1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098019C818F700F36AD0 /* GrpEditViewController.m */; };
 		1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098319C8195D00F36AD0 /* GroupItem.m */; };
@@ -112,14 +108,6 @@
 		1FBA1A3819C0212800421B6F /* UIImage+Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Filter.m"; path = "BLE-LED/UIImage+Filter.m"; sourceTree = "<group>"; };
 		1FCE62D319D42CAA00CDBB42 /* LEDEditTableViewQRCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDEditTableViewQRCell.h; path = "BLE-LED/LEDEditTableViewQRCell.h"; sourceTree = "<group>"; };
 		1FCE62D419D42CAA00CDBB42 /* LEDEditTableViewQRCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDEditTableViewQRCell.m; path = "BLE-LED/LEDEditTableViewQRCell.m"; sourceTree = "<group>"; };
-		1FD7096D19C8183500F36AD0 /* SKSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableView.h; sourceTree = "<group>"; };
-		1FD7096E19C8183500F36AD0 /* SKSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableView.m; sourceTree = "<group>"; };
-		1FD7096F19C8183500F36AD0 /* SKSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableViewCell.h; sourceTree = "<group>"; };
-		1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCell.m; sourceTree = "<group>"; };
-		1FD7097119C8183500F36AD0 /* SKSTableViewCellIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKSTableViewCellIndicator.h; sourceTree = "<group>"; };
-		1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKSTableViewCellIndicator.m; sourceTree = "<group>"; };
-		1FD7097319C8183500F36AD0 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1FD7097419C8183500F36AD0 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1FD7097C19C818DF00F36AD0 /* GrpListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpListViewController.h; path = "BLE-LED/GrpListViewController.h"; sourceTree = "<group>"; };
 		1FD7097D19C818DF00F36AD0 /* GrpListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpListViewController.m; path = "BLE-LED/GrpListViewController.m"; sourceTree = "<group>"; };
 		1FD7097F19C818F700F36AD0 /* GrpEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditViewController.h; path = "BLE-LED/GrpEditViewController.h"; sourceTree = "<group>"; };
@@ -182,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				1FD7097B19C8188D00F36AD0 /* GroupTab */,
-				1FD7096A19C8183500F36AD0 /* SKSTableView */,
 				1F05128C19935F8D00AC0DDB /* TabBarViewController.h */,
 				1F05128D19935F8D00AC0DDB /* TabBarViewController.m */,
 				1F1260E31990DF65005FA983 /* SceneTab */,
@@ -319,22 +306,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		1FD7096A19C8183500F36AD0 /* SKSTableView */ = {
-			isa = PBXGroup;
-			children = (
-				1FD7096D19C8183500F36AD0 /* SKSTableView.h */,
-				1FD7096E19C8183500F36AD0 /* SKSTableView.m */,
-				1FD7096F19C8183500F36AD0 /* SKSTableViewCell.h */,
-				1FD7097019C8183500F36AD0 /* SKSTableViewCell.m */,
-				1FD7097119C8183500F36AD0 /* SKSTableViewCellIndicator.h */,
-				1FD7097219C8183500F36AD0 /* SKSTableViewCellIndicator.m */,
-				1FD7097319C8183500F36AD0 /* ViewController.h */,
-				1FD7097419C8183500F36AD0 /* ViewController.m */,
-			);
-			name = SKSTableView;
-			path = "BLE-LED/SKSTableView";
-			sourceTree = "<group>";
-		};
 		1FD7097B19C8188D00F36AD0 /* GroupTab */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,12 +421,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F1260CF1990D6A5005FA983 /* LEDItem.m in Sources */,
-				1FD7097819C8183500F36AD0 /* SKSTableViewCell.m in Sources */,
 				1F1260BC1990D317005FA983 /* main.m in Sources */,
 				1F1260B51990D165005FA983 /* CellBackGroud.m in Sources */,
 				1F1260CB1990D477005FA983 /* AppDelegate.m in Sources */,
 				1F037A4719933E9C002E099E /* SceneListViewController.m in Sources */,
-				1FD7097919C8183500F36AD0 /* SKSTableViewCellIndicator.m in Sources */,
 				1F0DA53419D2AE70003AA68D /* LEDEditTableViewCell.m in Sources */,
 				1FD7097E19C818DF00F36AD0 /* GrpListViewController.m in Sources */,
 				1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */,
@@ -468,11 +437,9 @@
 				1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */,
 				1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */,
 				1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */,
-				1FD7097719C8183500F36AD0 /* SKSTableView.m in Sources */,
 				1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */,
 				1FBA1A3919C0212800421B6F /* UIImage+Filter.m in Sources */,
 				1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */,
-				1FD7097A19C8183500F36AD0 /* ViewController.m in Sources */,
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,

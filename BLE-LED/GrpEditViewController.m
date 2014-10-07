@@ -7,23 +7,22 @@
 //
 
 #import "GrpEditViewController.h"
-#import "SKSTableView.h"
-#import "SKSTableViewCell.h"
 #import "DataModel.h"
 #import "GrpCollectionCell.h"
 #import "UIImage+Filter.h"
 
 @interface GrpEditViewController () <UICollectionViewDataSource,
                                     UICollectionViewDelegate,
-                                    UICollectionViewDelegateFlowLayout>
+                                    UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *ledNumsLabel;
-@property (weak, nonatomic) IBOutlet SKSTableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UIButton *expandBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *expandImageView;
+@property (weak, nonatomic) IBOutlet UISlider *lightSlider;
+@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
 @property (nonatomic) BOOL isExpand;
 
@@ -54,12 +53,17 @@
     _isExpand = NO;
     _expandImageView.transform = CGAffineTransformMakeRotation(M_PI);
     
+    [_lightSlider setMinimumValue:LED_LIGHT_MIN];
+    [_lightSlider setMaximumValue:LED_LIGHT_MAX];
+    [_tempSlider setMinimumValue:LED_TEMP_MIN];
+    [_tempSlider setMaximumValue:LED_TEMP_MAX];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:_isAdd animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -192,6 +196,20 @@
 
 #pragma mark - Buttons
 
+- (IBAction)lightChange:(UISlider *)sender
+{
+    for (LEDItem *aLED in _editGrp.LEDs) {
+        aLED.currentLight = sender.value;
+    }
+}
+
+- (IBAction)tempChange:(UISlider *)sender
+{
+    for (LEDItem *aLED in _editGrp.LEDs) {
+        aLED.currentTemp = sender.value;
+    }
+}
+
 -(IBAction)expandAction:(UIButton *)sender
 {
     _isExpand = !_isExpand;
@@ -208,86 +226,27 @@
     }
 }
 
-/*
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (IBAction) transhGroup:(id) sender
 {
-    return 1;
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"Cancel"
+                                  destructiveButtonTitle:@"Delete Group"
+                                  otherButtonTitles:nil];
+    [actionSheet showFromBarButtonItem:sender animated:YES];
+    
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    return 1;
-}
-
-- (NSInteger)tableView:(SKSTableView *)tableView numberOfSubRowsAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [DataModel sharedDataModel].LEDs.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"SKSTableViewCell";
-    
-    SKSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell)
-        cell = [[SKSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    cell.textLabel.text = @"LEDs";
-    cell.isExpandable = YES;
-    
-    return cell;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForSubRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"UITableViewCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    
-    
-    LEDItem *led = [DataModel sharedDataModel].LEDs[indexPath.subRow - 1];
-    
-    cell.imageView.image = led.image;
-    cell.textLabel.text = led.name;
-    if ([_editGrp.LEDs containsObject:led]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    if (buttonIndex == 0) {
+        [[DataModel sharedDataModel] removeGroupFromList:_editGrp];
+        if (self.completionBlock) {
+            self.completionBlock(YES);
+        }
     }
-    else
-    {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
-    return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    
-    if (indexPath.row == 0) {
-        return;
-    }
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    LEDItem *led = [DataModel sharedDataModel].LEDs[indexPath.row - 1];
-    if ([_editGrp.LEDs containsObject:led]) {
-        [_editGrp removeLED:led];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    else
-    {
-        [_editGrp addLED:led];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    
-}
-*/
 
 /*
 #pragma mark - Navigation

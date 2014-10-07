@@ -31,6 +31,7 @@
 - (void) addGroup:(GroupItem *)grp;
 - (void) addLED:(LEDItem *) aLED ToGroup:(GroupItem *)group;
 - (void) removeLED:(LEDItem *)aLED FromGroup:(GroupItem *)grp;
+- (void) removeGroupFromList:(GroupItem *)grp;
 
 #pragma mark - Scenes;
 - (void) addScene:(SceneItem *)scene;
