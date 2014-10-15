@@ -18,8 +18,6 @@
     NSMutableArray *_validLEDs;
 }
 @property (weak, nonatomic) IBOutlet UIPickerView *pickView;
-@property (weak, nonatomic) IBOutlet UILabel *lightLabel;
-@property (weak, nonatomic) IBOutlet UILabel *tempLabel;
 @property (weak, nonatomic) IBOutlet UISlider *lightSlider;
 @property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
@@ -74,8 +72,6 @@
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
         
-        self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
-        self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
         
     }
     else
@@ -163,10 +159,7 @@
         [self.lightSlider setValue:self.selectedLED.currentLight animated:YES];
         [self.tempSlider setValue:self.selectedLED.currentTemp animated:YES];
         
-        self.lightLabel.text = [NSString stringWithFormat:
-                                @"%d%%",(int)(self.selectedLED.currentLight / self.lightSlider.maximumValue * 100)];
-        self.tempLabel.text = [NSString stringWithFormat:
-                               @"%d%%",(int)(self.selectedLED.currentTemp / self.tempSlider.maximumValue * 100)];
+      
     }
     
 }
@@ -185,14 +178,14 @@
 - (IBAction)lightChange:(id)sender {
     UISlider *slider = sender;
      self.selectedLED.currentLight = (unsigned char)(slider.value);
-    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
+    
    
 }
 
 - (IBAction)tempChange:(id)sender {
     UISlider *slider = sender;
     self.selectedLED.currentTemp = slider.value;
-    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",(int)(slider.value / slider.maximumValue * 100)];
+   
 }
 
 - (IBAction)donePick:(id)sender {
