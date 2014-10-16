@@ -42,6 +42,12 @@
 		1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098019C818F700F36AD0 /* GrpEditViewController.m */; };
 		1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098319C8195D00F36AD0 /* GroupItem.m */; };
 		1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */; };
+		C5D2A65D19EE26BB00661A1D /* GrpEditLedsHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A65B19EE26BB00661A1D /* GrpEditLedsHeader.m */; };
+		C5D2A65E19EE26BB00661A1D /* GrpEditLedsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5D2A65C19EE26BB00661A1D /* GrpEditLedsHeader.xib */; };
+		C5D2A66219EE279E00661A1D /* GrpEditOnOffHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A66019EE279E00661A1D /* GrpEditOnOffHeader.m */; };
+		C5D2A66319EE279E00661A1D /* GrpEditOnOffHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5D2A66119EE279E00661A1D /* GrpEditOnOffHeader.xib */; };
+		C5D2A66719EE27D500661A1D /* GrpEditLedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A66519EE27D500661A1D /* GrpEditLedsCell.m */; };
+		C5D2A66C19EE27FE00661A1D /* GrpEditOnOffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A66A19EE27FE00661A1D /* GrpEditOnOffCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +122,18 @@
 		1FD7098319C8195D00F36AD0 /* GroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupItem.m; path = "BLE-LED/GroupItem.m"; sourceTree = "<group>"; };
 		1FD7098519C81EDB00F36AD0 /* GrpCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpCollectionCell.h; path = "BLE-LED/GrpCollectionCell.h"; sourceTree = "<group>"; };
 		1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpCollectionCell.m; path = "BLE-LED/GrpCollectionCell.m"; sourceTree = "<group>"; };
+		C5D2A65A19EE26BB00661A1D /* GrpEditLedsHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditLedsHeader.h; path = "BLE-LED/GrpEditLedsHeader.h"; sourceTree = "<group>"; };
+		C5D2A65B19EE26BB00661A1D /* GrpEditLedsHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditLedsHeader.m; path = "BLE-LED/GrpEditLedsHeader.m"; sourceTree = "<group>"; };
+		C5D2A65C19EE26BB00661A1D /* GrpEditLedsHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrpEditLedsHeader.xib; path = "BLE-LED/GrpEditLedsHeader.xib"; sourceTree = "<group>"; };
+		C5D2A65F19EE279E00661A1D /* GrpEditOnOffHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditOnOffHeader.h; path = "BLE-LED/GrpEditOnOffHeader.h"; sourceTree = "<group>"; };
+		C5D2A66019EE279E00661A1D /* GrpEditOnOffHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditOnOffHeader.m; path = "BLE-LED/GrpEditOnOffHeader.m"; sourceTree = "<group>"; };
+		C5D2A66119EE279E00661A1D /* GrpEditOnOffHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrpEditOnOffHeader.xib; path = "BLE-LED/GrpEditOnOffHeader.xib"; sourceTree = "<group>"; };
+		C5D2A66419EE27D500661A1D /* GrpEditLedsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditLedsCell.h; path = "BLE-LED/GrpEditLedsCell.h"; sourceTree = "<group>"; };
+		C5D2A66519EE27D500661A1D /* GrpEditLedsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditLedsCell.m; path = "BLE-LED/GrpEditLedsCell.m"; sourceTree = "<group>"; };
+		C5D2A66919EE27FE00661A1D /* GrpEditOnOffCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditOnOffCell.h; path = "BLE-LED/GrpEditOnOffCell.h"; sourceTree = "<group>"; };
+		C5D2A66A19EE27FE00661A1D /* GrpEditOnOffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditOnOffCell.m; path = "BLE-LED/GrpEditOnOffCell.m"; sourceTree = "<group>"; };
+		C5D2A66E19EE77BB00661A1D /* GrpEditCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditCellDelegate.h; path = "BLE-LED/GrpEditCellDelegate.h"; sourceTree = "<group>"; };
+		C5D2A66F19EE7A4D00661A1D /* GrpEditHeaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditHeaderDelegate.h; path = "BLE-LED/GrpEditHeaderDelegate.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -317,6 +335,18 @@
 				1FD7098019C818F700F36AD0 /* GrpEditViewController.m */,
 				1FD7098219C8195D00F36AD0 /* GroupItem.h */,
 				1FD7098319C8195D00F36AD0 /* GroupItem.m */,
+				C5D2A65A19EE26BB00661A1D /* GrpEditLedsHeader.h */,
+				C5D2A65B19EE26BB00661A1D /* GrpEditLedsHeader.m */,
+				C5D2A65C19EE26BB00661A1D /* GrpEditLedsHeader.xib */,
+				C5D2A65F19EE279E00661A1D /* GrpEditOnOffHeader.h */,
+				C5D2A66019EE279E00661A1D /* GrpEditOnOffHeader.m */,
+				C5D2A66119EE279E00661A1D /* GrpEditOnOffHeader.xib */,
+				C5D2A66E19EE77BB00661A1D /* GrpEditCellDelegate.h */,
+				C5D2A66F19EE7A4D00661A1D /* GrpEditHeaderDelegate.h */,
+				C5D2A66419EE27D500661A1D /* GrpEditLedsCell.h */,
+				C5D2A66519EE27D500661A1D /* GrpEditLedsCell.m */,
+				C5D2A66919EE27FE00661A1D /* GrpEditOnOffCell.h */,
+				C5D2A66A19EE27FE00661A1D /* GrpEditOnOffCell.m */,
 			);
 			name = GroupTab;
 			sourceTree = "<group>";
@@ -402,6 +432,8 @@
 			files = (
 				1F1260E11990DD32005FA983 /* Images.xcassets in Resources */,
 				1F43574C19C92B9D00C904D0 /* Main.storyboard in Resources */,
+				C5D2A65E19EE26BB00661A1D /* GrpEditLedsHeader.xib in Resources */,
+				C5D2A66319EE279E00661A1D /* GrpEditOnOffHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +459,7 @@
 				1F037A4719933E9C002E099E /* SceneListViewController.m in Sources */,
 				1F0DA53419D2AE70003AA68D /* LEDEditTableViewCell.m in Sources */,
 				1FD7097E19C818DF00F36AD0 /* GrpListViewController.m in Sources */,
+				C5D2A66719EE27D500661A1D /* GrpEditLedsCell.m in Sources */,
 				1FD7098119C818F700F36AD0 /* GrpEditViewController.m in Sources */,
 				1F0DA53119D2AE52003AA68D /* LEDEditTableHeader.m in Sources */,
 				1FCE62D519D42CAA00CDBB42 /* LEDEditTableViewQRCell.m in Sources */,
@@ -435,6 +468,7 @@
 				1F1260B71990D165005FA983 /* LEDEditViewController.m in Sources */,
 				1F1260D51990D7B4005FA983 /* LEDCollectionCell.m in Sources */,
 				1F5AC3C719937A30001A1EC8 /* ChooseLEDViewController.m in Sources */,
+				C5D2A66219EE279E00661A1D /* GrpEditOnOffHeader.m in Sources */,
 				1F037A4E19934187002E099E /* SceneEditViewController.m in Sources */,
 				1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */,
 				1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */,
@@ -442,8 +476,10 @@
 				1F05128E19935F8E00AC0DDB /* TabBarViewController.m in Sources */,
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,
+				C5D2A65D19EE26BB00661A1D /* GrpEditLedsHeader.m in Sources */,
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
 				1F037A5119934EE5002E099E /* SceneLEDTableViewCell.m in Sources */,
+				C5D2A66C19EE27FE00661A1D /* GrpEditOnOffCell.m in Sources */,
 				1F037A4A19934014002E099E /* SceneItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

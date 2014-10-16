@@ -10,21 +10,25 @@
 #import "DataModel.h"
 #import "GrpCollectionCell.h"
 #import "UIImage+Filter.h"
+#import "GrpEditLedsCell.h"
+#import "GrpEditLedsHeader.h"
+#import "GrpEditOnOffCell.h"
+#import "GrpEditOnOffHeader.h"
 
 @interface GrpEditViewController () <UICollectionViewDataSource,
                                     UICollectionViewDelegate,
-                                    UIActionSheetDelegate>
+                                    UICollectionViewDelegateFlowLayout,
+                                    UIActionSheetDelegate,
+                                    GrpEditHeaderDelegate,
+                                    GrpEditCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *ledNumsLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UIButton *expandBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *expandImageView;
-@property (weak, nonatomic) IBOutlet UISlider *lightSlider;
-@property (weak, nonatomic) IBOutlet UISlider *tempSlider;
 
-@property (nonatomic) BOOL isExpand;
+@property (nonatomic) BOOL isLedsExpand;
+@property (nonatomic) BOOL isOnOffExpand;
 
 @end
 
@@ -50,13 +54,15 @@
     _nameTextField.text = _editGrp.name;
     _ledNumsLabel.text = [NSString stringWithFormat:@"%d",(int)_editGrp.LEDs.count];
     
-    _isExpand = NO;
-    _expandImageView.transform = CGAffineTransformMakeRotation(M_PI);
+    _isOnOffExpand = YES;
+    _isLedsExpand = YES;
     
-    [_lightSlider setMinimumValue:LED_LIGHT_MIN];
-    [_lightSlider setMaximumValue:LED_LIGHT_MAX];
-    [_tempSlider setMinimumValue:LED_TEMP_MIN];
-    [_tempSlider setMaximumValue:LED_TEMP_MAX];
+    
+    //注册cell和header
+    [self.collectionView registerNib:[UINib nibWithNibName:@"GrpEditLedsHeader" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"LedsHeader"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"GrpEditOnOffHeader" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"OnOffHeader"];
+    [self.collectionView registerClass:[GrpEditLedsCell class] forCellWithReuseIdentifier:@"LedsCell"];
+    [self.collectionView registerClass:[GrpEditOnOffCell class] forCellWithReuseIdentifier:@"OnOffCell"];
     
 }
 
@@ -81,101 +87,96 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return _isExpand ? 1 : 0;
+    return 2;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _isExpand ? [DataModel sharedDataModel].LEDs.count : 0;
+    if (section == 0) {
+        return _isOnOffExpand ? 2 : 0;
+    } else {
+        return _isLedsExpand ? [DataModel sharedDataModel].LEDs.count : 0;
+    }
+    
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    GrpCollectionCell *cell = [collectionView
-                               dequeueReusableCellWithReuseIdentifier:@"GrpCollectionCell" forIndexPath:indexPath];
     
-    LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
-    
-    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
-//    cell.imageView.image = aLED.image;
-    cell.nameLabel.text = aLED.name;
-    
-    //选择后，为灰色背景
-    UIView *selectView = [[UIView alloc] initWithFrame:cell.frame];
-    selectView.backgroundColor = [UIColor grayColor];
-    UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"select.png"]];
-    iv.translatesAutoresizingMaskIntoConstraints = NO;
-    [selectView addSubview:iv];
-    
-    [selectView addConstraint:
-     [NSLayoutConstraint
-      constraintWithItem:selectView
-      attribute:NSLayoutAttributeBottom
-      relatedBy:0
-      toItem:iv
-      attribute:NSLayoutAttributeBottom
-      multiplier:1 constant:0]];
-    
-    [selectView addConstraint:
-     [NSLayoutConstraint
-      constraintWithItem:selectView
-      attribute:NSLayoutAttributeTrailing
-      relatedBy:0
-      toItem:iv
-      attribute:NSLayoutAttributeTrailing
-      multiplier:1 constant:0]];
-    
-    [iv addConstraint:
-     [NSLayoutConstraint
-      constraintWithItem:iv
-      attribute:NSLayoutAttributeWidth
-      relatedBy:0
-      toItem:nil
-      attribute:NSLayoutAttributeNotAnAttribute
-      multiplier:0 constant:20]];
-    
-    [iv addConstraint:
-     [NSLayoutConstraint
-      constraintWithItem:iv
-      attribute:NSLayoutAttributeHeight
-      relatedBy:0
-      toItem:nil
-      attribute:NSLayoutAttributeNotAnAttribute
-      multiplier:0 constant:20]];
-    
-    
-    cell.selectedBackgroundView = selectView;
-    
-    if ([_editGrp.LEDs containsObject:aLED]) {
-        [collectionView
-         selectItemAtIndexPath:indexPath
-         animated:YES
-         scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    if (indexPath.section == 0) {
+        GrpEditOnOffCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"OnOffCell" forIndexPath:indexPath];
+        if (indexPath.row == 0) {
+            cell.label.text = @"Lumen:";
+            [cell.slider setMaximumValue:LED_LIGHT_MAX];
+            [cell.slider setMinimumValue:LED_LIGHT_MIN];
+        } else {
+            cell.label.text = @"CCT:";
+            [cell.slider setMaximumValue:LED_TEMP_MAX];
+            [cell.slider setMinimumValue:LED_TEMP_MIN];
+        }
+        cell.delegate = self;
+        return cell;
+        
+    } else {
+        GrpEditLedsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LedsCell" forIndexPath:indexPath];
+        LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
+        cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
+        
+        cell.label.text = aLED.name;
+        
+        if ([_editGrp.LEDs containsObject:aLED]) {
+            [collectionView
+            selectItemAtIndexPath:indexPath
+                 animated:YES
+                 scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+            cell.selected = YES;
+        }
+        else
+        {
+            [collectionView
+                 deselectItemAtIndexPath:indexPath animated:YES];
+            cell.selected = NO;
+        }
+        return cell;
     }
-    else
-    {
-        [collectionView
-         deselectItemAtIndexPath:indexPath animated:YES];
-    }
-    if ([_editGrp.LEDs containsObject:aLED])
-        [cell setSelected:YES];
-    else
-        [cell setSelected:NO];
-
-    
-    return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        UICollectionReusableView *f = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+        return f;
+    }
+    
+    if (indexPath.section == 0) {
+        GrpEditOnOffHeader *h = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"OnOffHeader" forIndexPath:indexPath];
+        h.section = indexPath.section;
+        h.delegate = self;
+        h.sw.on = self.isOnOffExpand;
+        return h;
+    }
+    if(indexPath.section == 1) {
+        GrpEditLedsHeader *h = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"LedsHeader" forIndexPath:indexPath];
+        h.section = indexPath.section;
+        h.delegate = self;
+        h.imageView.transform = _isLedsExpand ? CGAffineTransformMakeRotation(M_PI) : CGAffineTransformMakeRotation(0);
 
+        return h;
+       
+    }
+    return nil;
+}
 
 
 #pragma mark - UICollectionViewDelegate
 
-
-
-- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.section == 0) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -187,40 +188,73 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+   
     LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
     [_editGrp removeLED:aLED];
     _ledNumsLabel.text = [NSString stringWithFormat:@"%d",(int)(_editGrp.LEDs.count)];
 }
 
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat width = collectionView.frame.size.width - 16;
+    
+    if (indexPath.section == 0) {
+        return CGSizeMake(width, 50);
+    }
+    //每行放3个led灯
+    CGFloat imageWidth = (width - 2 * ((UICollectionViewFlowLayout *)collectionViewLayout).minimumInteritemSpacing) / 3;
+    return CGSizeMake(imageWidth, imageWidth);
+    
+}
+
+#pragma mark - GrpEditHeaderDelegate & GrpEditCellDelegate
+
+- (void)grpEditHeader:(UICollectionReusableView *)h inSection:(NSUInteger)section valueChangeInView:(UIView *)view
+{
+    if (section == 0) {
+//        NSInteger numOfItems = [self.collectionView numberOfItemsInSection:section];
+//        for (int i = 0; i < numOfItems; i++) {
+//            NSIndexPath *p = [NSIndexPath indexPathForItem:i inSection:section];
+//            GrpEditOnOffCell *cell = (GrpEditOnOffCell *)[self.collectionView cellForItemAtIndexPath:p];
+//            cell.slider.enabled = ((UISwitch *)view).on;
+//        }
+        self.isOnOffExpand = ((UISwitch *)view).on;
+        for (LEDItem *led in _editGrp.LEDs) {
+            led.onOff = ((UISwitch *)view).on;
+        }
+        
+    }
+    else if (section == 1) {
+        self.isLedsExpand = !self.isLedsExpand;
+    }
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:section]];
+
+}
+
+- (void)grpEditCell:(UICollectionViewCell *)cell valueChangeInView:(UIView *)view
+{
+    NSIndexPath *p = [self.collectionView indexPathForCell:cell];
+    for (LEDItem *led in _editGrp.LEDs) {
+        if (p.row == 0) {
+            led.currentLight = ((GrpEditOnOffCell *)cell).slider.value;
+        }
+        else if (p.row == 1)
+        {
+            led.currentTemp = ((GrpEditOnOffCell *)cell).slider.value;
+
+        }
+    }
+    
+}
 
 
 #pragma mark - Buttons
 
-- (IBAction)lightChange:(UISlider *)sender
-{
-    for (LEDItem *aLED in _editGrp.LEDs) {
-        aLED.currentLight = sender.value;
-    }
-}
-
-- (IBAction)tempChange:(UISlider *)sender
-{
-    for (LEDItem *aLED in _editGrp.LEDs) {
-        aLED.currentTemp = sender.value;
-    }
-}
-
--(IBAction)expandAction:(UIButton *)sender
-{
-    _isExpand = !_isExpand;
-    _expandImageView.transform = _isExpand ? CGAffineTransformMakeRotation(M_PI) : CGAffineTransformMakeRotation(0);
-    
-    [_collectionView reloadData];
-}
 
 - (IBAction)doneAction:(id)sender
 {
-    
     if (_completionBlock) {
         _completionBlock(YES);
     }

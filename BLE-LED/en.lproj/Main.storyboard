@@ -616,7 +616,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-gT-1kW">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-gT-1kW">
                                 <rect key="frame" x="16" y="64" width="288" height="134"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icy-Qt-Vv9">
@@ -647,38 +647,14 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="134" id="Cmf-Le-iLe"/>
-                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="95a-8y-Kso">
-                                <rect key="frame" x="16" y="206" width="288" height="42"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="expandableImage" translatesAutoresizingMaskIntoConstraints="NO" id="HOY-4R-gyN">
-                                        <rect key="frame" x="257" y="3" width="31" height="35"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7OX-An-PMj">
-                                        <rect key="frame" x="16" y="6" width="264" height="30"/>
-                                        <state key="normal" title="LEDs">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="expandAction:" destination="YQb-Ml-cTd" eventType="touchUpInside" id="ak3-BD-CCU"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.83488225936889648" green="0.8348572850227356" blue="0.83487141132354736" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="g7I-HZ-u3F"/>
-                                </constraints>
-                            </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-G3-Xa1">
-                                <rect key="frame" x="16" y="262" width="288" height="167"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-G3-Xa1">
+                                <rect key="frame" x="16" y="206" width="288" height="313"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="etf-s6-3Zr">
                                     <size key="itemSize" width="76" height="76"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="footerReferenceSize" width="50" height="12"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -689,15 +665,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2zf-bo-b0L">
+                                                    <rect key="frame" x="13" y="8" width="51" height="51"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DMS-Ul-3bl">
                                                     <rect key="frame" x="0.0" y="55" width="77" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2zf-bo-b0L">
-                                                    <rect key="frame" x="13" y="8" width="51" height="51"/>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -707,60 +683,22 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UnUse" id="9AC-9u-TVc">
+                                    <rect key="frame" x="0.0" y="0.0" width="288" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionReusableView>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="7qh-dv-Nn6">
+                                    <rect key="frame" x="0.0" y="0.0" width="288" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="YQb-Ml-cTd" id="YJk-5I-k1E"/>
                                     <outlet property="delegate" destination="YQb-Ml-cTd" id="kjL-bq-dKX"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUG-Wj-9tC">
-                                <rect key="frame" x="16" y="429" width="288" height="90"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="CCT:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hdI-uR-pSi">
-                                        <rect key="frame" x="0.0" y="52" width="54" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lumen:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmM-ie-QkM">
-                                        <rect key="frame" x="0.0" y="8" width="63" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="VYe-N9-Vtm">
-                                        <rect key="frame" x="60" y="4" width="230" height="31"/>
-                                        <connections>
-                                            <action selector="lightChange:" destination="YQb-Ml-cTd" eventType="valueChanged" id="ZpQ-sf-1q9"/>
-                                        </connections>
-                                    </slider>
-                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="sre-9d-tXY">
-                                        <rect key="frame" x="60" y="48" width="230" height="31"/>
-                                        <connections>
-                                            <action selector="tempChange:" destination="YQb-Ml-cTd" eventType="valueChanged" id="JeD-qx-MWn"/>
-                                        </connections>
-                                    </slider>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="Pxj-E3-TCF"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="aVZ-G3-Xa1" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="4oG-u6-3Kg"/>
-                            <constraint firstItem="mUG-Wj-9tC" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="Hkc-c7-rs5"/>
-                            <constraint firstItem="aVZ-G3-Xa1" firstAttribute="top" secondItem="95a-8y-Kso" secondAttribute="bottom" constant="14" id="Jdu-eF-AeG"/>
-                            <constraint firstItem="95a-8y-Kso" firstAttribute="trailing" secondItem="X6b-U3-4jK" secondAttribute="trailingMargin" id="MCr-Mb-n7n"/>
-                            <constraint firstItem="mUG-Wj-9tC" firstAttribute="trailing" secondItem="X6b-U3-4jK" secondAttribute="trailingMargin" id="MMp-4f-1qX"/>
-                            <constraint firstItem="JRc-gT-1kW" firstAttribute="trailing" secondItem="X6b-U3-4jK" secondAttribute="trailingMargin" id="WLD-R9-e2y"/>
-                            <constraint firstItem="mUG-Wj-9tC" firstAttribute="top" secondItem="aVZ-G3-Xa1" secondAttribute="bottom" id="WZp-LK-B2i"/>
-                            <constraint firstItem="95a-8y-Kso" firstAttribute="top" secondItem="JRc-gT-1kW" secondAttribute="bottom" constant="8" id="h8o-t4-s6m"/>
-                            <constraint firstItem="JRc-gT-1kW" firstAttribute="top" secondItem="eOH-KY-EbC" secondAttribute="bottom" id="nbe-Po-4qw"/>
-                            <constraint firstItem="JRc-gT-1kW" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="oRo-Ra-0xW"/>
-                            <constraint firstItem="Yi7-kb-vIl" firstAttribute="top" secondItem="mUG-Wj-9tC" secondAttribute="bottom" id="ufY-SF-Ehd"/>
-                            <constraint firstItem="95a-8y-Kso" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="y2Z-wO-yrm"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="aVZ-G3-Xa1" secondAttribute="trailing" id="z8q-UJ-EHI"/>
-                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="7XK-xF-cng"/>
@@ -780,13 +718,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="aVZ-G3-Xa1" id="ReL-TC-VPg"/>
-                        <outlet property="expandBtn" destination="7OX-An-PMj" id="Gfe-Ht-jqo"/>
-                        <outlet property="expandImageView" destination="HOY-4R-gyN" id="snB-lf-iin"/>
                         <outlet property="image" destination="Icy-Qt-Vv9" id="YvH-II-q96"/>
                         <outlet property="ledNumsLabel" destination="wl1-j3-b1N" id="lpg-UE-J9W"/>
-                        <outlet property="lightSlider" destination="VYe-N9-Vtm" id="tXj-vW-tdx"/>
                         <outlet property="nameTextField" destination="L2j-rI-XUB" id="fAZ-mb-8b2"/>
-                        <outlet property="tempSlider" destination="sre-9d-tXY" id="uXA-eh-Kz8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPc-LV-SC2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -819,7 +753,6 @@
         <image name="LED" width="720" height="720"/>
         <image name="LED0" width="512" height="512"/>
         <image name="LED_tab" width="30" height="30"/>
-        <image name="expandableImage" width="8" height="5"/>
         <image name="line" width="220" height="5"/>
         <image name="pick_bg" width="280" height="280"/>
         <image name="scene_tab" width="30" height="30"/>
