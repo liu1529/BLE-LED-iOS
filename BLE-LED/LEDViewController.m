@@ -255,7 +255,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
    
     NSArray *LEDs = _dataModel.LEDs;
     
-    if (![peripheral.name isEqualToString:@"Greeble Light"]) {
+    NSString *name = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if ([name localizedCaseInsensitiveCompare:@"GreebleLight"] != NSOrderedSame) {
         return;
     }
     

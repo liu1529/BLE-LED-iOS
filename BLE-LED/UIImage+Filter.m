@@ -12,13 +12,11 @@
 
 - (UIImage *)withFilterName:(NSString *)filterName
 {
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *cImage = [[CIImage alloc] initWithImage:self];
     CIFilter *filter = [CIFilter filterWithName:filterName];
     [filter setDefaults];
+    [filter setValue:[[CIImage alloc] initWithImage:self] forKey:kCIInputImageKey];
     
-    [filter setValue:cImage forKey:kCIInputImageKey];
-    
+    CIContext *context = [CIContext contextWithOptions:nil];
     CGImageRef cgImage = [context createCGImage:filter.outputImage
                                        fromRect:filter.outputImage.extent];
     

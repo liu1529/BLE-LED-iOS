@@ -21,6 +21,7 @@
         
         _label = [UILabel new];
         _slider = [UISlider new];
+        _slider.continuous = NO;
         [_slider addTarget:self action:@selector(sliderValueChange)
           forControlEvents:UIControlEventValueChanged];
         

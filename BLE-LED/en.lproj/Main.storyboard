@@ -28,16 +28,16 @@
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
-                                            <rect key="frame" x="30" y="8" width="100" height="100"/>
-                                            <gestureRecognizers/>
-                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="144" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
                                             <rect key="frame" x="8" y="122" width="144" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LED" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
+                                            <rect key="frame" x="30" y="8" width="100" height="100"/>
+                                            <gestureRecognizers/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -218,14 +218,6 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jZ-Bv-931">
                                         <rect key="frame" x="8" y="8" width="119" height="119"/>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBT-kR-lcD">
-                                        <rect key="frame" x="135" y="49" width="153" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                        <connections>
-                                            <action selector="hideKeyboard:" destination="EEl-rM-1Mh" eventType="editingDidEndOnExit" id="Zym-F6-peb"/>
-                                        </connections>
-                                    </textField>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="LED Name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNJ-8z-2ag">
                                         <rect key="frame" x="135" y="21" width="87" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -243,6 +235,15 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OBT-kR-lcD">
+                                        <rect key="frame" x="135" y="49" width="153" height="30"/>
+                                        <accessibility key="accessibilityConfiguration" hint="" label=""/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="hideKeyboard:" destination="EEl-rM-1Mh" eventType="editingDidEndOnExit" id="Zym-F6-peb"/>
+                                        </connections>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -268,6 +269,7 @@
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="254" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Hf-gm-6lw">
                                                     <rect key="frame" x="64" y="7" width="226" height="31"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="" label=""/>
                                                 </slider>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -616,7 +618,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-gT-1kW">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JRc-gT-1kW">
                                 <rect key="frame" x="16" y="64" width="288" height="134"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Icy-Qt-Vv9">
@@ -647,15 +649,18 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="134" id="ukN-Fg-Jmn"/>
+                                </constraints>
                             </view>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-G3-Xa1">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-G3-Xa1">
                                 <rect key="frame" x="16" y="206" width="288" height="313"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="etf-s6-3Zr">
                                     <size key="itemSize" width="76" height="76"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
                                     <size key="footerReferenceSize" width="50" height="12"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GrpCollectionCell" id="fIk-b5-Isg" customClass="GrpCollectionCell">
@@ -688,7 +693,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="7qh-dv-Nn6">
-                                    <rect key="frame" x="0.0" y="0.0" width="288" height="50"/>
+                                    <rect key="frame" x="0.0" y="136" width="288" height="12"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 </collectionReusableView>
@@ -699,6 +704,15 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JRc-gT-1kW" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="2bQ-9V-moZ"/>
+                            <constraint firstItem="aVZ-G3-Xa1" firstAttribute="leading" secondItem="X6b-U3-4jK" secondAttribute="leadingMargin" id="3Bv-cA-4ox"/>
+                            <constraint firstItem="JRc-gT-1kW" firstAttribute="top" secondItem="eOH-KY-EbC" secondAttribute="bottom" id="68D-ib-LfJ"/>
+                            <constraint firstItem="aVZ-G3-Xa1" firstAttribute="trailing" secondItem="X6b-U3-4jK" secondAttribute="trailingMargin" id="ILL-RI-lzj"/>
+                            <constraint firstItem="aVZ-G3-Xa1" firstAttribute="top" secondItem="JRc-gT-1kW" secondAttribute="bottom" constant="8" id="Vbb-1b-UOO"/>
+                            <constraint firstItem="Yi7-kb-vIl" firstAttribute="top" secondItem="aVZ-G3-Xa1" secondAttribute="bottom" id="kVd-jW-ZwU"/>
+                            <constraint firstItem="JRc-gT-1kW" firstAttribute="trailing" secondItem="X6b-U3-4jK" secondAttribute="trailingMargin" id="tg2-BI-e0T"/>
+                        </constraints>
                     </view>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="7XK-xF-cng"/>

@@ -133,37 +133,27 @@
 {
     NSData *stringData = [qrString dataUsingEncoding:NSUTF8StringEncoding];
     
-    CIFilter *qfFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
-    [qfFilter setDefaults];
+    CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    [qrFilter setDefaults];
     
-    [qfFilter setValue:stringData forKey:@"inputMessage"];
-    [qfFilter setValue:@"H" forKey:@"inputCorrectionLevel"];
+    [qrFilter setValue:stringData forKey:@"inputMessage"];
+    [qrFilter setValue:@"H" forKey:@"inputCorrectionLevel"];
     
-    return qfFilter.outputImage;
+    
+    return qrFilter.outputImage;
 }
 
 - (UIImage *)createNonInterpolateduIImageForCIImage:(CIImage *)image withScale:(CGFloat) scale
 {
-    CGFloat width = image.extent.size.width * scale;
-    CGFloat height = image.extent.size.height * scale;
-    CGImageRef cgImage = [[CIContext contextWithOptions:nil] createCGImage:image fromRect:image.extent];
-    
-    UIImage *aImage = [UIImage imageWithCGImage:cgImage scale:0.1 orientation:UIImageOrientationUp];
-    
-    UIGraphicsBeginImageContext(CGSizeMake(width, height));
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetInterpolationQuality(context, kCGInterpolationNone);
-    [aImage drawInRect:CGRectMake(0, 0, width, height)];
-    
+    UIImage *im = [UIImage imageWithCIImage:image];
+    UIGraphicsBeginImageContext(CGSizeMake(im.size.width * scale, im.size.height * scale));
+    CGContextRef con = UIGraphicsGetCurrentContext();
+    CGContextSetInterpolationQuality(con, kCGInterpolationNone);
+    [im drawInRect:CGRectMake(0, 0, im.size.width * scale, im.size.height * scale)];
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
-    CGImageRelease(cgImage);
-    
     
     return scaledImage;
-    
     
 }
 
@@ -248,6 +238,8 @@
             s.on = _editLED.onOff;
             [s addTarget:self action:@selector(onOffButton:withEvent:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = s;
+            
+            
             return cell;
         }
         else {
@@ -259,6 +251,8 @@
                     [cell.slider setMaximumValue:LED_LIGHT_MAX];
                     [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
                     [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
+                    
+                    
                     break;
                 case 2:
                     cell.label.text = @"CCT:";
@@ -295,6 +289,7 @@
         }
 
     }
+    
     
     return nil;
    
