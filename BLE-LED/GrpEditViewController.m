@@ -52,10 +52,12 @@
     _collectionView.allowsMultipleSelection = YES;
     _image.image = _editGrp.image;
     _nameTextField.text = _editGrp.name;
-    _ledNumsLabel.text = [NSString stringWithFormat:@"%d",(int)_editGrp.LEDs.count];
+    _ledNumsLabel.text = [NSString stringWithFormat:@"%d/%d",
+                          (int)_editGrp.LEDs.count,
+                          (int)[DataModel sharedDataModel].LEDs.count];
     
     _isOnOffExpand = YES;
-    _isLedsExpand = YES;
+    _isLedsExpand = NO;
     
     
     //注册cell和header
@@ -77,6 +79,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 - (IBAction)hideKeyboard:(id)sender
 {
@@ -183,7 +187,9 @@
 {
     LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
     [_editGrp addLED:aLED];
-    _ledNumsLabel.text = [NSString stringWithFormat:@"%d",(int)(_editGrp.LEDs.count)];
+    _ledNumsLabel.text = [NSString stringWithFormat:@"%d/%d",
+                          (int)(_editGrp.LEDs.count),
+                          (int)[DataModel sharedDataModel].LEDs.count];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -191,7 +197,9 @@
    
     LEDItem *aLED = [DataModel sharedDataModel].LEDs[indexPath.row];
     [_editGrp removeLED:aLED];
-    _ledNumsLabel.text = [NSString stringWithFormat:@"%d",(int)(_editGrp.LEDs.count)];
+    _ledNumsLabel.text = [NSString stringWithFormat:@"%d/%d",
+                          (int)(_editGrp.LEDs.count),
+                          (int)[DataModel sharedDataModel].LEDs.count];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -255,6 +263,7 @@
 
 - (IBAction)doneAction:(id)sender
 {
+    _editGrp.name = self.nameTextField.text;
     if (_completionBlock) {
         _completionBlock(YES);
     }

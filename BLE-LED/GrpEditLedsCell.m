@@ -20,8 +20,10 @@
     if (self) {
         _label = [UILabel new];
         _imageView = [UIImageView new];
-        _label.numberOfLines = 0;
-        
+        _label.numberOfLines = 1;
+        _label.textAlignment = NSTextAlignmentCenter;
+        _label.adjustsFontSizeToFitWidth = YES;
+        _label.minimumScaleFactor = 0.2;
         
         [self.contentView addSubview:_label];
         [self.contentView addSubview:_imageView];
@@ -37,11 +39,11 @@
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeCenterX relatedBy:0 toItem:self.imageView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_imageView][_label(>=20)]|" options:0 metrics:nil views:vd]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_label]|" options:0 metrics:nil views:vd]];
         
-        
-        //选择后，为灰色背景
+        //选择后的背景
         UIView *selectView = [[UIView alloc] initWithFrame:self.frame];
-        selectView.backgroundColor = [UIColor grayColor];
+        selectView.backgroundColor = [UIColor clearColor];
         UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"select.png"]];
         iv.translatesAutoresizingMaskIntoConstraints = NO;
         [selectView addSubview:iv];

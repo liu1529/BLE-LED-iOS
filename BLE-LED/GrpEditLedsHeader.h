@@ -11,6 +11,7 @@
 
 @interface GrpEditLedsHeader : UICollectionReusableView
 
+@property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) IBOutlet UIImageView* imageView;
 @property (nonatomic) NSUInteger section;
 @property (nonatomic, strong) id<GrpEditHeaderDelegate> delegate;

@@ -197,6 +197,19 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (IBAction)refreshList:(id)sender {
 //    if ([sender isRefreshing] == NO)
     {
+        UIRefreshControl *refreshControl = sender;
+        if (self.centralManager.state != CBCentralManagerStatePoweredOn) {
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:nil
+                                  message:@"Please Trun On Bluethooth to Allow App to Connect to Accessories"
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+            [alert show];
+            [refreshControl endRefreshing];
+            return;
+            
+        }
         
         [_discoverPeripherals removeAllObjects];
         
@@ -216,7 +229,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
 
-        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scanTimer:) userInfo:sender repeats:NO];
+        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scanTimer:) userInfo:refreshControl repeats:NO];
         
     }
    
@@ -240,6 +253,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
+   
     switch (central.state) {
         case CBCentralManagerStatePoweredOff:
             
@@ -252,7 +266,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-   
+    printf("discover peripheral %s\n", [peripheral.description UTF8String]);
+    
     NSArray *LEDs = _dataModel.LEDs;
     
     NSString *name = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -278,7 +293,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     }
     [_discoverPeripherals addObject:peripheral];
 
-    printf("discover peripheral %s\n", [peripheral.description UTF8String]);
+
+    printf("connect peripheral %s\n", [peripheral.description UTF8String]);
      [_centralManager connectPeripheral:peripheral
                                 options:
                                     @{
