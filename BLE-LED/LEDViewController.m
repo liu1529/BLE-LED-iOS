@@ -166,9 +166,13 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     LEDItem *aLED = _dataModel.LEDs[indexPath.row];
     cell.nameLabel.text = aLED.name;
-    cell.imageView.image = aLED.bluePeripheral ? aLED.image : [aLED.image withFilterName: @"CIPhotoEffectMono"];
+    if (aLED.bluePeripheral) {
+        cell.imageView.image = aLED.image;
+    }
+    else {
+        cell.imageView.image = [aLED.image withFilterName: @"CIPhotoEffectMono"];
+    }
     
-   
     return cell;
 }
 
@@ -211,42 +215,89 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             
         }
         
-        [_discoverPeripherals removeAllObjects];
-        
-        for (LEDItem *LED in _dataModel.LEDs)
-        {
-            if (LED.bluePeripheral) {
-                [self.centralManager cancelPeripheralConnection:LED.bluePeripheral];
-            }
-          
-        }
-        
-
-        [_LEDCollectionView reloadData];
-    
         // start progress spinner
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
+        //取消所有正在连接的
+        for (CBPeripheral *p in _discoverPeripherals) {
+            [self.centralManager cancelPeripheralConnection:p];
+        }
+        [_discoverPeripherals removeAllObjects];
+        
+        /*
+        //是否所有的led都成功连接过
+        NSMutableArray *identifers = [NSMutableArray array];
+        for (LEDItem *led in _dataModel.LEDs) {
+            if (led.identifier)
+                [identifers addObject:led.identifier];
+        }
+        //有连接过的
+        if (identifers.count > 0) {
+            NSArray *retrievePeripherals = [self.centralManager retrievePeripheralsWithIdentifiers:identifers];
+            [_discoverPeripherals addObjectsFromArray:retrievePeripherals];
+            //再次连接以前连接过得
+            for (CBPeripheral *p in retrievePeripherals) {
+                [self.centralManager connectPeripheral:p options:nil];
+            }
+            if (retrievePeripherals.count  == _dataModel.LEDs.count) {
+                [refreshControl endRefreshing];
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                return;
+            }
+        }
+        */
+        //开始扫描
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+        
+        //扫描5s开始连接
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.centralManager stopScan];
+//            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//            [refreshControl endRefreshing];
 
-        [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(scanTimer:) userInfo:refreshControl repeats:NO];
+            for (CBPeripheral *p in _discoverPeripherals) {
+                //连接led
+                [self.centralManager connectPeripheral:p options:nil];
+                
+                
+                //给每个正在连接的led闪烁提示正在连接
+                for (int i = 0; i < _dataModel.LEDs.count; i++) {
+                    LEDItem *led = _dataModel.LEDs[i];
+                    if ([led.identifier isEqual:p.identifier]) {
+                        led.state = LEDStateConecting;
+//                        [_LEDCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
+                        LEDCollectionCell *cell = (LEDCollectionCell *)[_LEDCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+                        cell.alpha = 0.1;
+                        [UIView
+                         animateWithDuration:2
+                         delay:0
+                         options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+                         animations:^{
+                            cell.alpha = 1.0;
+                        } completion:^(BOOL finished) {
+                            
+                        }];
+                    }
+                }
+                
+            }
+            
+            //5s后停止显示刷新
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                [refreshControl endRefreshing];
+                
+            });
+            
+        });
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [_LEDCollectionView reloadData];
+        });
         
     }
    
-}
-
-- (void) scanTimer:(NSTimer *)timer
-{
-
-    [self.centralManager stopScan];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-  
-    UIRefreshControl *refreshControl = timer.userInfo;
-    [refreshControl endRefreshing];
-
-    
-  
 }
 
 #pragma mark - Bluethooth CentralManager
@@ -266,75 +317,57 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    printf("discover peripheral %s\n", [peripheral.description UTF8String]);
+   
     
-    NSArray *LEDs = _dataModel.LEDs;
     
     NSString *name = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([name localizedCaseInsensitiveCompare:@"GreebleLight"] != NSOrderedSame) {
         return;
     }
     
-    for (NSInteger i = 0;i < LEDs.count; i++)
-    {
-        LEDItem *LED = LEDs[i];
-        CBPeripheral *p = LED.bluePeripheral;
-        if ([p.identifier isEqual:peripheral.identifier])
-        {
-            LED.bluePeripheral = peripheral;
-            return;
+    for (int i = 0; i < _discoverPeripherals.count; i++) {
+        CBPeripheral *p = _discoverPeripherals[i];
+        if ([p.identifier isEqual:peripheral.identifier]) {
+            _discoverPeripherals[i] = peripheral;
         }
     }
     
-    for (CBPeripheral *p in _discoverPeripherals) {
-        if ([p.identifier isEqual:peripheral.identifier]) {
-            return;
-        }
-    }
     [_discoverPeripherals addObject:peripheral];
 
 
-    printf("connect peripheral %s\n", [peripheral.description UTF8String]);
-     [_centralManager connectPeripheral:peripheral
-                                options:
-                                    @{
-                                      CBConnectPeripheralOptionNotifyOnConnectionKey: @(YES),
-                                      CBConnectPeripheralOptionNotifyOnDisconnectionKey: @(YES)
-                                      }];
-   
+    printf("discover peripheral %s\n", [peripheral.description UTF8String]);
   
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    
-    
-//    [self.lightSlider setValue:aLED.currentLight animated:YES];
-//    [self.tempSlider setValue:aLED.currentTemp animated:YES];
-//    self.lightLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentLight];
-//    self.tempLabel.text = [NSString stringWithFormat:@"%d%%",aLED.currentTemp];
-    
     [peripheral discoverServices:LED_SERVICE_UUIDS];
     
     peripheral.delegate = self;
     
     printf("connect peripheral %s\n", [[peripheral.identifier UUIDString] UTF8String]);
+    
 }
 
-- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+- (void) processDisconnectPeripheral:(CBPeripheral *)peripheral
 {
+    [self.centralManager cancelPeripheralConnection:peripheral];
     [_discoverPeripherals removeObject:peripheral];
-    for (LEDItem *aLED in _dataModel.LEDs)
-    {
-        if (aLED.bluePeripheral == peripheral)
-        {
-            aLED.bluePeripheral = nil;
-            [_LEDCollectionView reloadData];
+    for (int i = 0; i < _dataModel.LEDs.count; i++) {
+        LEDItem *led = _dataModel.LEDs[i];
+        if (led.bluePeripheral == peripheral) {
+            led.bluePeripheral = nil;
+            [_LEDCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
             break;
         }
     }
     
 
+}
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    [self processDisconnectPeripheral:peripheral];
     
     if (!error)
     {
@@ -349,47 +382,32 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    [_discoverPeripherals removeObject:peripheral];
-    for (LEDItem *aLED in _dataModel.LEDs)
-    {
-        if (aLED.bluePeripheral == peripheral)
-        {
-            aLED.bluePeripheral = nil;
-            aLED.state = LEDStateDisSelected;
-            [_LEDCollectionView reloadData];
-            break;
-        }
-    }
+    [self processDisconnectPeripheral:peripheral];
     printf("fail connect peripheral %s err:%s \n", [[peripheral.identifier UUIDString] UTF8String], [error.description UTF8String]);
 
 }
 
-- (void)centralManager:(CBCentralManager *)central didRetrieveConnectedPeripherals:(NSArray *)peripherals
-{
 
-}
-
-- (void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
-{
-
-}
 
 #pragma mark - Bluethooth Peripheral
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
-    printf("p:%s discover services\n",[[peripheral.identifier UUIDString] UTF8String]);
+//    printf("p:%s discover services err:%s\n",[[peripheral.identifier UUIDString] UTF8String],[error.description UTF8String]);
+    
     for (CBService *service in peripheral.services)
     {
         
         if ([service.UUID isEqual:LED_SERVICE_UUID])
         {
+    
             [peripheral discoverCharacteristics:LED_CHAR_UUIDS forService:service];
             
         }
     }
     if (error) {
-        [_discoverPeripherals removeObject:peripheral];
+        printf("p:%s discover services err:%s\n",[[peripheral.identifier UUIDString] UTF8String],[error.description UTF8String]);
+        [self processDisconnectPeripheral:peripheral];
     }
 }
 
@@ -408,12 +426,12 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             }
         }
         
-        printf("p:%s,s:%s discover characteristics\n",[[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String]);
+//        printf("p:%s,s:%s discover characteristics\n",[[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String]);
     }
     else
     {
         printf("p:%s,s:%s discover characteristics err:%s \n", [[peripheral.identifier UUIDString] UTF8String],[service.UUID.data.description  UTF8String],[error.description UTF8String]);
-        [_discoverPeripherals removeObject:peripheral];
+        [self processDisconnectPeripheral:peripheral];
     }
     
    
@@ -433,8 +451,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (void)confirmPeripheral:(CBPeripheral *)peripheral forCharateristic:(CBCharacteristic *)characteristic
 {
     if (characteristic.value.length != 6) {
-        [_centralManager cancelPeripheralConnection:peripheral];
-        [_discoverPeripherals removeObject:peripheral];
         return ;
     }
     
@@ -449,8 +465,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         }
     }];
     
-    NSLog(@"%@",recvAddrData);
-    printf("recv addr string %s \n",[recvAddrString UTF8String]);
+//    NSLog(@"%@",recvAddrData);
+//    printf("recv addr string %s \n",[recvAddrString UTF8String]);
     
     NSUInteger i = 0;
     for (;i < _dataModel.LEDs.count; i++)
@@ -460,7 +476,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         {
             aLED.bluePeripheral = peripheral;
             aLED.characteristics = [[peripheral.services firstObject] characteristics];
-            [_LEDCollectionView reloadData];
+            [_LEDCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
             //写验证消息，验证消息为蓝牙地址后3个字节
             [aLED writeConfirmation:[recvAddrData subdataWithRange:NSMakeRange(3, 3)]];
             aLED.identifier = peripheral.identifier;
@@ -488,24 +504,20 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
             break;
         }
     }
-    if (i >= _dataModel.LEDs.count) {
-        [_centralManager cancelPeripheralConnection:peripheral];
-    }
-    
 }
 
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    [_discoverPeripherals removeObject:peripheral];
+    
     
     if (!error)
     {
        
-        printf("p:%s c:%s read value:%s\n",
-               [[peripheral.identifier UUIDString] UTF8String],
-               [characteristic.UUID.data.description UTF8String],
-               [[characteristic.value description] UTF8String]);
+//        printf("p:%s c:%s read value:%s\n",
+//               [[peripheral.identifier UUIDString] UTF8String],
+//               [characteristic.UUID.data.description UTF8String],
+//               [[characteristic.value description] UTF8String]);
         //先验证led
         if ([characteristic.UUID isEqual:LED_CHAR_ID_UUID]) {
             [self confirmPeripheral:peripheral forCharateristic:characteristic];
@@ -559,10 +571,11 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     else
     {
         
-        [_centralManager cancelPeripheralConnection:peripheral];
         printf("!!!p:%s c:%s read err:%s!!!\n",[[peripheral.identifier UUIDString] UTF8String],[characteristic.UUID.data.description UTF8String],[[error description] UTF8String] );
 
     }
+    [_discoverPeripherals removeObject:peripheral];
+    
 }
 
 
@@ -618,16 +631,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
        
         
     }
-   
-   
-    
 }
-
-
-
-
-
-
-
 
 @end

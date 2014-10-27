@@ -78,7 +78,7 @@
     if (self = [super init]) {
         self.name = name;
         self.image = image;
-        self.state = LEDStateDisSelected;
+        self.state = LEDStateDisConnected;
     }
     return self;
 }
@@ -116,7 +116,9 @@
 
 - (NSString *)QRCodeString
 {
- 
+    if (!_blueAddrWithColon) {
+        return nil;
+    }
     NSMutableString *s = [[NSMutableString alloc] initWithString:_blueAddrWithColon];
     [s appendFormat:@",%@",_name];
     _QRCodeString = s;
@@ -149,7 +151,7 @@
         
         [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
         
-        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+//        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
     }
     else
     {
@@ -187,7 +189,7 @@
         
         [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
         
-         printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+//         printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
     }
     else
     {
@@ -222,7 +224,7 @@
         
         [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
         
-        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+ //       printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
     }
     else
     {
@@ -256,7 +258,7 @@
     
         [self.bluePeripheral writeValue:data forCharacteristic:charac type:CBCharacteristicWriteWithResponse];
         
-        printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
+  //      printf("p:%s c:%s w 0x%s\n",[[self.bluePeripheral.identifier UUIDString] UTF8String],[charac.UUID.data.description UTF8String], [data.description UTF8String]);
     }
     else
     {

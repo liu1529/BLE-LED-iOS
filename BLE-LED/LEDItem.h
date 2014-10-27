@@ -11,9 +11,9 @@
 @import CoreBluetooth;
 
 typedef enum {
-    LEDStateDisSelected,
-    LEDStateSelecting,
-    LEDStateSelected,
+    LEDStateDisConnected,
+    LEDStateConecting,
+    LEDStateConnected,
 }LEDState;
 
 
