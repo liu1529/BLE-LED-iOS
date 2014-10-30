@@ -109,6 +109,9 @@
 {
    
     for (int i = 0; i < _LEDs.count; i++) {
+        if ([_LEDs[i] onOff] == NO) {
+            [_LEDs[i] setOnOff:YES];
+        }
         [_LEDs[i] setCurrentLight:[_lights[i] unsignedCharValue]];
         [_LEDs[i] setCurrentTemp:[_temps[i] unsignedCharValue]];
     }

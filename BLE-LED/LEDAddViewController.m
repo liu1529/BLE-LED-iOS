@@ -73,6 +73,18 @@
 - (void) setupCamera
 {
     AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    if (!captureDevice) {
+        
+        UIAlertView *alter = [[UIAlertView alloc]
+                              initWithTitle:nil
+                              message:@"Please Allow App to Use Camera"
+                              delegate:nil
+                              cancelButtonTitle:@"Cancel"
+                              otherButtonTitles: nil];
+        [alter show];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
     
     AVCaptureDeviceInput *captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:nil];
     

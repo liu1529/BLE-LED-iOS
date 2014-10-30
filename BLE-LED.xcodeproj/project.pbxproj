@@ -400,6 +400,11 @@
 				TargetAttributes = {
 					1F98B8491986435000C77187 = {
 						DevelopmentTeam = QLQELZN7GW;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					1F98B86A1986435100C77187 = {
 						TestTargetID = 1F98B8491986435000C77187;
