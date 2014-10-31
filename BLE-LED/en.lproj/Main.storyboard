@@ -82,16 +82,16 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="hLV-2V-AXk">
                                 <rect key="frame" x="20" y="250" width="280" height="4"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="viewtinder rectangle to scan it" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqW-1p-Cfw">
-                                <rect key="frame" x="39" y="91" width="242" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Place a barcode inside the   viewfinder rectangle to scan it" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqW-1p-Cfw">
+                                <rect key="frame" x="40" y="72" width="240" height="52"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dyu-4X-Mrk">
+                    <navigationItem key="navigationItem" title="Scan" id="dyu-4X-Mrk">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="we3-su-rna">
                             <connections>
                                 <action selector="cancelScan:" destination="lyN-WV-99M" id="eW1-w2-7es"/>
@@ -195,7 +195,7 @@
                             <outlet property="delegate" destination="KXh-8d-70t" id="Qxj-0p-AbS"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="6jA-At-A3d"/>
+                    <navigationItem key="navigationItem" title="Scene List" id="6jA-At-A3d"/>
                     <connections>
                         <segue destination="iqm-H6-KeO" kind="push" identifier="toSceneEdit" id="S4C-mC-iDN"/>
                     </connections>
@@ -333,7 +333,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="1mQ-ny-5Jv">
+                    <navigationItem key="navigationItem" title="LED Edit" id="1mQ-ny-5Jv">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="eXQ-vp-CkH">
                             <connections>
                                 <action selector="doneEdit:" destination="EEl-rM-1Mh" id="vFu-8H-TIN"/>
@@ -352,7 +352,7 @@
             </objects>
             <point key="canvasLocation" x="2109" y="-1127"/>
         </scene>
-        <!--Scene Edit View Controller-->
+        <!--Scene Edit-->
         <scene sceneID="oek-gC-dGh">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="iqm-H6-KeO" customClass="SceneEditViewController" sceneMemberID="viewController">
@@ -440,7 +440,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="y8G-GQ-doN"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="hgU-fy-yuq">
+                    <navigationItem key="navigationItem" title="Scene Edit" id="hgU-fy-yuq">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="PCi-ro-ehw">
                             <connections>
                                 <action selector="doneActione:" destination="iqm-H6-KeO" id="jJ5-jb-HiP"/>
@@ -459,7 +459,7 @@
             </objects>
             <point key="canvasLocation" x="1611" y="664"/>
         </scene>
-        <!--ChooseLED View Controller-->
+        <!--LED Choose-->
         <scene sceneID="2Kh-iX-XUM">
             <objects>
                 <viewController id="jlK-r9-v3d" customClass="ChooseLEDViewController" sceneMemberID="viewController">
@@ -524,7 +524,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="l6S-Gs-Y0r"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="YYD-aQ-7Rq">
+                    <navigationItem key="navigationItem" title="LED Choose" id="YYD-aQ-7Rq">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="fzh-Z5-O61">
                             <connections>
                                 <action selector="donePick:" destination="jlK-r9-v3d" id="F1G-xf-ITP"/>
@@ -558,7 +558,7 @@
             </objects>
             <point key="canvasLocation" x="567" y="-144"/>
         </scene>
-        <!--Grp List View Controller-->
+        <!--Group List-->
         <scene sceneID="t9g-c8-Ghu">
             <objects>
                 <viewController id="De9-Lv-tDF" customClass="GrpListViewController" sceneMemberID="viewController">
@@ -604,13 +604,13 @@
                             <outlet property="delegate" destination="De9-Lv-tDF" id="h8S-ih-wPR"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="gxu-iN-MzS"/>
+                    <navigationItem key="navigationItem" title="Group List" id="gxu-iN-MzS"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hpo-Qq-Y0S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1081" y="-156"/>
         </scene>
-        <!--Grp Edit View Controller-->
+        <!--Group Edit-->
         <scene sceneID="0nS-FB-rBm">
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="YQb-Ml-cTd" customClass="GrpEditViewController" sceneMemberID="viewController">
@@ -727,7 +727,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="kph-bZ-4re"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="zRx-WH-UtS">
+                    <navigationItem key="navigationItem" title="Group Edit" id="zRx-WH-UtS">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Jc6-F1-6Re">
                             <connections>
                                 <action selector="doneAction:" destination="YQb-Ml-cTd" id="rwc-wB-yfG"/>
@@ -781,6 +781,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="EtV-f5-RFA"/>
+        <segue reference="5xf-5l-REa"/>
     </inferredMetricsTieBreakers>
 </document>
