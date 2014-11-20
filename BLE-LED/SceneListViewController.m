@@ -83,8 +83,11 @@
     
     SceneItem *scene = _dataModel.scenes[indexPath.row];
     
+    cell.imageView.layer.cornerRadius = 15;
+    cell.imageView.layer.masksToBounds = YES;
     cell.imageView.image = scene.image;
     cell.label.text = scene.name;
+    
     
     
     return cell;

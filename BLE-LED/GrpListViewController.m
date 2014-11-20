@@ -78,6 +78,8 @@
     
     cell.imageView.image = grp.image;
     cell.nameLabel.text = grp.name;
+    cell.imageView.layer.cornerRadius = 15;
+    cell.imageView.layer.masksToBounds = YES;
     
     return cell;
 }

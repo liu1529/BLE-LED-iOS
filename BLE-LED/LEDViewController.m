@@ -160,7 +160,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     if (indexPath.row >= _dataModel.LEDs.count) {
         cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
-        cell.nameLabel.text = @"scan to add";
+        cell.nameLabel.text = @"Scan To Add";
         return cell;
     }
     
