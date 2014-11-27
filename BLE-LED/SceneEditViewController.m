@@ -7,10 +7,10 @@
 //
 
 #import "SceneEditViewController.h"
-#import "TabBarViewController.h"
 #import "SceneListViewController.h"
 #import "ChooseLEDViewController.h"
 #import "UIImage+Filter.h"
+#import "DataModel.h"
 
 
 @interface SceneEditViewController () <UIActionSheetDelegate>

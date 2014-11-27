@@ -8,11 +8,11 @@
 
 #import "LEDEditViewController.h"
 #import "ImageCollectionCell.h"
-#import "TabBarViewController.h"
 #import "LEDAddViewController.h"
 #import "LEDEditTableViewCell.h"
 #import "LEDEditTableViewQRCell.h"
 #import "LEDEditTableHeader.h"
+#import "DataModel.h"
 
 #import <UIKit/UIView.h>
 

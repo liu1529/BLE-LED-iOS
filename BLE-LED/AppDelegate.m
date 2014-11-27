@@ -7,12 +7,35 @@
 //
 
 #import "AppDelegate.h"
+#import "MenuViewController.h"
+
+
+@interface AppDelegate () <MSDynamicsDrawerViewControllerDelegate>
+
+@property (nonatomic, strong) UIImageView *windowBackground;
+
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.dynamicsDrawerViewController = (MSDynamicsDrawerViewController *)self.window.rootViewController;
+    self.dynamicsDrawerViewController.delegate = self;
+    
+
+    [self.dynamicsDrawerViewController addStylersFromArray:@[[MSDynamicsDrawerScaleStyler styler], [MSDynamicsDrawerFadeStyler styler]] forDirection:MSDynamicsDrawerDirectionLeft];
+    
+    MenuViewController *menuViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"Menu"];
+    menuViewController.dynamicsDrawerViewController = self.dynamicsDrawerViewController;
+    [self.dynamicsDrawerViewController setDrawerViewController:menuViewController forDirection:MSDynamicsDrawerDirectionLeft];
+
+    [menuViewController transitionToViewController:PaneViewControllerTypeLED];
+    
+    [self.window addSubview:self.windowBackground];
+    [self.window sendSubviewToBack:self.windowBackground];
+    
     return YES;
 }
 							
@@ -41,6 +64,56 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (UIImageView *)windowBackground
+{
+    if (!_windowBackground) {
+        _windowBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Window Background"]];
+    }
+    return _windowBackground;
+}
+
+- (NSString *)descriptionForPaneState:(MSDynamicsDrawerPaneState)paneState
+{
+    switch (paneState) {
+        case MSDynamicsDrawerPaneStateOpen:
+            return @"MSDynamicsDrawerPaneStateOpen";
+        case MSDynamicsDrawerPaneStateClosed:
+            return @"MSDynamicsDrawerPaneStateClosed";
+        case MSDynamicsDrawerPaneStateOpenWide:
+            return @"MSDynamicsDrawerPaneStateOpenWide";
+        default:
+            return nil;
+    }
+}
+
+- (NSString *)descriptionForDirection:(MSDynamicsDrawerDirection)direction
+{
+    switch (direction) {
+        case MSDynamicsDrawerDirectionTop:
+            return @"MSDynamicsDrawerDirectionTop";
+        case MSDynamicsDrawerDirectionLeft:
+            return @"MSDynamicsDrawerDirectionLeft";
+        case MSDynamicsDrawerDirectionBottom:
+            return @"MSDynamicsDrawerDirectionBottom";
+        case MSDynamicsDrawerDirectionRight:
+            return @"MSDynamicsDrawerDirectionRight";
+        default:
+            return nil;
+    }
+}
+
+#pragma mark - MSDynamicsDrawerViewControllerDelegate
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController mayUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction
+{
+    NSLog(@"Drawer view controller may update to state `%@` for direction `%@`", [self descriptionForPaneState:paneState], [self descriptionForDirection:direction]);
+}
+
+- (void)dynamicsDrawerViewController:(MSDynamicsDrawerViewController *)drawerViewController didUpdateToPaneState:(MSDynamicsDrawerPaneState)paneState forDirection:(MSDynamicsDrawerDirection)direction
+{
+    NSLog(@"Drawer view controller did update to state `%@` for direction `%@`", [self descriptionForPaneState:paneState], [self descriptionForDirection:direction]);
 }
 
 @end

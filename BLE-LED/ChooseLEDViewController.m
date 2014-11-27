@@ -7,7 +7,6 @@
 //
 
 #import "ChooseLEDViewController.h"
-#import "TabBarViewController.h"
 #import "SceneEditViewController.h"
 #import "SceneListViewController.h"
 #import "DataModel.h"
