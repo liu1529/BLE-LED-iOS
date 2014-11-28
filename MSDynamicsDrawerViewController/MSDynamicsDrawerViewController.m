@@ -218,6 +218,7 @@ void MSDynamicsDrawerDirectionActionForMaskedValues(NSInteger direction, MSDynam
     if (self.drawerViewController) {
         supportedInterfaceOrientations &= self.drawerViewController.supportedInterfaceOrientations;
     }
+    
     return supportedInterfaceOrientations;
 }
 

@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
 @property (nonatomic, strong) UIBarButtonItem *paneRevealLeftBarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *paneRevealRightBarButtonItem;
 
+@property (nonatomic, strong) UIImage *revealLeftImage;
+
 @end
 
 @implementation MenuViewController
@@ -123,6 +125,27 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
     return paneViewControllerType;
 }
 
+- (UIImage *)revealLeftImage
+{
+    if (!_revealLeftImage) {
+        CGSize sz = CGSizeMake(20, 24);
+        UIGraphicsBeginImageContextWithOptions(sz, NO, 0);
+        UIBezierPath *p = [UIBezierPath bezierPath];
+        [p setLineWidth:2];
+        
+        //绘制四条水平间隔横杠
+        int n = 3;
+        for (int i = 0; i < n; i++) {
+            [p moveToPoint:CGPointMake(0, sz.height / (n + 1) * (i + 1))];
+            [p addLineToPoint:CGPointMake(sz.width, sz.height / (n + 1) * (i + 1))];
+            [p stroke];
+        }
+        self.revealLeftImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    return _revealLeftImage;
+}
+
 - (void)transitionToViewController:(PaneViewControllerType)paneViewControllerType
 {
     // Close pane if already displaying the pane view controller
@@ -137,11 +160,17 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
 
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
     
-    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Left Reveal Icon"] style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    
+    
+//    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Left Reveal Icon"] style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    //设置左边的navigation图标
+    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:self.revealLeftImage style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
     paneViewController.navigationItem.leftBarButtonItem = self.paneRevealLeftBarButtonItem;
     
     
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
+    //navigationbar为绿色
+    paneNavigationViewController.navigationBar.barTintColor = [UIColor greenColor];
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
     
     self.paneViewControllerType = paneViewControllerType;
