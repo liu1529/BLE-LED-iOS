@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -10,52 +11,94 @@
         <scene sceneID="OdE-1T-MEq">
             <objects>
                 <viewController storyboardIdentifier="LEDList" title="LEDList" id="NTL-X2-VaZ" userLabel="LEDList" customClass="LEDViewController" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="fry-Gf-2DP">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZPH-gn-K5W"/>
+                        <viewControllerLayoutGuide type="bottom" id="1uE-5k-cUb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jRe-FD-Lpf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="7tB-pS-xza">
-                            <size key="itemSize" width="160" height="160"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CellLED" reuseIdentifier="CellLED" id="f2l-vg-79K" customClass="LEDCollectionCell">
-                                <rect key="frame" x="0.0" y="64" width="149" height="143"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
-                                            <rect key="frame" x="30" y="8" width="100" height="100"/>
-                                            <gestureRecognizers/>
-                                        </imageView>
-                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="azm-Zf-qw8">
-                                            <rect key="frame" x="132" y="8" width="20" height="20"/>
-                                        </activityIndicatorView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="144" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
-                                            <rect key="frame" x="8" y="108" width="144" height="44"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GdO-aA-yeL">
+                                <rect key="frame" x="0.0" y="64" width="320" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="GdO-aA-yeL" secondAttribute="height" multiplier="16:9" id="3Rb-1T-bv5"/>
+                                </constraints>
                                 <connections>
-                                    <outlet property="imageView" destination="oKs-Px-Xi4" id="pRn-77-0It"/>
-                                    <outlet property="indicatorActivityView" destination="azm-Zf-qw8" id="xsF-LL-Z8p"/>
-                                    <outlet property="nameLabel" destination="6C5-Hj-sZz" id="bzW-Qt-kBd"/>
+                                    <outlet property="delegate" destination="NTL-X2-VaZ" id="LE9-zT-RbR"/>
                                 </connections>
-                            </collectionViewCell>
-                        </cells>
-                    </collectionView>
+                            </scrollView>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fry-Gf-2DP">
+                                <rect key="frame" x="0.0" y="254" width="320" height="314"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="xQe-a4-y5Q" customClass="LEDCollectionViewFlowLayout">
+                                    <size key="itemSize" width="160" height="160"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CellLED" reuseIdentifier="CellLED" id="f2l-vg-79K" customClass="LEDCollectionCell">
+                                        <rect key="frame" x="0.0" y="64" width="149" height="143"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oKs-Px-Xi4">
+                                                    <rect key="frame" x="30" y="8" width="100" height="100"/>
+                                                    <gestureRecognizers/>
+                                                </imageView>
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="azm-Zf-qw8">
+                                                    <rect key="frame" x="132" y="8" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="144" translatesAutoresizingMaskIntoConstraints="NO" id="6C5-Hj-sZz">
+                                                    <rect key="frame" x="8" y="108" width="144" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outlet property="imageView" destination="oKs-Px-Xi4" id="pRn-77-0It"/>
+                                            <outlet property="indicatorActivityView" destination="azm-Zf-qw8" id="xsF-LL-Z8p"/>
+                                            <outlet property="nameLabel" destination="6C5-Hj-sZz" id="bzW-Qt-kBd"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <pageControl contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="gvt-Ep-sIk">
+                                <rect key="frame" x="60" y="197" width="200" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="ApV-Qj-QOd"/>
+                                    <constraint firstAttribute="height" constant="37" id="o61-GV-CfO"/>
+                                </constraints>
+                                <color key="pageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="currentPageIndicatorTintColor" red="0.212138665" green="0.5510753893" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </pageControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fry-Gf-2DP" firstAttribute="leading" secondItem="jRe-FD-Lpf" secondAttribute="leadingMargin" constant="-16" id="GXF-CC-0D1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GdO-aA-yeL" secondAttribute="trailing" constant="-16" id="GhQ-MD-oeD"/>
+                            <constraint firstItem="GdO-aA-yeL" firstAttribute="top" secondItem="ZPH-gn-K5W" secondAttribute="bottom" id="JOx-fw-61x"/>
+                            <constraint firstItem="GdO-aA-yeL" firstAttribute="leading" secondItem="jRe-FD-Lpf" secondAttribute="leadingMargin" constant="-16" id="LAj-xd-Jn2"/>
+                            <constraint firstItem="1uE-5k-cUb" firstAttribute="top" secondItem="fry-Gf-2DP" secondAttribute="bottom" id="Mj2-fd-TEL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fry-Gf-2DP" secondAttribute="trailing" constant="-16" id="edv-R2-HV2"/>
+                            <constraint firstItem="fry-Gf-2DP" firstAttribute="top" secondItem="GdO-aA-yeL" secondAttribute="bottom" constant="10" id="hj8-Y4-jwV"/>
+                            <constraint firstItem="gvt-Ep-sIk" firstAttribute="bottom" secondItem="GdO-aA-yeL" secondAttribute="bottom" constant="-10" id="jsj-ev-sDz"/>
+                            <constraint firstItem="gvt-Ep-sIk" firstAttribute="centerX" secondItem="GdO-aA-yeL" secondAttribute="centerX" id="xBO-Qg-tnB"/>
+                        </constraints>
+                    </view>
                     <navigationItem key="navigationItem" title="LED List" id="ud0-l7-zzb"/>
                     <connections>
+                        <outlet property="ADPageControl" destination="gvt-Ep-sIk" id="2cU-SS-LMd"/>
+                        <outlet property="ADScrollView" destination="GdO-aA-yeL" id="5F0-kb-DHb"/>
+                        <outlet property="LEDCollectionView" destination="fry-Gf-2DP" id="BzF-5t-y7y"/>
                         <segue destination="EEl-rM-1Mh" kind="push" identifier="toLEDEdit" id="EtV-f5-RFA"/>
                         <segue destination="lyN-WV-99M" kind="push" identifier="toLEDAdd" id="vma-9g-0u9"/>
                     </connections>

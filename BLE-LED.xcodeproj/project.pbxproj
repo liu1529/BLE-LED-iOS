@@ -42,6 +42,7 @@
 		1FD7098419C8195D00F36AD0 /* GroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098319C8195D00F36AD0 /* GroupItem.m */; };
 		1FD7098719C81EDB00F36AD0 /* GrpCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */; };
 		C59E25361A26F95B00BD6116 /* GreebleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E25351A26F95B00BD6116 /* GreebleViewController.m */; };
+		C5B525591A2C3B4500360259 /* LEDCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B525581A2C3B4500360259 /* LEDCollectionViewFlowLayout.m */; };
 		C5CDE8D01A24210500B27B69 /* MSDynamicsDrawerStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CDE8CC1A24210500B27B69 /* MSDynamicsDrawerStyler.m */; };
 		C5CDE8D11A24210500B27B69 /* MSDynamicsDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CDE8CF1A24210500B27B69 /* MSDynamicsDrawerViewController.m */; };
 		C5CDE8D61A24287200B27B69 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CDE8D51A24287200B27B69 /* MenuViewController.m */; };
@@ -127,6 +128,8 @@
 		1FD7098619C81EDB00F36AD0 /* GrpCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpCollectionCell.m; path = "BLE-LED/GrpCollectionCell.m"; sourceTree = "<group>"; };
 		C59E25341A26F95A00BD6116 /* GreebleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GreebleViewController.h; path = "BLE-LED/GreebleViewController.h"; sourceTree = "<group>"; };
 		C59E25351A26F95B00BD6116 /* GreebleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GreebleViewController.m; path = "BLE-LED/GreebleViewController.m"; sourceTree = "<group>"; };
+		C5B525571A2C3B4500360259 /* LEDCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LEDCollectionViewFlowLayout.h; path = "BLE-LED/LEDCollectionViewFlowLayout.h"; sourceTree = "<group>"; };
+		C5B525581A2C3B4500360259 /* LEDCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LEDCollectionViewFlowLayout.m; path = "BLE-LED/LEDCollectionViewFlowLayout.m"; sourceTree = "<group>"; };
 		C5CDE8CB1A24210500B27B69 /* MSDynamicsDrawerStyler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDynamicsDrawerStyler.h; sourceTree = "<group>"; };
 		C5CDE8CC1A24210500B27B69 /* MSDynamicsDrawerStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDynamicsDrawerStyler.m; sourceTree = "<group>"; };
 		C5CDE8CE1A24210500B27B69 /* MSDynamicsDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDynamicsDrawerViewController.h; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 				1F1260D41990D7B4005FA983 /* LEDCollectionCell.h */,
 				1F1260D91990DACB005FA983 /* LEDViewController.h */,
 				1F1260DA1990DACB005FA983 /* LEDViewController.m */,
+				C5B525571A2C3B4500360259 /* LEDCollectionViewFlowLayout.h */,
+				C5B525581A2C3B4500360259 /* LEDCollectionViewFlowLayout.m */,
 			);
 			name = LIst;
 			sourceTree = "<group>";
@@ -528,6 +533,7 @@
 				1F1260E91990E0C7005FA983 /* LEDAddViewController.m in Sources */,
 				1F1ED95919AF0C6400E954DE /* DataModel.m in Sources */,
 				C5D2A65D19EE26BB00661A1D /* GrpEditLedsHeader.m in Sources */,
+				C5B525591A2C3B4500360259 /* LEDCollectionViewFlowLayout.m in Sources */,
 				C5CDE8D91A242A5200B27B69 /* MenuCell.m in Sources */,
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
 				1F037A5119934EE5002E099E /* SceneLEDTableViewCell.m in Sources */,

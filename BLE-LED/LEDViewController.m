@@ -14,19 +14,24 @@
 #import "DataModel.h"
 #import "UIImage+Filter.h"
 
+
 @interface LEDViewController ()  <UICollectionViewDataSource,
                                 UICollectionViewDelegate,
                                 UIActionSheetDelegate,
                                 CBCentralManagerDelegate,
-                                CBPeripheralDelegate>
+                                CBPeripheralDelegate,
+                                UIScrollViewDelegate>
 {
     DataModel *_dataModel;
     NSMutableArray *_discoverPeripherals;
-    UICollectionView *_LEDCollectionView;
+    NSArray *_ADImages;
+    
 }
 
 @property (strong, nonatomic) CBCentralManager *centralManager;
-
+@property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
+@property (weak, nonatomic) IBOutlet UIScrollView *ADScrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *ADPageControl;
 
 - (IBAction)refreshList:(id)sender;
 
@@ -64,11 +69,13 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     // Do any additional setup after loading the view.
 //    [self loadInit];
 
-    _LEDCollectionView = (UICollectionView *)self.view;
     _LEDCollectionView.dataSource = self;
     _LEDCollectionView.delegate = self;
+    
+    
 //    self.LEDCollectionView.allowsMultipleSelection = YES;
 
+    [self ADViewInit];
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:@{CBCentralManagerOptionShowPowerAlertKey:@(YES)}];
    
@@ -132,6 +139,112 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     }
     
 }
+
+#pragma mark - ADView
+
+- (void) ADViewInit
+{
+    CGFloat w = self.ADScrollView.frame.size.width;
+    CGFloat h = self.ADScrollView.frame.size.height;
+    
+    _ADImages = @[
+                  [UIImage imageNamed:@"ad0.png"],
+                  [UIImage imageNamed:@"ad1.png"],
+                  [UIImage imageNamed:@"ad2.png"]
+                  ];
+    
+    self.ADScrollView.contentSize = CGSizeMake(_ADImages.count * w, h);
+    
+    self.ADPageControl.numberOfPages = _ADImages.count;
+    [self.ADPageControl addTarget:self action:@selector(ADPageUpade) forControlEvents:UIControlEventValueChanged];
+    
+    
+    
+    for (int i = 0; i < _ADImages.count; i++) {
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(w * i, 0, w, h)];
+        iv.image = _ADImages[i];
+        [self.ADScrollView addSubview:iv];
+    }
+    
+    
+}
+
+- (void) ADPageUpade
+{
+    CGFloat w = self.ADScrollView.frame.size.width;
+    CGFloat h = self.ADScrollView.frame.size.height;
+    [self.ADScrollView scrollRectToVisible:CGRectMake(w * self.ADPageControl.currentPage, 0, w, h) animated:YES];
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat w = self.ADScrollView.frame.size.width;
+//    CGFloat h = self.ADScrollView.frame.size.height;
+
+    int currentPage = floor((scrollView.contentOffset.x - w / 2) / w) + 1;
+    self.ADPageControl.currentPage = currentPage;
+    
+    if (scrollView.contentOffset.y != 0) {
+        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
+    }
+//    if (scrollView.contentOffset.y != 0) {
+//        [scrollView scrollRectToVisible:CGRectMake(scrollView.contentOffset.x, 0, w, h) animated:NO];
+//    }
+    
+    
+}
+
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    
+//    CGFloat pageWidth = scrollView.frame.size.width;
+//    int currentPage = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+//    NSInteger numViews = _ADImageViews.count;
+//    
+//    if (numViews <= 1) {
+//        
+//    } else if (numViews == 2) {
+//    
+//    } else {
+//        if (currentPage == 0) {
+//            
+//            UIView *tmpView = _ADImageViews[numViews - 1];
+//            while (numViews >= 2) {
+//                _ADImageViews[numViews - 1] = _ADImageViews[numViews - 2];
+//                numViews--;
+//            }
+//            _ADImageViews[0] = tmpView;
+//            
+//                       
+//            scrollView.contentOffset = CGPointMake(pageWidth, 0);
+//        }
+//
+//    }
+//
+//    
+//    
+//}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    NSLog(@"%f,%f",scrollView.contentOffset.x,scrollView.contentOffset.y);
+    
+    
+//    CGFloat w = self.ADScrollView.frame.size.width;
+//    CGFloat h = self.ADScrollView.frame.size.height;
+//    
+//    if (scrollView.contentOffset.x == 0) {
+//        CGRect rect = CGRectMake(w * (_ADImages.count - 1), 0, w, h);
+//        [scrollView scrollRectToVisible:rect animated:YES];
+//    }
+//    if (scrollView.contentOffset.x == w * (_ADImages.count - 1)) {
+//        CGRect rect = CGRectMake(0, 0, w, h);
+//        [scrollView scrollRectToVisible:rect animated:YES];
+//    }
+
+}
+
 
 
 #pragma mark - CollectonView datasource
