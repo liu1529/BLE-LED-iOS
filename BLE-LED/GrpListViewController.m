@@ -14,8 +14,9 @@
 @interface GrpListViewController () <UICollectionViewDataSource>
 {
     DataModel *_dataModel;
-    UICollectionView *_collectionView;
 }
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -35,7 +36,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _dataModel = [DataModel sharedDataModel];
-    _collectionView = (UICollectionView *)self.view;
     
 }
 

@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "DataModel.h"
 #import "UIImage+Filter.h"
+#import "UIImageEffects.h"
 
 
 @interface LEDViewController ()  <UICollectionViewDataSource,
@@ -32,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *LEDCollectionView;
 @property (weak, nonatomic) IBOutlet UIScrollView *ADScrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *ADPageControl;
+
+//@property (strong, nonatomic) UIImageView *snapshortImageView;
 
 - (IBAction)refreshList:(id)sender;
 
@@ -67,14 +70,20 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self loadInit];
+   // [self loadInit];
 
     _LEDCollectionView.dataSource = self;
     _LEDCollectionView.delegate = self;
     
     
 //    self.LEDCollectionView.allowsMultipleSelection = YES;
-
+    
+   
+    //如果为YES，scrollview会向下偏移64
+   // self.automaticallyAdjustsScrollViewInsets = NO;
+   // self.edgesForExtendedLayout = UIRectEdgeNone;
+   // self.extendedLayoutIncludesOpaqueBars = NO;
+    
     [self ADViewInit];
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:@{CBCentralManagerOptionShowPowerAlertKey:@(YES)}];
@@ -144,8 +153,15 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void) ADViewInit
 {
-    CGFloat w = self.ADScrollView.frame.size.width;
-    CGFloat h = self.ADScrollView.frame.size.height;
+    CGFloat w = self.ADScrollView.bounds.size.width;
+    CGFloat h = self.ADScrollView.bounds.size.height;
+    
+    //在7.04(11B554a)版本不加下面的值，scrollview会出现不对齐，其他版本未测试
+    if ([UIDevice currentDevice].systemVersion.floatValue < 7.1) {
+        w += 16;
+        h += 9;
+    }
+    
     
     _ADImages = @[
                   [UIImage imageNamed:@"ad0.png"],
@@ -153,15 +169,24 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                   [UIImage imageNamed:@"ad2.png"]
                   ];
     
+    
+    
     self.ADScrollView.contentSize = CGSizeMake(_ADImages.count * w, h);
+//    self.ADScrollView.layer.borderColor = [UIColor redColor].CGColor;
+//    self.ADScrollView.layer.borderWidth = 1;
+    
+    
     
     self.ADPageControl.numberOfPages = _ADImages.count;
     [self.ADPageControl addTarget:self action:@selector(ADPageUpade) forControlEvents:UIControlEventValueChanged];
-    
+    [self.ADPageControl.superview bringSubviewToFront:self.ADPageControl];
     
     
     for (int i = 0; i < _ADImages.count; i++) {
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(w * i, 0, w, h)];
+        
+//        iv.layer.borderWidth = 1;
+//        iv.layer.borderColor = [UIColor greenColor].CGColor;
         iv.image = _ADImages[i];
         [self.ADScrollView addSubview:iv];
     }
@@ -185,46 +210,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     int currentPage = floor((scrollView.contentOffset.x - w / 2) / w) + 1;
     self.ADPageControl.currentPage = currentPage;
     
-    if (scrollView.contentOffset.y != 0) {
-        scrollView.contentOffset = CGPointMake(scrollView.contentOffset.x, 0);
-    }
-//    if (scrollView.contentOffset.y != 0) {
-//        [scrollView scrollRectToVisible:CGRectMake(scrollView.contentOffset.x, 0, w, h) animated:NO];
-//    }
-    
     
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    
-//    CGFloat pageWidth = scrollView.frame.size.width;
-//    int currentPage = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-//    NSInteger numViews = _ADImageViews.count;
-//    
-//    if (numViews <= 1) {
-//        
-//    } else if (numViews == 2) {
-//    
-//    } else {
-//        if (currentPage == 0) {
-//            
-//            UIView *tmpView = _ADImageViews[numViews - 1];
-//            while (numViews >= 2) {
-//                _ADImageViews[numViews - 1] = _ADImageViews[numViews - 2];
-//                numViews--;
-//            }
-//            _ADImageViews[0] = tmpView;
-//            
-//                       
-//            scrollView.contentOffset = CGPointMake(pageWidth, 0);
-//        }
-//
-//    }
-//
-//    
-//    
-//}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -272,7 +260,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
     if (indexPath.row >= _dataModel.LEDs.count) {
         cell.imageView.image = [UIImage imageNamed:@"add_icon.png"];
-        cell.nameLabel.text = @"Scan To Add";
+        cell.nameLabel.text = @"Add";
         return cell;
     }
     
@@ -690,6 +678,20 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
+- (UIImageView *)snapshortImageView
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0);
+    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:NO];
+    UIImage *im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+    
+    UIImageView *iv = [[UIImageView alloc] initWithImage:im];
+    return iv;
+}
+
+
 
 #pragma mark - Navigation
 
@@ -704,6 +706,11 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         LEDEditViewController *editVC = segue.destinationViewController;
         editVC.editLED = _dataModel.LEDs[[sender row]];
 
+        
+        UIImageView *snapView = [self snapshortImageView];
+        [editVC.view addSubview:snapView];
+        [editVC.view sendSubviewToBack:snapView];
+        
         editVC.completionBlock = ^(BOOL success)
         {
             if (success)

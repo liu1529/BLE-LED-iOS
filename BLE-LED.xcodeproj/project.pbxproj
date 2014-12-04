@@ -54,6 +54,7 @@
 		C5D2A66319EE279E00661A1D /* GrpEditOnOffHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5D2A66119EE279E00661A1D /* GrpEditOnOffHeader.xib */; };
 		C5D2A66719EE27D500661A1D /* GrpEditLedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A66519EE27D500661A1D /* GrpEditLedsCell.m */; };
 		C5D2A66C19EE27FE00661A1D /* GrpEditOnOffCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D2A66A19EE27FE00661A1D /* GrpEditOnOffCell.m */; };
+		C5E92BDE1A2F034C00BB901D /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E92BDD1A2F034C00BB901D /* UIImageEffects.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +153,8 @@
 		C5D2A66A19EE27FE00661A1D /* GrpEditOnOffCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrpEditOnOffCell.m; path = "BLE-LED/GrpEditOnOffCell.m"; sourceTree = "<group>"; };
 		C5D2A66E19EE77BB00661A1D /* GrpEditCellDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditCellDelegate.h; path = "BLE-LED/GrpEditCellDelegate.h"; sourceTree = "<group>"; };
 		C5D2A66F19EE7A4D00661A1D /* GrpEditHeaderDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrpEditHeaderDelegate.h; path = "BLE-LED/GrpEditHeaderDelegate.h"; sourceTree = "<group>"; };
+		C5E92BDC1A2F034C00BB901D /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		C5E92BDD1A2F034C00BB901D /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +218,8 @@
 				1F1ED95819AF0C6400E954DE /* DataModel.m */,
 				1F1260C81990D477005FA983 /* AppDelegate.h */,
 				1F1260C91990D477005FA983 /* AppDelegate.m */,
+				C5E92BDC1A2F034C00BB901D /* UIImageEffects.h */,
+				C5E92BDD1A2F034C00BB901D /* UIImageEffects.m */,
 				1FBA1A3719C0212800421B6F /* UIImage+Filter.h */,
 				1FBA1A3819C0212800421B6F /* UIImage+Filter.m */,
 				1F43574E19C92B9D00C904D0 /* Main.storyboard */,
@@ -538,6 +543,7 @@
 				1F1260B61990D165005FA983 /* ImageCollectionCell.m in Sources */,
 				1F037A5119934EE5002E099E /* SceneLEDTableViewCell.m in Sources */,
 				C5D2A66C19EE27FE00661A1D /* GrpEditOnOffCell.m in Sources */,
+				C5E92BDE1A2F034C00BB901D /* UIImageEffects.m in Sources */,
 				1F037A4A19934014002E099E /* SceneItem.m in Sources */,
 				C5CDE8DC1A242A7D00B27B69 /* MenuHeader.m in Sources */,
 				C5CDE8D01A24210500B27B69 /* MSDynamicsDrawerStyler.m in Sources */,

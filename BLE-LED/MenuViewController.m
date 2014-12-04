@@ -9,6 +9,7 @@
 #import "MenuViewController.h"
 #import "MenuHeader.h"
 #import "MenuCell.h"
+#import "UIImageEffects.h"
 
 NSString * const MenuCellReuseIdentifier = @"Drawer Cell";
 NSString * const DrawerHeaderReuseIdentifier = @"Drawer Header";
@@ -28,10 +29,10 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
 @property (nonatomic, strong) NSArray *tableViewSectionBreaks;
 
 @property (nonatomic, strong) UIBarButtonItem *paneStateBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *paneRevealLeftBarButtonItem;
-@property (nonatomic, strong) UIBarButtonItem *paneRevealRightBarButtonItem;
+
 
 @property (nonatomic, strong) UIImage *revealLeftImage;
+@property (nonatomic, strong) UIImage *backgroundImage;
 
 @end
 
@@ -146,6 +147,42 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
     return _revealLeftImage;
 }
 
+- (UIImage *)backgroundImage
+{
+    if(!_backgroundImage) {
+        UIImage *im = [UIImage imageNamed:@"background.png"];
+        
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.1)
+        {
+            // There was a bug in iOS versions 7.0.x which caused vImage buffers
+            // created using vImageBuffer_InitWithCGImage to be initialized with data
+            // that had the reverse channel ordering (RGBA) if BOTH of the following
+            // conditions were met:
+            //      1) The vImage_CGImageFormat structure passed to
+            //         vImageBuffer_InitWithCGImage was configured with
+            //         (kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little)
+            //         for the bitmapInfo member.  That is, if you wanted a BGRA
+            //         vImage buffer.
+            //      2) The CGImage object passed to vImageBuffer_InitWithCGImage
+            //         was loaded from an asset catalog.
+            //
+            // To reiterate, this bug only affected images loaded from asset
+            // catalogs.
+            //
+            // The workaround is to setup a bitmap context, draw the image, and
+            // capture the contents of the bitmap context in a new image.
+            
+            UIGraphicsBeginImageContextWithOptions(im.size, NO, im.scale);
+            [im drawAtPoint:CGPointZero];
+            im = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+        }
+        im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+        _backgroundImage = im;
+    }
+    return _backgroundImage;
+}
+
 - (void)transitionToViewController:(PaneViewControllerType)paneViewControllerType
 {
     // Close pane if already displaying the pane view controller
@@ -160,17 +197,23 @@ typedef NS_ENUM(NSUInteger, MenuViewControllerTableViewSectionType) {
 
     paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
     
+    //背景图片
+    UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:paneViewController.view.frame];
+    bgImageView.image = self.backgroundImage;
+    [paneViewController.view addSubview:bgImageView];
+    [paneViewController.view sendSubviewToBack:bgImageView];
     
-    
-//    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Left Reveal Icon"] style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+
     //设置左边的navigation图标
-    self.paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:self.revealLeftImage style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
-    paneViewController.navigationItem.leftBarButtonItem = self.paneRevealLeftBarButtonItem;
+    UIBarButtonItem *paneRevealLeftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:self.revealLeftImage style:UIBarButtonItemStyleBordered target:self action:@selector(dynamicsDrawerRevealLeftBarButtonItemTapped:)];
+    paneViewController.navigationItem.leftBarButtonItem = paneRevealLeftBarButtonItem;
     
     
     UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
-    //navigationbar为绿色
-    paneNavigationViewController.navigationBar.barTintColor = [UIColor greenColor];
+    //navigationbar为蓝色
+    paneNavigationViewController.navigationBar.barTintColor = [UIColor colorWithRed:0 green:0.6 blue:1 alpha:0.8];
+    paneNavigationViewController.navigationBar.tintColor = [UIColor whiteColor];
+    paneNavigationViewController.navigationBar.translucent = YES;
     [self.dynamicsDrawerViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
     
     self.paneViewControllerType = paneViewControllerType;

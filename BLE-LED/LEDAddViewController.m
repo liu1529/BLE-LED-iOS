@@ -21,7 +21,6 @@
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *backImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *scanLineImageView;
 
 @end
 
@@ -115,42 +114,23 @@
     self.captureVideoPreview.frame = self.backImageView.frame;
     [self.view.layer insertSublayer:self.captureVideoPreview atIndex:0];
     
-     _scanTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(scanTimer:) userInfo:nil repeats:YES];
+
+    
+    CGFloat w = self.backImageView.frame.size.width;
+    UIImageView *lineImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, w, 4)];
+    lineImageView.image = [UIImage imageNamed:@"line"];
+    [self.backImageView addSubview:lineImageView];
+    
+    [UIView animateWithDuration:2 delay:0 options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat animations:^{
+        CGRect frame = lineImageView.frame;
+        frame.origin.y = self.backImageView.frame.size.height;
+        lineImageView.frame = frame;
+    } completion:nil];
+    
    [self.captureSession startRunning];
     
 }
 
-- (void) scanTimer:(NSTimer *)timer
-{
-    CGRect backFrame = self.backImageView.frame;
-    static CGFloat yLine = 0;
-    static BOOL directDown = YES;
-    
-    if (directDown)
-    {
-        yLine += 2;
-        if (yLine >= backFrame.size.height)
-        {
-            yLine = backFrame.size.height;
-            directDown = !directDown;
-        }
-    }
-    else
-    {
-       
-        yLine -= 2;
-        if (yLine <= 0) {
-            yLine = 0;
-            directDown = !directDown;
-        }
-
-    }
-    self.scanLineImageView.frame = CGRectMake(
-                                              backFrame.origin.x,
-                                              backFrame.origin.y + yLine,
-                                              self.scanLineImageView.frame.size.width,
-                                              self.scanLineImageView.frame.size.height);
-}
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {

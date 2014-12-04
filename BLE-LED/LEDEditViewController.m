@@ -239,6 +239,7 @@
             [s addTarget:self action:@selector(onOffButton:withEvent:) forControlEvents:UIControlEventValueChanged];
             cell.accessoryView = s;
             
+            cell.backgroundColor = [UIColor clearColor];
             
             return cell;
         }
@@ -264,6 +265,9 @@
                 default:
                     break;
             }
+            
+            cell.backgroundColor = [UIColor clearColor];
+            
             return cell;
             
         }
@@ -276,6 +280,9 @@
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QRCell" forIndexPath:indexPath];
             cell.textLabel.text = @"QRImage";
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            
+            cell.backgroundColor = [UIColor clearColor];
+            
             return cell;
         }
         else {
@@ -283,6 +290,8 @@
             
             cell.qrImageView.image = _QRImage;
             cell.qrString.text = _editLED.QRCodeString;
+            
+            cell.backgroundColor = [UIColor clearColor];
             
             return cell;
             
