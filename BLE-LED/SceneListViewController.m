@@ -10,6 +10,7 @@
 #import "SceneCollectionCell.h"
 #import "DataModel.h"
 #import "SceneEditViewController.h"
+#import "UIImageEffects.h"
 
 
 @interface SceneListViewController ()
@@ -114,17 +115,31 @@
 
 #pragma mark - Navigation
 
+- (UIImageView *)snapshortImageView
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0);
+    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:NO];
+    UIImage *im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+    
+    UIImageView *iv = [[UIImageView alloc] initWithImage:im];
+    return iv;
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     NSIndexPath *index = sender;
+    SceneEditViewController *editVC = segue.destinationViewController;
     
     if (index.row >= _dataModel.scenes.count)
     {
         //add scene
-        SceneEditViewController *editVC = segue.destinationViewController;
+        
         editVC.isAdd = YES;
         SceneItem *scene = [SceneItem SceneWithName:@"new scene" Image:[UIImage imageNamed:@"scene4.png"]];
         editVC.editScene = scene;
@@ -146,7 +161,7 @@
     else
     {
         //edit scene
-        SceneEditViewController *editVC = segue.destinationViewController;
+        
         editVC.editScene = _dataModel.scenes[index.row];
         editVC.isAdd = NO;
         
@@ -164,6 +179,10 @@
         
     }
     
+    UIImageView *snapView = [self snapshortImageView];
+    [editVC.view addSubview:snapView];
+    [editVC.view sendSubviewToBack:snapView];
+
 }
 
 

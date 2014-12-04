@@ -438,10 +438,10 @@
                                 <rect key="frame" x="16" y="64" width="288" height="138"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PQD-9Q-xPa">
-                                        <rect key="frame" x="4" y="9" width="129" height="129"/>
+                                        <rect key="frame" x="19" y="19" width="100" height="100"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zFB-6f-9HC">
-                                        <rect key="frame" x="141" y="102" width="140" height="30"/>
+                                        <rect key="frame" x="133" y="89" width="140" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                         <connections>
@@ -449,14 +449,14 @@
                                         </connections>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="138" id="SBd-NX-4Eo"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2Q-HS-rsN">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l2Q-HS-rsN">
                                 <rect key="frame" x="16" y="204" width="288" height="320"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SceneTabbleCell" editingAccessoryType="checkmark" textLabel="7MD-ng-bzH" detailTextLabel="SzC-xh-w2t" imageView="8Sc-pZ-Xk7" style="IBUITableViewCellStyleSubtitle" id="hLi-xl-qfb">
                                         <rect key="frame" x="0.0" y="22" width="280" height="44"/>
@@ -485,6 +485,7 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
@@ -572,7 +573,7 @@
                                         </connections>
                                     </slider>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="103" id="Mv4-Gr-1nE"/>
                                 </constraints>
@@ -742,18 +743,18 @@
                                         <rect key="frame" x="8" y="17" width="100" height="100"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="134" id="ukN-Fg-Jmn"/>
                                 </constraints>
                             </view>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-G3-Xa1">
                                 <rect key="frame" x="16" y="206" width="288" height="362"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="etf-s6-3Zr">
                                     <size key="itemSize" width="76" height="76"/>
                                     <size key="headerReferenceSize" width="50" height="50"/>
-                                    <size key="footerReferenceSize" width="50" height="12"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -783,11 +784,6 @@
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UnUse" id="9AC-9u-TVc">
                                     <rect key="frame" x="0.0" y="0.0" width="288" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                </collectionReusableView>
-                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="7qh-dv-Nn6">
-                                    <rect key="frame" x="0.0" y="136" width="288" height="12"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="YQb-Ml-cTd" id="YJk-5I-k1E"/>
@@ -824,7 +820,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="aVZ-G3-Xa1" id="ReL-TC-VPg"/>
-                        <outlet property="image" destination="Icy-Qt-Vv9" id="YvH-II-q96"/>
+                        <outlet property="imageView" destination="Icy-Qt-Vv9" id="wqW-nx-nz0"/>
                         <outlet property="ledNumsLabel" destination="wl1-j3-b1N" id="lpg-UE-J9W"/>
                         <outlet property="nameTextField" destination="L2j-rI-XUB" id="fAZ-mb-8b2"/>
                     </connections>

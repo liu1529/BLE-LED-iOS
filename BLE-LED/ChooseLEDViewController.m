@@ -85,6 +85,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    self.navigationController.toolbar.barTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.5];
 }
 
 

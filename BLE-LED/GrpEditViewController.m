@@ -22,7 +22,7 @@
                                     GrpEditHeaderDelegate,
                                     GrpEditCellDelegate>
 
-@property (weak, nonatomic) IBOutlet UIImageView *image;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *ledNumsLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -50,8 +50,12 @@
     
     
     _collectionView.allowsMultipleSelection = YES;
-    _image.image = _editGrp.image;
-    _nameTextField.text = _editGrp.name;
+    
+    self.imageView.image = _editGrp.image;
+    self.imageView.layer.cornerRadius = 15;
+    self.imageView.layer.masksToBounds = YES;
+    
+    self.nameTextField.text = _editGrp.name;
     _ledNumsLabel.text = [NSString stringWithFormat:@"%d/%d",
                           (int)_editGrp.LEDs.count,
                           (int)[DataModel sharedDataModel].LEDs.count];
@@ -72,6 +76,8 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    self.navigationController.toolbar.translucent = YES;
+    self.navigationController.toolbar.barTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.5];
 }
 
 - (void)didReceiveMemoryWarning

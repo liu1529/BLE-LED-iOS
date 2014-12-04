@@ -731,7 +731,8 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         LEDAddViewController *addVC = segue.destinationViewController;
         LEDItem *aLED = [LEDItem LEDWithName:@"new light" Image:[UIImage imageNamed:@"LED.png"]];
         addVC.addLED = aLED;
-       
+        
+              
         addVC.completionBlock = ^(BOOL success)
         {
             if (success)

@@ -10,6 +10,7 @@
 #import "DataModel.h"
 #import "GrpCollectionCell.h"
 #import "GrpEditViewController.h"
+#import "UIImageEffects.h"
 
 @interface GrpListViewController () <UICollectionViewDataSource>
 {
@@ -92,19 +93,37 @@
 
 #pragma mark - Navigation
 
+- (UIImageView *)snapshortImageView
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0);
+    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:NO];
+    UIImage *im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+    
+    UIImageView *iv = [[UIImageView alloc] initWithImage:im];
+    return iv;
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
+   
+    
     NSIndexPath *index = [_collectionView indexPathForCell:sender];
     GrpEditViewController *editVC = segue.destinationViewController;
+    
     if (index.row >= _dataModel.groups.count)
     {
         GroupItem *Grp = [GroupItem groupWithName:@"new group" Image:[UIImage imageNamed:@"scene6.png"]];
         editVC.editGrp = Grp;
         editVC.isAdd = YES;
+        
+        
         editVC.completionBlock = ^(BOOL success)
         {
             if (success) {
@@ -129,6 +148,11 @@
         };
 
     }
+    
+    UIImageView *snapView = [self snapshortImageView];
+    [editVC.view addSubview:snapView];
+    [editVC.view sendSubviewToBack:snapView];
+
 }
 
 

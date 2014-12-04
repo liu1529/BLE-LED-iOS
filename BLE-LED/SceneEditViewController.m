@@ -11,6 +11,7 @@
 #import "ChooseLEDViewController.h"
 #import "UIImage+Filter.h"
 #import "DataModel.h"
+#import "UIImageEffects.h"
 
 
 @interface SceneEditViewController () <UIActionSheetDelegate>
@@ -49,6 +50,9 @@
        
     
     self.imageView.image = self.editScene.image;
+    self.imageView.layer.cornerRadius = 15;
+    self.imageView.layer.masksToBounds = YES;
+    
     self.nameLabel.text = self.editScene.name;
 
     
@@ -60,6 +64,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:_isAdd animated:YES];
+    self.navigationController.toolbar.barTintColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.5];
 }
 
 
@@ -118,6 +123,19 @@
 
 #pragma mark - Navigation
 
+- (UIImageView *)snapshortImageView
+{
+    UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0);
+    [self.view drawViewHierarchyInRect:self.view.frame afterScreenUpdates:NO];
+    UIImage *im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+    
+    UIImageView *iv = [[UIImageView alloc] initWithImage:im];
+    return iv;
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -160,7 +178,14 @@
                
             };
         }
+        
+        UIImageView *snapView = [self snapshortImageView];
+        [chooseVC.view addSubview:snapView];
+        [chooseVC.view sendSubviewToBack:snapView];
+
     }
+    
+   
 }
 
 

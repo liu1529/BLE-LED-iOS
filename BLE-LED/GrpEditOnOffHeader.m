@@ -21,6 +21,17 @@
     
     [self.sw addTarget:self action:@selector(OnOffChange) forControlEvents:UIControlEventValueChanged];
     
+    CGFloat w = self.frame.size.width;
+    CGFloat h = self.frame.size.height;
+    UIColor *c = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    
+    UIView *topSeparateView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, 1)];
+    topSeparateView.backgroundColor = c;
+    [self addSubview:topSeparateView];
+    
+    UIView *bottomSeparateView = [[UIView alloc] initWithFrame:CGRectMake(0, h - 1, w, 1)];
+    bottomSeparateView.backgroundColor = c;
+    [self addSubview:bottomSeparateView];
 }
 
 - (void) OnOffChange

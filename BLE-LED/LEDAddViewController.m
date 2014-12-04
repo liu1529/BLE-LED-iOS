@@ -10,11 +10,9 @@
 #import "LEDViewController.h"
 #import "LEDEditViewController.h"
 #import "DataModel.h"
+#import "UIImageEffects.h"
 
 @interface LEDAddViewController ()
-{
-    NSTimer *_scanTimer;
-}
 
 @property (strong, nonatomic) AVCaptureSession *captureSession;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreview;
@@ -59,7 +57,7 @@
 {
     [super viewDidDisappear:animated];
     [self.captureSession stopRunning];
-    [_scanTimer invalidate];
+    
 }
 
 
@@ -136,7 +134,7 @@
 {
     [self.captureSession stopRunning];
     [self.captureVideoPreview removeFromSuperlayer];
-    [_scanTimer invalidate];
+   
     if (metadataObjects.count > 0)
     {
         AVMetadataMachineReadableCodeObject *metadata = metadataObjects[0];
@@ -183,7 +181,7 @@
 - (IBAction)cancelScan:(id)sender
 {
     [self.captureSession stopRunning];
-    [_scanTimer invalidate];
+    
     if (self.completionBlock) {
         self.completionBlock(NO);
     }
@@ -194,6 +192,42 @@
 
 
 #pragma mark - Navigation
+
+- (UIImage *)backgroundImage
+{
+    
+    UIImage *im = [UIImage imageNamed:@"background.png"];
+        
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.1)
+    {
+        // There was a bug in iOS versions 7.0.x which caused vImage buffers
+        // created using vImageBuffer_InitWithCGImage to be initialized with data
+        // that had the reverse channel ordering (RGBA) if BOTH of the following
+        // conditions were met:
+        //      1) The vImage_CGImageFormat structure passed to
+        //         vImageBuffer_InitWithCGImage was configured with
+        //         (kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Little)
+        //         for the bitmapInfo member.  That is, if you wanted a BGRA
+        //         vImage buffer.
+        //      2) The CGImage object passed to vImageBuffer_InitWithCGImage
+        //         was loaded from an asset catalog.
+        //
+        // To reiterate, this bug only affected images loaded from asset
+        // catalogs.
+        //
+        // The workaround is to setup a bitmap context, draw the image, and
+        // capture the contents of the bitmap context in a new image.
+            
+        UIGraphicsBeginImageContextWithOptions(im.size, NO, im.scale);
+        [im drawAtPoint:CGPointZero];
+        im = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    im = [UIImageEffects imageByApplyingLightEffectToImage:im];
+    return im;
+    
+
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -206,6 +240,13 @@
         LEDEditViewController *editVC = segue.destinationViewController;
         editVC.isAdd = YES;
         editVC.editLED = self.addLED;
+        
+       
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:self.view.frame];
+        iv.image = [self backgroundImage];
+        [editVC.view addSubview:iv];
+        [editVC.view sendSubviewToBack:iv];
+        
         editVC.completionBlock = ^(BOOL success)
         {
             if (self.completionBlock)
