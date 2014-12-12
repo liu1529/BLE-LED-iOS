@@ -381,6 +381,9 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
                     }
                 }
                 
+                //iOS一秒只能发送4个包，这儿加入延时
+                [NSThread sleepForTimeInterval:1];
+                
             }
             
             //5s后停止显示刷新
@@ -418,8 +421,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
    
-    
-    
     NSString *name = [peripheral.name stringByReplacingOccurrencesOfString:@" " withString:@""];
     if ([name localizedCaseInsensitiveCompare:@"GreebleLight"] != NSOrderedSame) {
         return;
@@ -429,6 +430,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
         CBPeripheral *p = _discoverPeripherals[i];
         if ([p.identifier isEqual:peripheral.identifier]) {
             _discoverPeripherals[i] = peripheral;
+            return;
         }
     }
     
@@ -678,6 +680,18 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     
 }
 
+
+- (void)peripheral:(CBPeripheral *)peripheral didReadRSSI:(NSNumber *)RSSI error:(NSError *)error
+{
+    if(error)
+    {
+        
+    }
+}
+
+
+#pragma mark - Navigation
+
 - (UIImageView *)snapshortImageView
 {
     UIGraphicsBeginImageContextWithOptions(self.view.frame.size, YES, 0);
@@ -690,10 +704,6 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
     UIImageView *iv = [[UIImageView alloc] initWithImage:im];
     return iv;
 }
-
-
-
-#pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

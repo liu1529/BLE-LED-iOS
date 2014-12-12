@@ -20,6 +20,7 @@
         [self.contentView addSubview:_label];
         
         _slider = [UISlider new];
+        _slider.continuous = NO;
         [self.contentView addSubview:_slider];
         
         _label.translatesAutoresizingMaskIntoConstraints = NO;
@@ -28,7 +29,7 @@
         
         [self.contentView addConstraints:
          [NSLayoutConstraint
-          constraintsWithVisualFormat:@"H:|-[_label(60)][_slider]-|"
+          constraintsWithVisualFormat:@"H:|[_label(60)][_slider]-|"
           options:0 metrics:nil views:vs]];
         [self.contentView addConstraints:
          [NSLayoutConstraint
