@@ -10,7 +10,7 @@
 
 @interface LEDEditTableViewCell : UITableViewCell
 
-@property (weak, nonatomic)  IBOutlet UILabel *label;
-@property (weak, nonatomic)  IBOutlet UISlider *slider;
+@property (strong, nonatomic)   UILabel *label;
+@property (strong, nonatomic)   UISlider *slider;
 
 @end

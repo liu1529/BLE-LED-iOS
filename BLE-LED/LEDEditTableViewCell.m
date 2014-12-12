@@ -16,30 +16,30 @@
     if (self) {
         // Initialization code
         
-//        _label = [UILabel new];
-//        [self.contentView addSubview:_label];
-//        
-//        _slider = [UISlider new];
-//        [self.contentView addSubview:_slider];
-//        
-//        _label.translatesAutoresizingMaskIntoConstraints = NO;
-//        _slider.translatesAutoresizingMaskIntoConstraints = NO;
-//        NSDictionary *vs = NSDictionaryOfVariableBindings(_label,_slider);
-//        
-//        [self.contentView addConstraints:
-//         [NSLayoutConstraint
-//          constraintsWithVisualFormat:@"H:|-[_label]-[_slider]-|"
-//          options:0 metrics:nil views:vs]];
-//        [self.contentView addConstraints:
-//         [NSLayoutConstraint
-//          constraintsWithVisualFormat:@"V:|[_label]|"
-//          options:0 metrics:nil views:vs]];
-//        [self.contentView addConstraints:
-//         [NSLayoutConstraint
-//          constraintsWithVisualFormat:@"V:|[_slider]|"
-//          options:0 metrics:nil views:vs]];
-
+        _label = [UILabel new];
+        [self.contentView addSubview:_label];
         
+        _slider = [UISlider new];
+        [self.contentView addSubview:_slider];
+        
+        _label.translatesAutoresizingMaskIntoConstraints = NO;
+        _slider.translatesAutoresizingMaskIntoConstraints = NO;
+        NSDictionary *vs = NSDictionaryOfVariableBindings(_label,_slider);
+        
+        [self.contentView addConstraints:
+         [NSLayoutConstraint
+          constraintsWithVisualFormat:@"H:|-[_label(60)][_slider]-|"
+          options:0 metrics:nil views:vs]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint
+          constraintsWithVisualFormat:@"V:|[_label]|"
+          options:0 metrics:nil views:vs]];
+        [self.contentView addConstraints:
+         [NSLayoutConstraint
+          constraintsWithVisualFormat:@"V:|[_slider]|"
+          options:0 metrics:nil views:vs]];
+
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

@@ -70,7 +70,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-   // [self loadInit];
+    //[self loadInit];
 
     _LEDCollectionView.dataSource = self;
     _LEDCollectionView.delegate = self;
@@ -216,7 +216,7 @@ NSString *kCellID = @"CellLED";                          // UICollectionViewCell
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSLog(@"%f,%f",scrollView.contentOffset.x,scrollView.contentOffset.y);
+   
     
     
 //    CGFloat w = self.ADScrollView.frame.size.width;

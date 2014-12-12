@@ -10,21 +10,23 @@
 #import "ImageCollectionCell.h"
 #import "LEDAddViewController.h"
 #import "LEDEditTableViewCell.h"
-#import "LEDEditTableViewQRCell.h"
+#import "LEDEditInfoView.h"
 #import "LEDEditTableHeader.h"
 #import "DataModel.h"
+#import "HMSegmentedControl.h"
 
 #import <UIKit/UIView.h>
 
 @import CoreImage;
 
-@interface LEDEditViewController () <UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface LEDEditViewController () <UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 {
     NSTimer *_updateRSSITimer;
-    BOOL _iSQRExpand;
     UIImage *_QRImage;
 }
 
+@property (weak, nonatomic) IBOutlet HMSegmentedControl  *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic) IBOutlet UIImageView *LEDImageView;
 @property (weak, nonatomic) IBOutlet UITextField *LEDNameLabel;
@@ -77,14 +79,58 @@
         _updateRSSITimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateRSSI) userInfo:nil repeats:YES];
     }
     
+    [self setupSegment];
     
     
-    _iSQRExpand = NO;
+}
+
+#define TABLEVIEW_CONTROL_TAG   1
+#define TABLEVIEW_INFO_TAGE     2
+
+- (void) setupSegment
+{
+    //segment
+    self.segmentedControl.sectionTitles = @[@"Control",@"Info"];
+    self.segmentedControl.backgroundColor = [UIColor clearColor];
+    self.segmentedControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    self.segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    self.segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
     
     
-    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"OnOffCell"];
-    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"QRCell"];
-   
+    //scrollview
+    CGFloat w = self.scrollView.bounds.size.width;
+    CGFloat h = self.scrollView.bounds.size.height;
+    self.scrollView.contentSize = CGSizeMake(2 * w, h);
+    self.scrollView.delegate = self;
+
+    __weak typeof(self) weakSelf = self;
+    [self.segmentedControl setIndexChangeBlock:^(NSInteger index) {
+        [weakSelf.scrollView scrollRectToVisible:CGRectMake(w * index, 0, w, h) animated:YES];
+    }];
+    
+    
+    //control tableview
+    UITableView *controlTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, w, h) style:UITableViewStyleGrouped];
+    controlTableView.separatorInset = UIEdgeInsetsMake(20, 20, 20, 20);
+    controlTableView.bounces = NO;
+    controlTableView.allowsSelection = NO;
+    controlTableView.backgroundColor = [UIColor clearColor];
+    controlTableView.tag = TABLEVIEW_CONTROL_TAG;
+    controlTableView.dataSource = self;
+    controlTableView.delegate = self;
+    [controlTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"OnOffCell"];
+    [controlTableView registerClass:[LEDEditTableViewCell class] forCellReuseIdentifier:@"LEDEditTableCtrlCell"];
+    
+    [self.scrollView addSubview:controlTableView];
+    
+    
+    //info view
+    
+    LEDEditInfoView *infoView = [[LEDEditInfoView alloc] initWithFrame:CGRectMake(w, 0, w, h)];
+    infoView.qrImageView.image = _QRImage;
+    infoView.qrString.text = _editLED.QRCodeString;
+    [self.scrollView addSubview:infoView];
+    
 }
 
 - (void) updateRSSI
@@ -207,20 +253,32 @@
     }
 }
 
+#pragma mark - UIScrollView Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView != self.scrollView) {
+        return;
+    }
+    
+    CGFloat w = self.scrollView.frame.size.width;
+    //    CGFloat h = self.ADScrollView.frame.size.height;
+    
+    int currentPage = floor((scrollView.contentOffset.x - w / 2) / w) + 1;
+    [self.segmentedControl setSelectedSegmentIndex:currentPage animated:YES];
+}
+
 #pragma mark - UITableView DataSource & Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return _editLED.onOff ? 3 : 1;
-    }
-    if (section == 1) {
-        return _iSQRExpand ? 2 : 1;
+    if (tableView.tag == TABLEVIEW_CONTROL_TAG) {
+        return 3;
     }
     return 0;
     
@@ -229,8 +287,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    
-    
-    if (indexPath.section == 0) {
+    if (tableView.tag == TABLEVIEW_CONTROL_TAG) {
         if (indexPath.row == 0) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OnOffCell" forIndexPath:indexPath];
             cell.textLabel.text = @"On/Off";
@@ -243,64 +300,134 @@
             
             return cell;
         }
-        else {
+        if (indexPath.row == 1) {
             LEDEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableCtrlCell" forIndexPath:indexPath];
-            switch (indexPath.row) {
-                case 1:
-                    cell.label.text = @"Lumen:";
-                    [cell.slider setMinimumValue:LED_LIGHT_MIN];
-                    [cell.slider setMaximumValue:LED_LIGHT_MAX];
-                    [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
-                    [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
-                    
-                    
-                    break;
-                case 2:
-                    cell.label.text = @"CCT:";
-                    [cell.slider setMinimumValue:LED_TEMP_MIN];
-                    [cell.slider setMaximumValue:LED_TEMP_MAX];
-                    [cell.slider setValue:(float)(_editLED.currentTemp) animated:YES];
-                    [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
-                    break;
-                default:
-                    break;
-            }
             
-            cell.backgroundColor = [UIColor clearColor];
+            cell.label.text = @"Lumen:";
+            [cell.slider setMinimumValue:LED_LIGHT_MIN];
+            [cell.slider setMaximumValue:LED_LIGHT_MAX];
+            [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
+            [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
+            
             
             return cell;
-            
         }
+        if (indexPath.row == 2) {
+            LEDEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableCtrlCell" forIndexPath:indexPath];
+            
+            cell.label.text = @"CCT:";
+            [cell.slider setMinimumValue:LED_TEMP_MIN];
+            [cell.slider setMaximumValue:LED_TEMP_MAX];
+            [cell.slider setValue:(float)(_editLED.currentTemp) animated:YES];
+            [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
+            
+            
+            return cell;
+        }
+
         
-
     }
-    else if(indexPath.section == 1)
-    {
-        if (indexPath.row == 0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QRCell" forIndexPath:indexPath];
-            cell.textLabel.text = @"QRImage";
-            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-            
-            cell.backgroundColor = [UIColor clearColor];
-            
-            return cell;
-        }
-        else {
-            LEDEditTableViewQRCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableQRCell" forIndexPath:indexPath];
-            
-            cell.qrImageView.image = _QRImage;
-            cell.qrString.text = _editLED.QRCodeString;
-            
-            cell.backgroundColor = [UIColor clearColor];
-            
-            return cell;
-            
-        }
-
-    }
-    
-    
     return nil;
+    
+//            switch (indexPath.row) {
+//                case 1:
+//                    cell.label.text = @"Lumen:";
+//                    [cell.slider setMinimumValue:LED_LIGHT_MIN];
+//                    [cell.slider setMaximumValue:LED_LIGHT_MAX];
+//                    [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
+//                    [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
+//                    
+//                    
+//                    break;
+//                case 2:
+//                    cell.label.text = @"CCT:";
+//                    [cell.slider setMinimumValue:LED_TEMP_MIN];
+//                    [cell.slider setMaximumValue:LED_TEMP_MAX];
+//                    [cell.slider setValue:(float)(_editLED.currentTemp) animated:YES];
+//                    [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
+//                    break;
+//                default:
+//                    break;
+//            }
+            
+            
+//            
+//        }
+//
+//        
+//    }
+    
+//    if (indexPath.section == 0) {
+//        if (indexPath.row == 0) {
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OnOffCell" forIndexPath:indexPath];
+//            cell.textLabel.text = @"On/Off";
+//            UISwitch *s = [UISwitch new];
+//            s.on = _editLED.onOff;
+//            [s addTarget:self action:@selector(onOffButton:withEvent:) forControlEvents:UIControlEventValueChanged];
+//            cell.accessoryView = s;
+//            
+//            cell.backgroundColor = [UIColor clearColor];
+//            
+//            return cell;
+//        }
+//        else {
+//            LEDEditTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableCtrlCell" forIndexPath:indexPath];
+//            switch (indexPath.row) {
+//                case 1:
+//                    cell.label.text = @"Lumen:";
+//                    [cell.slider setMinimumValue:LED_LIGHT_MIN];
+//                    [cell.slider setMaximumValue:LED_LIGHT_MAX];
+//                    [cell.slider setValue:(float)(_editLED.currentLight) animated:YES];
+//                    [cell.slider addTarget:self action:@selector(lightChange:) forControlEvents:UIControlEventValueChanged];
+//                    
+//                    
+//                    break;
+//                case 2:
+//                    cell.label.text = @"CCT:";
+//                    [cell.slider setMinimumValue:LED_TEMP_MIN];
+//                    [cell.slider setMaximumValue:LED_TEMP_MAX];
+//                    [cell.slider setValue:(float)(_editLED.currentTemp) animated:YES];
+//                    [cell.slider addTarget:self action:@selector(tempChange:) forControlEvents:UIControlEventValueChanged];
+//                    break;
+//                default:
+//                    break;
+//            }
+//            
+//            cell.backgroundColor = [UIColor clearColor];
+//            
+//            return cell;
+//            
+//        }
+//        
+//
+//    }
+//    else if(indexPath.section == 1)
+//    {
+//        if (indexPath.row == 0) {
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QRCell" forIndexPath:indexPath];
+//            cell.textLabel.text = @"QRImage";
+//            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+//            
+//            cell.backgroundColor = [UIColor clearColor];
+//            
+//            return cell;
+//        }
+//        else {
+//            LEDEditTableViewQRCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LEDEditTableQRCell" forIndexPath:indexPath];
+//            
+//            cell.qrImageView.image = _QRImage;
+//            cell.qrString.text = _editLED.QRCodeString;
+//            
+//            cell.backgroundColor = [UIColor clearColor];
+//            
+//            return cell;
+//            
+//        }
+//
+//    }
+    
+    
+//    return nil;
    
 }
 
@@ -323,7 +450,7 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    _iSQRExpand = !_iSQRExpand;
+    
     [tableView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
 //    [tableView reloadData];
 }
